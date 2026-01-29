@@ -50,6 +50,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     max-width: 200px;
     height: auto;
     display: block;
+    object-fit: contain;
 }
 
 .sub-text {
@@ -113,9 +114,19 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin-bottom: 40px;
 }
 
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 15px 30px;
+    min-height: 48px;
+    box-sizing: border-box;
     border: 1px solid var(--text);
     margin-right: 15px;
     font-weight: 700;
@@ -203,28 +214,132 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     text-align: center;
 }
 
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
 .footer-links a {
     margin: 0 15px;
     font-size: 1.5rem;
     font-weight: 900;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
 }
 .footer-links a:hover { color: var(--blue); }
 
 .copy { margin-top: 30px; font-size: 0.7rem; color: #555; }
 
-/* --- RESPONSIVE (SP) --- */
+/* --- RESPONSIVE: タブレット --- */
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: 200px 1fr;
+    }
+    .header { padding: 20px; }
+    .logo-img { max-width: 160px; }
+    .hero { padding: 40px; }
+    .hero h1 { font-size: 3.5rem; }
+    .catalog {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        padding: 24px;
+    }
+}
+
+/* --- RESPONSIVE: スマホ（縦） --- */
 @media (max-width: 768px) {
     .grid-container {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+        border-left: none;
+        border-right: none;
     }
     .header, .marquee-section, .hero, .info-bar, .catalog, .footer {
         grid-column: 1 / 2;
         grid-row: auto;
         border-right: none;
     }
-    .hero h1 { font-size: 2.5rem; }
-    .info-bar { display: none; } /* スマホではサイドバー非表示 */
+    .header {
+        padding: 20px 16px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        border-bottom: 1px solid var(--line);
+    }
+    .logo-img {
+        max-width: 120px;
+        width: 120px;
+    }
+    .sub-text {
+        font-size: 0.75rem;
+        margin-top: 0;
+    }
+    .marquee-section {
+        padding: 8px 0;
+        font-size: 0.8rem;
+    }
+    .hero {
+        padding: 24px 20px;
+        min-height: auto;
+    }
+    .hero h1 {
+        font-size: clamp(1.75rem, 8vw, 2.5rem);
+        line-height: 1.1;
+        margin-bottom: 20px;
+    }
+    .blue-txt {
+        -webkit-text-stroke: 1.5px var(--blue);
+    }
+    .hero p {
+        font-size: 0.9rem;
+        margin-bottom: 28px;
+    }
+    .btn {
+        margin-right: 0;
+        padding: 14px 24px;
+        font-size: 0.9rem;
+    }
+    .info-bar { display: none; }
+    .catalog {
+        padding: 20px 16px;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+    }
+    .section-label { font-size: 0.8rem; margin-bottom: 16px; }
+    .card-info h3 { font-size: 0.9rem; }
+    .footer {
+        padding: 24px 16px;
+    }
+    .footer-links a {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+    .copy { margin-top: 20px; font-size: 0.65rem; }
+}
+
+/* --- RESPONSIVE: 小型スマホ --- */
+@media (max-width: 480px) {
+    body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    .header { padding: 16px 12px; gap: 12px; }
+    .logo-img {
+        max-width: 90px;
+        width: 90px;
+    }
+    .sub-text { font-size: 0.7rem; }
+    .hero { padding: 20px 12px; }
+    .hero h1 { font-size: 1.6rem; }
+    .catalog {
+        grid-template-columns: 1fr;
+        padding: 16px 12px;
+    }
+    .footer-links { gap: 8px; }
+    .footer-links a { font-size: 1rem; }
 }
 
 /* LOADER */
