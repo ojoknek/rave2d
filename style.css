@@ -1,0 +1,244 @@
+/* --- RESET & VARS --- */
+:root {
+    --bg: #050505;
+    --text: #FFFFFF;
+    --blue: #0022FF; /* RAVE BLUE */
+    --line: #333333;
+    --font-en: 'Unbounded', sans-serif;
+    --font-jp: 'Zen Kaku Gothic New', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-en);
+    line-height: 1.4;
+}
+
+a { text-decoration: none; color: inherit; cursor: pointer; }
+
+/* --- GRID LAYOUT --- */
+.grid-container {
+    display: grid;
+    grid-template-columns: 260px 1fr; /* サイドバー / メイン */
+    grid-template-rows: auto auto 1fr auto;
+    min-height: 100vh;
+    border: 1px solid var(--line);
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* --- HEADER (Top Left) --- */
+.header {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--blue);
+    letter-spacing: -2px;
+}
+
+.sub-text {
+    font-family: var(--font-jp);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* --- MARQUEE (Top Right) --- */
+.marquee-section {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    border-bottom: 1px solid var(--line);
+    background: var(--blue);
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+    font-weight: 700;
+}
+
+.marquee-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll 20s linear infinite;
+}
+@keyframes scroll {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* --- HERO (Main Visual) --- */
+.hero {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    padding: 60px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+    background-size: 40px 40px; /* グリッド背景 */
+}
+
+.hero h1 {
+    font-size: 5rem;
+    line-height: 0.9;
+    margin: 0 0 30px 0;
+    text-transform: uppercase;
+}
+
+.blue-txt {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--blue);
+}
+
+.hero p {
+    font-family: var(--font-jp);
+    font-weight: 700;
+    max-width: 500px;
+    margin-bottom: 40px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border: 1px solid var(--text);
+    margin-right: 15px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+.btn:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    box-shadow: 0 0 15px var(--blue);
+}
+
+/* --- SIDEBAR INFO --- */
+.info-bar {
+    grid-column: 1 / 2;
+    grid-row: 3 / 5;
+    border-right: 1px solid var(--line);
+    padding: 30px;
+    font-size: 0.8rem;
+    color: #888;
+}
+.info-bar ul { list-style: none; padding: 0; }
+.info-bar li { margin-bottom: 15px; }
+
+.blink { animation: blinker 1s linear infinite; color: var(--blue); }
+@keyframes blinker { 50% { opacity: 0; } }
+
+/* --- CATALOG GRID --- */
+.catalog {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.section-label {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    display: inline-block;
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    border: 1px solid var(--line);
+    background: #0a0a0a;
+    transition: 0.3s;
+    position: relative;
+}
+.card:hover {
+    border-color: var(--blue);
+    transform: translateY(-5px);
+}
+
+.card-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: #222; /* 画像がない時のダミー */
+}
+
+.card-info { padding: 15px; }
+.card-info h3 { font-size: 1rem; margin: 0 0 5px 0; }
+.card-info p { font-size: 0.7rem; color: #888; margin: 0; font-family: monospace; }
+.card-link {
+    display: block;
+    text-align: center;
+    background: var(--line);
+    padding: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.card:hover .card-link { background: var(--blue); }
+
+/* --- FOOTER --- */
+.footer {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+    border-top: 1px solid var(--line);
+    padding: 40px;
+    text-align: center;
+}
+
+.footer-links a {
+    margin: 0 15px;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+.footer-links a:hover { color: var(--blue); }
+
+.copy { margin-top: 30px; font-size: 0.7rem; color: #555; }
+
+/* --- RESPONSIVE (SP) --- */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .header, .marquee-section, .hero, .info-bar, .catalog, .footer {
+        grid-column: 1 / 2;
+        grid-row: auto;
+        border-right: none;
+    }
+    .hero h1 { font-size: 2.5rem; }
+    .info-bar { display: none; } /* スマホではサイドバー非表示 */
+}
+
+/* LOADER */
+.loader {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    font-size: 1.5rem;
+    color: var(--blue);
+    font-weight: bold;
+    animation: fadeOut 0.5s ease-in-out 1.5s forwards;
+    pointer-events: none;
+}
+@keyframes fadeOut { to { opacity: 0; } }
