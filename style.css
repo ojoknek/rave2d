@@ -44,11 +44,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     justify-content: space-between;
 }
 
-.logo {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--blue);
-    letter-spacing: -2px;
+/* ロゴ画像（ソース: 3240×3240px）、サイドバー内に収まる表示サイズ */
+.logo-img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    display: block;
 }
 
 .sub-text {
