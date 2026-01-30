@@ -197,7 +197,7 @@
             var lo = thumbnailUrlFallback(id);
             thumbEl.style.backgroundImage = 'url(' + hi + ')';
             thumbEl.style.backgroundSize = 'cover';
-            thumbEl.style.backgroundPosition = 'center';
+            thumbEl.style.backgroundPosition = 'right center';
             var img = new Image();
             img.onerror = function () { thumbEl.style.backgroundImage = 'url(' + lo + ')'; };
             img.src = hi;
