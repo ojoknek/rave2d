@@ -50,31 +50,42 @@
             <div class="section-label">MIX ARCHIVE</div>
             
             <article class="card">
-                <div class="card-img"></div> <div class="card-info">
+                <div class="card-img" data-thumb></div>
+                <div class="card-info">
                     <h3>TOKYO NIGHT VOL.1</h3>
                     <p>DJ: GUEST / BPM: 140</p>
                 </div>
-                <a href="#" class="card-link">LISTEN</a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="card-link" target="_blank" rel="noopener">LISTEN</a>
             </article>
 
             <article class="card">
-                <div class="card-img"></div>
+                <div class="card-img" data-thumb></div>
                 <div class="card-info">
                     <h3>INTERNET ANGEL</h3>
                     <p>DJ: RAVE2D / BPM: 170</p>
                 </div>
-                <a href="#" class="card-link">LISTEN</a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="card-link" target="_blank" rel="noopener">LISTEN</a>
             </article>
 
-             <article class="card">
-                <div class="card-img"></div>
+            <article class="card">
+                <div class="card-img" data-thumb></div>
                 <div class="card-info">
                     <h3>BLUE SCREEN</h3>
                     <p>DJ: ERROR / BPM: 132</p>
                 </div>
-                <a href="#" class="card-link">LISTEN</a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="card-link" target="_blank" rel="noopener">LISTEN</a>
             </article>
         </section>
+
+        <!-- サムネイルポップアップ -->
+        <div id="thumbnail-popup" class="popup-overlay" aria-hidden="true">
+            <div class="popup-backdrop"></div>
+            <div class="popup-content">
+                <button type="button" class="popup-close" aria-label="閉じる">&times;</button>
+                <img class="popup-img" src="" alt="YouTube サムネイル">
+                <a href="#" class="popup-link btn" target="_blank" rel="noopener">YouTubeで見る</a>
+            </div>
+        </div>
 
         <footer class="footer">
             <div class="footer-links">
@@ -86,5 +97,68 @@
         </footer>
 
     </div>
+
+    <script>
+(function () {
+    function getYoutubeId(url) {
+        if (!url) return null;
+        try {
+            var u = new URL(url);
+            if (u.hostname === 'youtu.be') return u.pathname.slice(1);
+            return u.searchParams.get('v');
+        } catch (_) { return null; }
+    }
+    function thumbnailUrl(id) {
+        return 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
+    }
+    function thumbnailUrlFallback(id) {
+        return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+    }
+
+    var popup = document.getElementById('thumbnail-popup');
+    var popupImg = popup && popup.querySelector('.popup-img');
+    var popupLink = popup && popup.querySelector('.popup-link');
+    var popupClose = popup && popup.querySelector('.popup-close');
+    var popupBackdrop = popup && popup.querySelector('.popup-backdrop');
+
+    document.querySelectorAll('.catalog .card-link').forEach(function (link) {
+        var id = getYoutubeId(link.href);
+        if (!id) return;
+        var card = link.closest('.card');
+        var thumbEl = card && card.querySelector('[data-thumb]');
+        if (thumbEl) {
+            var hi = thumbnailUrl(id);
+            var lo = thumbnailUrlFallback(id);
+            thumbEl.style.backgroundImage = 'url(' + hi + ')';
+            thumbEl.style.backgroundSize = 'cover';
+            thumbEl.style.backgroundPosition = 'center';
+            var img = new Image();
+            img.onerror = function () { thumbEl.style.backgroundImage = 'url(' + lo + ')'; };
+            img.src = hi;
+        }
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (!popup || !popupImg || !popupLink) return;
+            popupImg.src = thumbnailUrlFallback(id);
+            popupImg.onerror = function () { this.src = thumbnailUrlFallback(id); };
+            popupImg.src = thumbnailUrl(id);
+            popupLink.href = link.href;
+            popup.setAttribute('aria-hidden', 'false');
+            popup.classList.add('is-open');
+        });
+    });
+
+    function closePopup() {
+        if (!popup) return;
+        popup.setAttribute('aria-hidden', 'true');
+        popup.classList.remove('is-open');
+    }
+    if (popupClose) popupClose.addEventListener('click', closePopup);
+    if (popupBackdrop) popupBackdrop.addEventListener('click', closePopup);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closePopup();
+    });
+})();
+    </script>
 </body>
 </html>
