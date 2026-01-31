@@ -791,8 +791,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin-top: 40px;
 }
 
-/* Event page responsive: スマホ・タブレット */
+/* Event page responsive: スマホ・タブレット（ベースの grid 指定より後に置き、確実に上書き） */
 @media (max-width: 768px) {
+    /* フッターを左サイドではなくメイン縦並びの下端に表示（index.html 同様） */
+    .page-event .event-main,
+    .page-event .event-footer {
+        grid-column: 1 / 2;
+        grid-row: auto;
+        border-right: none;
+    }
     .page-event .event-main {
         padding: 24px 20px 32px;
     }
