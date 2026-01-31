@@ -888,6 +888,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     width: 100%;
     height: auto;
     display: block;
+    object-fit: contain;
+    display: block;
     margin: 0 auto;
     border: 1px solid var(--line);
 }
@@ -956,6 +958,36 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin: 0 0 32px 0;
 }
 
+/* イベントページ: 写真二連（メイン＋フライヤー） */
+.event-visual-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 100%;
+}
+.event-visual-duo .event-visual-panel {
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+.event-visual-duo .event-visual-panel img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+.event-visual:has(.event-visual-duo) {
+    max-width: 720px;
+}
+@media (max-width: 600px) {
+    .event-visual-duo {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
 .event-flyer {
     margin: 0 0 32px 0;
     max-width: 100%;
@@ -966,6 +998,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     height: auto;
     max-width: 400px;
     margin: 0 auto;
+    object-fit: contain;
 }
 
 .event-ticket-links {
