@@ -39,8 +39,8 @@
 
         <div class="marquee-section" aria-hidden="true">
             <div class="marquee-track">
-                <span class="marquee-content">////// INTERSECTION OF INTERNET AND CLUB //////</span>
-                <span class="marquee-content" aria-hidden="true">////// INTERSECTION OF INTERNET AND CLUB //////</span>
+                <span class="marquee-content">////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// //////</span>
+                <span class="marquee-content" aria-hidden="true">////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// //////</span>
             </div>
         </div>
 
@@ -53,8 +53,8 @@
                 </h1>
                 <p class="hero-desc" data-reveal>A catalog channel of Japan’s subculture DJs.<br>From Tokyo underground—into the ocean of the internet.</p>
                 <div class="btn-group" data-reveal>
-                    <a href="https://www.youtube.com/@RAVE2D" target="_blank" class="btn" data-hover>YOUTUBE</a>
-                    <a href="#mix-catalog" class="btn tab-btn is-active" data-hover role="tab" aria-selected="true">▼ CATALOG</a>
+                    <a href="#about" class="btn tab-btn is-active" data-hover role="tab" aria-selected="true">▼ ABOUT</a>
+                    <a href="#mix-catalog" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ CATALOG</a>
                     <a href="#events" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ EVENTS</a>
                     <a href="#ravewear" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ RAVE WEAR</a>
                 </div>
@@ -73,14 +73,28 @@
         </aside>
 
         <div class="main-content">
-            <section id="mix-catalog" class="catalog tab-panel is-active" data-reveal role="tabpanel" aria-labelledby="tab-mix-catalog">
+            <section id="about" class="tab-panel about-panel is-active" data-reveal role="tabpanel" aria-labelledby="tab-about">
+                <div class="about-inner">
+                    <div class="about-story">
+                        <p class="about-lead">インターネットとクラブの交差点。東京を拠点に、サブカルチャーなDJたちのミックスをアーカイブするチャンネル、RAVE 2D。</p>
+                        <p>わたしたちは、地下から溢れ出る音を「2次元」に落とし込み、いつでもどこでも聴ける形で残していくプロジェクトです。上野・湯島の小さな地下室からはじまり、東京を中心とした様々なサブカルチャーの現場に足を運び、様々な音楽を収録しています。</p>
+                        <p>ストリートで芽吹いたビーツ、小さな会場で紡がれたセット、次の世代に渡したいプレイリスト——それらを青い光のなかでアーカイブし、インターネットの海へ放ちます。</p>
+                        <p>東京のどこかで、今日も誰かがクラブで聴いている。その音のリアルを、青い炎で照らしています。</p>
+                    </div>
+                    <div class="about-actions">
+                        <a href="https://www.youtube.com/@RAVE2D" class="btn about-youtube-btn" target="_blank" rel="noopener" data-hover>YOUTUBE</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="mix-catalog" class="catalog tab-panel" data-reveal role="tabpanel" aria-labelledby="tab-mix-catalog">
                 <div class="section-label">MIX CATALOG</div>
                 <div class="catalog-scroll">
                 <article class="card" data-reveal data-stagger="0">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>MAEZAWA</h3>
-                        <p>OSAKA / Hyper Vibes</p>
+                        <p>NAMBA,OSAKA / Hyper Vibes</p>
                     </div>
                     <a href="https://www.youtube.com/watch?v=Zucuy7bJBHI" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
@@ -334,13 +348,13 @@
         if (e.key === 'Escape') closePopup();
     });
 
-    /* --- タブ切り替え: CATALOG / EVENTS / RAVE WEAR --- */
+    /* --- タブ切り替え: ABOUT / CATALOG / EVENTS / RAVE WEAR --- */
     var tabBtns = document.querySelectorAll('.btn-group .tab-btn');
     var tabPanels = document.querySelectorAll('.main-content .tab-panel');
-    var tabIds = ['mix-catalog', 'events', 'ravewear'];
+    var tabIds = ['about', 'mix-catalog', 'events', 'ravewear'];
 
     function switchTab(targetId) {
-        var id = targetId && tabIds.indexOf(targetId) >= 0 ? targetId : 'mix-catalog';
+        var id = targetId && tabIds.indexOf(targetId) >= 0 ? targetId : 'about';
         tabPanels.forEach(function (panel) {
             panel.classList.toggle('is-active', panel.id === id);
             panel.setAttribute('aria-hidden', panel.id !== id);
@@ -367,7 +381,7 @@
 
     function initTabFromHash() {
         var hash = (location.hash || '').slice(1);
-        switchTab(tabIds.indexOf(hash) >= 0 ? hash : 'mix-catalog');
+        switchTab(tabIds.indexOf(hash) >= 0 ? hash : 'about');
     }
     if (document.readyState === 'complete') initTabFromHash();
     else window.addEventListener('load', initTabFromHash);
