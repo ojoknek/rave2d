@@ -54,9 +54,9 @@
                 <p class="hero-desc" data-reveal>A catalog channel of Japan’s subculture DJs.<br>From Tokyo underground—into the ocean of the internet.</p>
                 <div class="btn-group" data-reveal>
                     <a href="https://www.youtube.com/@RAVE2D" target="_blank" class="btn" data-hover>YOUTUBE</a>
-                    <a href="#mix-archive" class="btn" data-hover>▼ CATALOG</a>
-                    <a href="#events" class="btn" data-hover>▼ EVENTS</a>
-                    <a href="#ravewear" class="btn" data-hover>▼ RAVE WEAR</a>
+                    <a href="#mix-catalog" class="btn tab-btn is-active" data-hover role="tab" aria-selected="true">▼ CATALOG</a>
+                    <a href="#events" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ EVENTS</a>
+                    <a href="#ravewear" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ RAVE WEAR</a>
                 </div>
             </div>
             <div class="hero-deco" aria-hidden="true">
@@ -73,9 +73,9 @@
         </aside>
 
         <div class="main-content">
-            <section id="mix-archive" class="catalog" data-reveal>
+            <section id="mix-catalog" class="catalog tab-panel is-active" data-reveal role="tabpanel" aria-labelledby="tab-mix-catalog">
                 <div class="section-label">MIX CATALOG</div>
-                
+                <div class="catalog-scroll">
                 <article class="card" data-reveal data-stagger="0">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
@@ -89,7 +89,7 @@
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>KAMI-TO-WAKAI-SEYO</h3>
-                        <p>ASAGAYA / Anime Remix Vibes</p>
+                        <p>ASAGAYA,TOKYO / Anime Remix Vibes</p>
                     </div>
                     <a href="https://www.youtube.com/watch?v=YNJcDYcDas8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
@@ -98,20 +98,58 @@
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>RUUCHAN</h3>
-                        <p>YUSHIMA / Future Vibes</p>
+                        <p>YUSHIMA,TOKYO / Future Vibes</p>
                     </div>
                     <a href="https://www.youtube.com/watch?v=5niSTk3l-B8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
+
+                <article class="card" data-reveal data-stagger="3">
+                    <div class="card-img" data-thumb></div>
+                    <div class="card-info">
+                        <h3>SYNTHION</h3>
+                        <p>YUSHIMA,TOKYO / Futurecore Vibes</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=kuAh4C5q2oY" class="card-link" target="_blank" rel="noopener">LISTEN</a>
+                </article>
+
+                <article class="card" data-reveal data-stagger="4">
+                    <div class="card-img" data-thumb></div>
+                    <div class="card-info">
+                        <h3>QW3R7Y</h3>
+                        <p>YUSHIMA,TOKYO / Future House Vibes</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=sKOZn2K-Y5I" class="card-link" target="_blank" rel="noopener">LISTEN</a>
+                </article>
+
+                <article class="card" data-reveal data-stagger="5">
+                    <div class="card-img" data-thumb></div>
+                    <div class="card-info">
+                        <h3>DIVINE ORACLE</h3>
+                        <p>SHIMOKITAZAWA,TOKYO / House Vibes</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=j0G5mtGyyiA" class="card-link" target="_blank" rel="noopener">LISTEN</a>
+                </article>
+
+                <article class="card" data-reveal data-stagger="6">
+                    <div class="card-img" data-thumb></div>
+                    <div class="card-info">
+                        <h3>MAEZAWA B2B MARBLE</h3>
+                        <p>YUSHIMA,TOKYO / Hard Dance Vibes</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=jp980g578UY" class="card-link" target="_blank" rel="noopener">LISTEN</a>
+                </article>
+                </div>
             </section>
 
-            <section id="events" class="catalog" data-reveal>
+            <section id="events" class="catalog tab-panel" data-reveal role="tabpanel" aria-labelledby="tab-events">
                 <div class="section-label">EVENTS</div>
-                
+                <div class="catalog-scroll">
                 <article class="card" data-reveal data-stagger="0">
+                    <span class="card-tag card-tag-upcoming">UPCOMING</span>
                     <div class="card-img" style="background-image: url('image/RAVE2D-HIGHWAY1.png');"></div>
                     <div class="card-info">
                         <h3>HIGHWAY</h3>
-                        <p>IKEJIRI-OHASHI / 2026.02.08</p>
+                        <p>IKEJIRI-OHASHI,TOKYO / 2026.02.08</p>
                     </div>
                     <a href="events/highway.html" class="card-link" rel="noopener">DETAIL</a>
                 </article>
@@ -120,7 +158,7 @@
                     <div class="card-img" style="background-image: url('image/RAVE2D-OSAKA.png');"></div>
                     <div class="card-info">
                         <h3>OSAKA</h3>
-                        <p>OSAKA / 2025.10.18</p>
+                        <p>NAMBA,OSAKA / 2025.10.18</p>
                     </div>
                     <a href="https://ja.ra.co/events/2284779" class="card-link" target="_blank" rel="noopener">DETAIL</a>
                 </article>
@@ -133,16 +171,17 @@
                     </div>
                     <a href="#" class="card-link" target="_blank" rel="noopener">DETAIL</a>
                 </article>
+                </div>
             </section>
 
-            <section id="ravewear" class="catalog" data-reveal>
+            <section id="ravewear" class="catalog tab-panel" data-reveal role="tabpanel" aria-labelledby="tab-ravewear">
                 <div class="section-label">RAVE WEAR</div>
-                
+                <div class="catalog-scroll">
                 <article class="card" data-reveal data-stagger="0">
                     <div class="card-img" style="background-image: url('image/TEE-MIXTAPE.png');"></div>
                     <div class="card-info">
                         <h3>MIXTAPE TEE</h3>
-                        <p>BLACK / LIMITED</p>
+                        <p>BLACK / ¥6,000</p>
                     </div>
                     <a href="#" class="card-link" target="_blank" rel="noopener">BUY</a>
                 </article>
@@ -151,7 +190,7 @@
                     <div class="card-img" style="background-image: url('image/TEE-LOGO.png');"></div>
                     <div class="card-info">
                         <h3>LOGO TEE</h3>
-                        <p>BLACK / LIMITED</p>
+                        <p>BLACK / ¥6,000</p>
                     </div>
                     <a href="#" class="card-link" target="_blank" rel="noopener">BUY</a>
                 </article>
@@ -160,10 +199,11 @@
                     <div class="card-img" style="background-image: url('image/TEE-SMOKY.png');"></div>
                     <div class="card-info">
                         <h3>SMOKY TEE</h3>
-                        <p>BLACK / LIMITED</p>
+                        <p>BLACK / ¥6,000</p>
                     </div>
                     <a href="#" class="card-link" target="_blank" rel="noopener">BUY</a>
                 </article>
+                </div>
             </section>
         </div>
 
@@ -274,6 +314,15 @@
         });
     });
 
+    /* --- カード画像クリックでリンク先へ（全セクション共通） --- */
+    document.querySelectorAll('.card').forEach(function (card) {
+        var img = card.querySelector('.card-img');
+        var link = card.querySelector('.card-link');
+        if (img && link) {
+            img.addEventListener('click', function () { link.click(); });
+        }
+    });
+
     function closePopup() {
         if (!popup) return;
         popup.setAttribute('aria-hidden', 'true');
@@ -284,6 +333,45 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closePopup();
     });
+
+    /* --- タブ切り替え: CATALOG / EVENTS / RAVE WEAR --- */
+    var tabBtns = document.querySelectorAll('.btn-group .tab-btn');
+    var tabPanels = document.querySelectorAll('.main-content .tab-panel');
+    var tabIds = ['mix-catalog', 'events', 'ravewear'];
+
+    function switchTab(targetId) {
+        var id = targetId && tabIds.indexOf(targetId) >= 0 ? targetId : 'mix-catalog';
+        tabPanels.forEach(function (panel) {
+            panel.classList.toggle('is-active', panel.id === id);
+            panel.setAttribute('aria-hidden', panel.id !== id);
+        });
+        tabBtns.forEach(function (btn) {
+            var href = btn.getAttribute('href') || '';
+            var btnId = href.slice(1);
+            btn.classList.toggle('is-active', btnId === id);
+            btn.setAttribute('aria-selected', btnId === id);
+        });
+        if (history.replaceState) history.replaceState(null, '', '#' + id);
+    }
+
+    tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            var href = this.getAttribute('href') || '';
+            var id = href.slice(1);
+            if (tabIds.indexOf(id) >= 0) {
+                e.preventDefault();
+                switchTab(id);
+            }
+        });
+    });
+
+    function initTabFromHash() {
+        var hash = (location.hash || '').slice(1);
+        switchTab(tabIds.indexOf(hash) >= 0 ? hash : 'mix-catalog');
+    }
+    if (document.readyState === 'complete') initTabFromHash();
+    else window.addEventListener('load', initTabFromHash);
+    window.addEventListener('hashchange', initTabFromHash);
 })();
     </script>
 </body>
