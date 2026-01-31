@@ -848,7 +848,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     to { opacity: 0; }
 }
 
-/* ========== EVENT PAGE (highway.html) ========== */
+/* ========== EVENT PAGE (events/highway/index.html) ========== */
 .page-event .event-main {
     grid-column: 2 / 3;
     grid-row: 2 / 4;
@@ -954,6 +954,33 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     font-family: var(--font-jp);
     line-height: 1.6;
     margin: 0 0 32px 0;
+}
+
+.event-flyer {
+    margin: 0 0 32px 0;
+    max-width: 100%;
+}
+.event-flyer img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.event-ticket-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 24px 0;
+}
+.event-ticket-links .btn--secondary {
+    border-color: #666;
+    color: #999;
+}
+.event-ticket-links .btn--secondary:hover {
+    border-color: var(--blue);
+    color: var(--blue);
 }
 
 .event-lineup-title {

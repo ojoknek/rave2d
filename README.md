@@ -25,7 +25,8 @@ rave2d/
 │   ├── RAVE2D-HIGHWAY1.png
 │   └── …
 ├── events/
-│   └── highway.html  # イベント詳細ページ（RAVE 2D: Highway）
+│   └── highway/
+│       └── index.html  # イベント詳細ページ（RAVE 2D: Highway）
 ├── CNAME             # GitHub Pages 用（任意）
 └── README.md         # 本ファイル
 ```
@@ -46,7 +47,7 @@ rave2d/
 | **CATALOG / CARD / POPUP** | カタログカード、サムネイルポップアップ |
 | **RESPONSIVE** | 1024px / 768px / 480px のメディアクエリ |
 | **LOADER** | 初回表示ローダー（Block Studio 風） |
-| **EVENT PAGE** | `.page-event` 用（highway.html）のグリッド・コンポーネント・レスポンシブ |
+| **EVENT PAGE** | `.page-event` 用（events/highway/index.html）のグリッド・コンポーネント・レスポンシブ |
 
 ### グリッドレイアウト
 
@@ -54,7 +55,7 @@ rave2d/
 - **デスクトップ（index.html）**
   - 列1: `.header`（1〜2行）、`.info-bar`（3〜5行）
   - 列2: `.marquee-section`（1行）、`.hero`（2行）、`.main-content`（3行）、`.footer`（4行）
-- **デスクトップ（highway.html / `body.page-event`）**
+- **デスクトップ（events/highway/index.html / `body.page-event`）**
   - 列1: `.header`、`.info-bar`
   - 列2: `.marquee-section`、`.event-main`（2〜4行）、`.event-footer`（4行）
 - **1024px 以下（タブレット）**: 列幅を `200px 1fr` に変更。ヒーロー・カタログ・イベントメインのパディング・フォントを調整。
@@ -101,10 +102,10 @@ rave2d/
 | **情報バー** | STATUS（ONLINE）、LOC（TOKYO, JP）、EST（2024）※768px 以下で非表示 |
 | **MIX CATALOG** | カード形式のミックス一覧。YouTube サムネイル表示・クリックでサムネイルポップアップ＋「Watch on YouTube」リンク |
 | **RAVE WEAR** | カード形式の商品一覧（MIXTAPE TEE、LOGO HOODIE、STICKER PACK など）。各カードに「BUY」ボタン |
-| **EVENTS** | カード形式のイベント一覧。各カードに「DETAIL」ボタン（例: Highway → events/highway.html） |
+| **EVENTS** | カード形式のイベント一覧。各カードに「DETAIL」ボタン（例: Highway → events/highway/） |
 | **フッター** | X(Twitter)、Instagram、TikTok へのリンク |
 
-### イベント詳細ページ（events/highway.html）
+### イベント詳細ページ（events/highway/index.html）
 
 | セクション | 内容 |
 |-----------|------|
@@ -147,7 +148,7 @@ rave2d/
 # 例: Python で簡易サーバー
 python3 -m http.server 8000
 # http://localhost:8000 でアクセス
-# イベント詳細: http://localhost:8000/events/highway.html
+# イベント詳細: http://localhost:8000/events/highway/
 ```
 
 ## リンク
