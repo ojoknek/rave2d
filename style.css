@@ -335,6 +335,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     background-position: center top;
 }
 
+/* RAVE WEAR ゾーンのサムネイルは他カードと同様に中央・カバーで統一 */
+#ravewear .card-img {
+    background-size: cover;
+    background-position: center;
+}
+
 .card-info { padding: 15px; transition: color 0.2s; }
 .card-info h3 { font-size: 1rem; margin: 0 0 5px 0; }
 .card-info p { font-size: 0.7rem; color: #888; margin: 0; font-family: monospace; }
