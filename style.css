@@ -99,36 +99,157 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin-top: 10px;
 }
 
-/* --- MARQUEE (Top Right) --- */
+/* --- MARQUEE (Top Right) — 青系・ゆっくり色変化 --- */
 .marquee-section {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     border-bottom: 1px solid var(--line);
-    background: var(--blue);
-    color: #fff;
+    background: #001a66;
     overflow: hidden;
-    white-space: nowrap;
-    padding: 12px 0;
-    font-weight: 700;
+    padding: 0;
     user-select: none;
+    position: relative;
+    min-height: 44px;
 }
 
-.marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 25s linear infinite;
+/* 青系グラデーションのゆっくりした色変化 */
+.marquee-glitch .glitch-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        #001a66 0%,
+        #0022aa 25%,
+        #001a88 50%,
+        #0022cc 75%,
+        #001a66 100%
+    );
+    background-size: 400% 400%;
+    animation: marquee-color-shift 12s ease-in-out infinite;
 }
-.marquee-track:hover {
-    animation-play-state: paused;
+@keyframes marquee-color-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }
-.marquee-content {
-    display: inline-block;
-    padding-right: 3em;
-    letter-spacing: 0.05em;
+
+/* 斜めストライプ（ゆっくり流れ） */
+.marquee-glitch .glitch-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        105deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255, 255, 255, 0.04) 2px,
+        rgba(255, 255, 255, 0.04) 4px
+    );
+    background-size: 200% 100%;
+    animation: glitch-stripe 16s linear infinite;
+    pointer-events: none;
 }
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+@keyframes glitch-stripe {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 0; }
+}
+
+/* 横スライス：ゆっくりした透明度の変化のみ（点滅なし） */
+.marquee-glitch .glitch-slice {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(0);
+    mix-blend-mode: overlay;
+    animation-timing-function: ease-in-out;
+}
+.marquee-glitch .glitch-slice--1 {
+    top: 20%;
+    animation: slice-breathe-1 6s ease-in-out infinite;
+}
+.marquee-glitch .glitch-slice--2 {
+    top: 60%;
+    animation: slice-breathe-2 7s ease-in-out infinite;
+}
+@keyframes slice-breathe-1 {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+}
+@keyframes slice-breathe-2 {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.85; }
+}
+
+/* 走査線：点滅をやめ、ゆっくりした明るさの波に */
+.marquee-glitch .glitch-scan {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 40, 120, 0.2) 30%,
+        transparent 50%,
+        rgba(0, 60, 160, 0.15) 70%,
+        transparent 100%
+    );
+    background-size: 100% 200%;
+    animation: glitch-scan-slow 8s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes glitch-scan-slow {
+    0%, 100% { opacity: 0.6; background-position: 0 0%; }
+    50% { opacity: 1; background-position: 0 100%; }
+}
+
+/* 青系のゆっくりしたブレス（点滅なし・CSSのみ） */
+.marquee-glitch .glitch-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.marquee-glitch .glitch-burst-layer {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: screen;
+    animation-timing-function: ease-in-out;
+}
+.marquee-glitch .glitch-burst--blue-dark {
+    background: rgba(0, 30, 120, 0.25);
+    opacity: 0;
+    animation: burst-breathe-dark 10s ease-in-out infinite;
+}
+.marquee-glitch .glitch-burst--blue-light {
+    background: rgba(80, 140, 255, 0.12);
+    opacity: 0;
+    animation: burst-breathe-light 10s ease-in-out infinite 1.5s;
+}
+@keyframes burst-breathe-dark {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.4; }
+}
+@keyframes burst-breathe-light {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.35; }
+}
+
+/* JS用スライスは非表示（点滅トリガーなし） */
+.marquee-glitch .glitch-slices-js {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+}
+.marquee-glitch .glitch-slice-js {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(0);
+    mix-blend-mode: overlay;
 }
 
 /* --- HERO (Main Visual) --- */

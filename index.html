@@ -37,11 +37,17 @@
             <div class="sub-text">TOKYO SUB CULTURE<br>DJ CATALOG</div>
         </header>
 
-        <div class="marquee-section" aria-hidden="true">
-            <div class="marquee-track">
-                <span class="marquee-content">////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// //////</span>
-                <span class="marquee-content" aria-hidden="true">////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// ////// //////</span>
+        <div class="marquee-section marquee-glitch" id="marquee-glitch" aria-hidden="true">
+            <div class="glitch-bg"></div>
+            <div class="glitch-slice glitch-slice--1"></div>
+            <div class="glitch-slice glitch-slice--2"></div>
+            <div class="glitch-scan"></div>
+            <!-- 青系ゆっくりブレス（CSSアニメーション） -->
+            <div class="glitch-burst" aria-hidden="true">
+                <div class="glitch-burst-layer glitch-burst--blue-dark"></div>
+                <div class="glitch-burst-layer glitch-burst--blue-light"></div>
             </div>
+            <div class="glitch-slices-js" id="glitch-slices-js"></div>
         </div>
 
         <main class="hero">
@@ -398,6 +404,20 @@
     else window.addEventListener('load', initTabFromHash);
     window.addEventListener('hashchange', initTabFromHash);
 })();
+
+    /* --- Marquee: 点滅は廃止、色変化はCSSアニメーションで実施 --- */
+    (function () {
+        var slicesContainer = document.getElementById('glitch-slices-js');
+        if (!slicesContainer) return;
+        var sliceCount = 8;
+        var i;
+        for (i = 0; i < sliceCount; i++) {
+            var slice = document.createElement('div');
+            slice.className = 'glitch-slice-js';
+            slice.style.top = (i / sliceCount * 100) + '%';
+            slicesContainer.appendChild(slice);
+        }
+    })();
     </script>
 </body>
 </html>
