@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>RAVE 2D | TOKYO SUB CULTURE DJ CATALOG</title>
+    <title>RAVE 2D</title>
     <meta name="description" content="Intersection of internet and club. Tokyo-based DJ mix brand.">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,31 +12,42 @@
 </head>
 <body>
 
-    <div class="loader">SYSTEM LOADING...</div>
+    <div class="loader" aria-hidden="true">
+        <span class="loader-text">SYSTEM LOADING</span>
+        <span class="loader-dot">.</span><span class="loader-dot">.</span><span class="loader-dot">.</span>
+    </div>
 
     <div class="grid-container">
         
-        <header class="header">
+        <header class="header" data-reveal>
             <img src="image/RAVE2D-WHITE.png" alt="RAVE 2D" class="logo-img">
             <div class="sub-text">TOKYO SUB CULTURE<br>DJ CATALOG</div>
         </header>
 
-        <div class="marquee-section">
-            <div class="marquee-content">
-                /// RAVE 2D NEW MIX UPLOADED /// CHECK YOUTUBE CHANNEL /// INTERSECTION OF INTERNET AND CLUB ///
+        <div class="marquee-section" aria-hidden="true">
+            <div class="marquee-track">
+                <span class="marquee-content">/// RAVE 2D NEW MIX UPLOADED /// CHECK YOUTUBE CHANNEL /// INTERSECTION OF INTERNET AND CLUB ///</span>
+                <span class="marquee-content" aria-hidden="true">/// RAVE 2D NEW MIX UPLOADED /// CHECK YOUTUBE CHANNEL /// INTERSECTION OF INTERNET AND CLUB ///</span>
             </div>
         </div>
 
         <main class="hero">
             <div class="hero-inner">
-                <h1>RAVE IN BLUE<br><span class="blue-txt">ARCHIVE IN 2D</span><br>TOKYO BACKROOMS.</h1>
-                <p>A catalog channel of Japan’s subculture DJs.<br>From Tokyo underground—into the ocean of the internet.</p>
-                <div class="btn-group">
-                    <a href="https://www.youtube.com/@RAVE2D" target="_blank" class="btn">"YOUTUBE"</a>
-                    <a href="#mix-archive" class="btn">▼ CATALOG</a>
-                    <a href="#ec-site" class="btn">▼ RAVE WEAR</a>
-                    <a href="#events" class="btn">▼ EVENTS</a>
+                <h1 class="hero-title" data-split>
+                    <span class="line">RAVE IN BLUE</span>
+                    <span class="line blue-txt">ARCHIVE IN 2D</span>
+                    <span class="line">TOKYO BACKROOMS.</span>
+                </h1>
+                <p class="hero-desc" data-reveal>A catalog channel of Japan’s subculture DJs.<br>From Tokyo underground—into the ocean of the internet.</p>
+                <div class="btn-group" data-reveal>
+                    <a href="https://www.youtube.com/@RAVE2D" target="_blank" class="btn" data-hover>YOUTUBE</a>
+                    <a href="#mix-archive" class="btn" data-hover>▼ CATALOG</a>
+                    <a href="#ec-site" class="btn" data-hover>▼ RAVE WEAR</a>
+                    <a href="#events" class="btn" data-hover>▼ EVENTS</a>
                 </div>
+            </div>
+            <div class="hero-deco" aria-hidden="true">
+                <span class="deco-word">RAVE</span><span class="deco-word">2D</span><span class="deco-word">TOKYO</span><span class="deco-word">CLUB</span><span class="deco-word">RAVE</span><span class="deco-word">2D</span><span class="deco-word">TOKYO</span><span class="deco-word">CLUB</span><span class="deco-word">RAVE</span><span class="deco-word">2D</span>
             </div>
         </main>
 
@@ -49,10 +60,10 @@
         </aside>
 
         <div class="main-content">
-            <section id="mix-archive" class="catalog">
+            <section id="mix-archive" class="catalog" data-reveal>
                 <div class="section-label">MIX CATALOG</div>
                 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="0">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>MAEZAWA</h3>
@@ -61,7 +72,7 @@
                     <a href="https://www.youtube.com/watch?v=Zucuy7bJBHI" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="1">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>KAMI-TO-WAKAI-SEYO</h3>
@@ -70,7 +81,7 @@
                     <a href="https://www.youtube.com/watch?v=YNJcDYcDas8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="2">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>RUUCHAN</h3>
@@ -80,10 +91,10 @@
                 </article>
             </section>
 
-            <section id="ec-site" class="catalog">
+            <section id="ec-site" class="catalog" data-reveal>
                 <div class="section-label">RAVE WEAR</div>
                 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="0">
                     <div class="card-img"></div>
                     <div class="card-info">
                         <h3>MIXTAPE TEE</h3>
@@ -92,7 +103,7 @@
                     <a href="#" class="card-link" target="_blank" rel="noopener">BUY</a>
                 </article>
 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="1">
                     <div class="card-img"></div>
                     <div class="card-info">
                         <h3>LOGO HOODIE</h3>
@@ -101,7 +112,7 @@
                     <a href="#" class="card-link" target="_blank" rel="noopener">BUY</a>
                 </article>
 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="2">
                     <div class="card-img"></div>
                     <div class="card-info">
                         <h3>STICKER PACK</h3>
@@ -111,10 +122,10 @@
                 </article>
             </section>
 
-            <section id="events" class="catalog">
+            <section id="events" class="catalog" data-reveal>
                 <div class="section-label">EVENTS</div>
                 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="0">
                     <div class="card-img"></div>
                     <div class="card-info">
                         <h3>HIGHWAY</h3>
@@ -123,7 +134,7 @@
                     <a href="#" class="card-link" target="_blank" rel="noopener">DETAIL</a>
                 </article>
 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="1">
                     <div class="card-img"></div>
                     <div class="card-info">
                         <h3>OSAKA</h3>
@@ -132,7 +143,7 @@
                     <a href="#" class="card-link" target="_blank" rel="noopener">DETAIL</a>
                 </article>
 
-                <article class="card">
+                <article class="card" data-reveal data-stagger="2">
                     <div class="card-img"></div>
                     <div class="card-info">
                         <h3>XXXXX</h3>
@@ -166,6 +177,42 @@
 
     <script>
 (function () {
+    /* --- Loader: 表示→非表示 --- */
+    var loader = document.querySelector('.loader');
+    function hideLoader() {
+        if (!loader) return;
+        loader.classList.add('is-hidden');
+        setTimeout(function () {
+            loader.style.display = 'none';
+            revealOnLoad();
+        }, 600);
+    }
+    if (document.readyState === 'complete') {
+        setTimeout(hideLoader, 1200);
+    } else {
+        window.addEventListener('load', function () { setTimeout(hideLoader, 1200); });
+    }
+
+    /* --- 初回表示: ヒーロー・ヘッダーの data-reveal / data-split --- */
+    function revealOnLoad() {
+        document.querySelectorAll('.header[data-reveal], .header [data-reveal], .hero [data-reveal], .hero [data-split]').forEach(function (el) {
+            el.classList.add('is-visible');
+        });
+        /* メインコンテンツ以降はスクロールで表示 */
+        document.querySelectorAll('.main-content [data-reveal]').forEach(function (el) {
+            scrollRevealObserver.observe(el);
+        });
+    }
+
+    /* --- スクロールで表示: Intersection Observer --- */
+    var scrollRevealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, { rootMargin: '0px 0px -60px 0px', threshold: 0.05 });
+
     function getYoutubeId(url) {
         if (!url) return null;
         try {

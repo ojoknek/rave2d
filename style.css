@@ -3,12 +3,20 @@
     --bg: #050505;
     --text: #FFFFFF;
     --blue: #0022FF; /* RAVE BLUE */
+    --blue-glow: rgba(0, 34, 255, 0.4);
     --line: #333333;
     --font-en: 'Unbounded', sans-serif;
     --font-jp: 'Zen Kaku Gothic New', sans-serif;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --reveal-duration: 0.8s;
 }
 
 * { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     margin: 0;
@@ -17,9 +25,40 @@ body {
     color: var(--text);
     font-family: var(--font-en);
     line-height: 1.4;
+    overflow-x: hidden;
 }
 
 a { text-decoration: none; color: inherit; cursor: pointer; }
+
+/* --- REVEAL (scroll / load) --- */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--reveal-duration) var(--ease-out-expo), transform var(--reveal-duration) var(--ease-out-expo);
+}
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+[data-reveal][data-stagger="0"] { transition-delay: 0ms; }
+[data-reveal][data-stagger="1"] { transition-delay: 80ms; }
+[data-reveal][data-stagger="2"] { transition-delay: 160ms; }
+
+/* --- SPLIT TITLE (line-by-line) --- */
+.hero-title[data-split] .line {
+    display: block;
+    overflow: hidden;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform var(--reveal-duration) var(--ease-out-expo), opacity var(--reveal-duration) var(--ease-out-expo);
+}
+.hero-title.is-visible .line {
+    transform: translateY(0);
+    opacity: 1;
+}
+.hero-title .line:nth-child(1) { transition-delay: 0.1s; }
+.hero-title .line:nth-child(2) { transition-delay: 0.2s; }
+.hero-title .line:nth-child(3) { transition-delay: 0.3s; }
 
 /* --- GRID LAYOUT --- */
 .grid-container {
@@ -69,18 +108,27 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     color: #fff;
     overflow: hidden;
     white-space: nowrap;
-    padding: 10px 0;
+    padding: 12px 0;
     font-weight: 700;
+    user-select: none;
 }
 
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+}
+.marquee-track:hover {
+    animation-play-state: paused;
+}
 .marquee-content {
     display: inline-block;
-    padding-left: 100%;
-    animation: scroll 20s linear infinite;
+    padding-right: 3em;
+    letter-spacing: 0.05em;
 }
-@keyframes scroll {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-100%, 0); }
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 /* --- HERO (Main Visual) --- */
@@ -91,11 +139,18 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
+    position: relative;
     background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
-    background-size: 40px 40px; /* グリッド背景 */
+    background-size: 40px 40px;
+    overflow: hidden;
 }
 
-.hero h1 {
+.hero-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
     font-size: 5rem;
     line-height: 0.9;
     margin: 0 0 30px 0;
@@ -107,11 +162,39 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     -webkit-text-stroke: 2px var(--blue);
 }
 
-.hero p {
+.hero-desc {
     font-family: var(--font-jp);
     font-weight: 700;
     max-width: 500px;
     margin-bottom: 40px;
+}
+
+/* Block Studio風 装飾テキスト（背景） */
+.hero-deco {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em 1.5em;
+    padding: 0 0 20px 0;
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.04);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    pointer-events: none;
+    z-index: 0;
+}
+.deco-word {
+    white-space: nowrap;
+    animation: decoFloat 20s linear infinite;
+}
+.deco-word:nth-child(odd) { animation-direction: reverse; animation-duration: 25s; }
+@keyframes decoFloat {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(10px) translateY(-5px); }
 }
 
 .btn-group {
@@ -130,12 +213,35 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     border: 1px solid var(--text);
     margin-right: 15px;
     font-weight: 700;
-    transition: 0.2s;
+    transition: transform 0.25s var(--ease-out-expo), background 0.25s, border-color 0.25s, box-shadow 0.25s;
 }
-.btn:hover {
+.btn:hover,
+.btn:focus-visible {
     background: var(--blue);
     border-color: var(--blue);
-    box-shadow: 0 0 15px var(--blue);
+    box-shadow: 0 0 20px var(--blue-glow);
+    transform: translateY(-2px);
+}
+.btn:active {
+    transform: translateY(0);
+}
+/* マウス追従風の光（疑似要素） */
+[data-hover].btn::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+[data-hover].btn:hover::before {
+    opacity: 1;
+    box-shadow: inset 0 0 30px rgba(0, 34, 255, 0.2);
+}
+.btn {
+    position: relative;
 }
 
 /* --- SIDEBAR INFO --- */
@@ -189,35 +295,61 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .card {
     border: 1px solid var(--line);
     background: #0a0a0a;
-    transition: 0.3s;
+    transition: transform 0.4s var(--ease-out-expo), border-color 0.3s, box-shadow 0.3s;
     position: relative;
+    overflow: hidden;
+}
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0, 34, 255, 0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
 }
 .card:hover {
     border-color: var(--blue);
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 34, 255, 0.15);
+}
+.card:hover::before {
+    opacity: 1;
 }
 
 .card-img {
     width: 100%;
     aspect-ratio: 1/1;
-    background: #222 center/cover no-repeat; /* サムネイル or ダミー */
+    background: #222 center/cover no-repeat;
+    transition: transform 0.5s var(--ease-out-expo);
+}
+.card:hover .card-img {
+    transform: scale(1.05);
 }
 .card-img[style*="background-image"] {
     background-color: #111;
 }
 
-.card-info { padding: 15px; }
+.card-info { padding: 15px; transition: color 0.2s; }
 .card-info h3 { font-size: 1rem; margin: 0 0 5px 0; }
 .card-info p { font-size: 0.7rem; color: #888; margin: 0; font-family: monospace; }
 .card-link {
     display: block;
     text-align: center;
     background: var(--line);
-    padding: 10px;
+    padding: 12px;
     font-size: 0.8rem;
     font-weight: bold;
+    transition: background 0.3s, color 0.2s, transform 0.2s;
 }
-.card:hover .card-link { background: var(--blue); }
+.card:hover .card-link {
+    background: var(--blue);
+    color: #fff;
+}
+.card-link:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+}
 
 /* --- FOOTER --- */
 .footer {
@@ -242,8 +374,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     min-height: 44px;
     display: inline-flex;
     align-items: center;
+    transition: color 0.25s, transform 0.2s;
 }
-.footer-links a:hover { color: var(--blue); }
+.footer-links a:hover {
+    color: var(--blue);
+    transform: translateY(-2px);
+}
 
 .copy { margin-top: 30px; font-size: 0.7rem; color: #555; }
 
@@ -319,7 +455,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .header { padding: 20px; }
     .logo-img { max-width: 160px; }
     .hero { padding: 40px; }
-    .hero h1 { font-size: 3.5rem; }
+    .hero-title { font-size: 3.5rem; }
     .main-content { padding: 24px 24px 0; }
     .catalog {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -364,7 +500,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         padding: 24px 20px;
         min-height: auto;
     }
-    .hero h1 {
+    .hero-title {
         font-size: clamp(1.75rem, 8vw, 2.5rem);
         line-height: 1.1;
         margin-bottom: 20px;
@@ -372,7 +508,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .blue-txt {
         -webkit-text-stroke: 1.5px var(--blue);
     }
-    .hero p {
+    .hero-desc {
         font-size: 0.9rem;
         margin-bottom: 28px;
     }
@@ -414,7 +550,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .sub-text { font-size: 0.7rem; }
     .hero { padding: 20px 12px; }
-    .hero h1 { font-size: 1.6rem; }
+    .hero-title { font-size: 1.6rem; }
     .main-content { padding: 16px 12px 0; }
     .catalog {
         grid-template-columns: 1fr;
@@ -424,19 +560,36 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .footer-links a { font-size: 1rem; }
 }
 
-/* LOADER */
+/* --- LOADER (Block Studio風) --- */
 .loader {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
+    background: var(--bg);
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2px;
     z-index: 9999;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--blue);
     font-weight: bold;
-    animation: fadeOut 0.5s ease-in-out 1.5s forwards;
+    letter-spacing: 0.15em;
+    transition: opacity 0.6s var(--ease-out-expo);
     pointer-events: none;
 }
-@keyframes fadeOut { to { opacity: 0; } }
+.loader.is-hidden {
+    opacity: 0;
+}
+.loader-dot {
+    animation: loaderDot 0.8s ease-in-out infinite;
+}
+.loader-dot:nth-child(2) { animation-delay: 0.1s; }
+.loader-dot:nth-child(3) { animation-delay: 0.2s; }
+.loader-dot:nth-child(4) { animation-delay: 0.3s; }
+@keyframes loaderDot {
+    0%, 80%, 100% { opacity: 0.3; }
+    40% { opacity: 1; }
+}
+@keyframes loaderFadeOut {
+    to { opacity: 0; }
+}
