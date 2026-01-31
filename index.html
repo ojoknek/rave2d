@@ -51,9 +51,12 @@
                     <span class="line blue-txt">ARCHIVE IN 2D</span>
                     <span class="line">TOKYO BACKROOMS.</span>
                 </h1>
-                <p class="hero-desc" data-reveal>A catalog channel of Japan’s subculture DJs.<br>From Tokyo underground—into the ocean of the internet.</p>
+                <a href="events/highway.html" class="hero-news hero-news-link" data-reveal rel="noopener">
+                    <span class="hero-news-label">NEWS</span>
+                    <p class="hero-news-text">RAVE 2D:HIGHWAY が02/08(日)18時より開催されます。</p>
+                </a>
                 <div class="btn-group" data-reveal>
-                    <a href="#about" class="btn tab-btn is-active" data-hover role="tab" aria-selected="true">▼ ABOUT</a>
+                    <a href="#about" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ ABOUT</a>
                     <a href="#mix-catalog" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ CATALOG</a>
                     <a href="#events" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ EVENTS</a>
                     <a href="#ravewear" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ RAVE WEAR</a>
@@ -73,13 +76,17 @@
         </aside>
 
         <div class="main-content">
-            <section id="about" class="tab-panel about-panel is-active" data-reveal role="tabpanel" aria-labelledby="tab-about">
+            <section id="about" class="tab-panel about-panel" data-reveal role="tabpanel" aria-labelledby="tab-about">
                 <div class="about-inner">
                     <div class="about-story">
                         <p class="about-lead">インターネットとクラブの交差点。東京を拠点に、サブカルチャーなDJたちのミックスをアーカイブするチャンネル、RAVE 2D。</p>
-                        <p>わたしたちは、地下から溢れ出る音を「2次元」に落とし込み、いつでもどこでも聴ける形で残していくプロジェクトです。上野・湯島の小さな地下室からはじまり、東京を中心とした様々なサブカルチャーの現場に足を運び、様々な音楽を収録しています。</p>
+                        <p class="about-en">The intersection of internet and club. RAVE 2D is a channel that archives mixes by subculture DJs based in Tokyo.</p>
+                        <p>わたしたちは、アンダーグラウンドとインターネットの「狭間」から溢れ出る音を「2次元」に落とし込み、いつでもどこでも聴ける形で残していくプロジェクトです。上野・湯島の小さな地下室からはじまり、東京を中心とした様々なサブカルチャーの現場に足を運び、様々な音楽を収録しています。</p>
+                        <p class="about-en">We are a project that turns the sounds emerging from the “in-between” of underground and internet into “2D,” preserving them so you can listen anytime, anywhere. It started in a small basement in Ueno–Yushima, and we’ve been going to various subculture spots around Tokyo to record all kinds of music.</p>
                         <p>ストリートで芽吹いたビーツ、小さな会場で紡がれたセット、次の世代に渡したいプレイリスト——それらを青い光のなかでアーカイブし、インターネットの海へ放ちます。</p>
+                        <p class="about-en">Beats that sprouted on the street, sets woven in tiny venues, playlists we want to pass to the next generation—we archive them in blue light and send them out into the ocean of the internet.</p>
                         <p>東京のどこかで、今日も誰かがクラブで聴いている。その音のリアルを、青い炎で照らしています。</p>
+                        <p class="about-en">Somewhere in Tokyo, someone is still listening at a club today. We’re lighting that reality of sound with a blue flame.</p>
                     </div>
                     <div class="about-actions">
                         <a href="https://www.youtube.com/@RAVE2D" class="btn about-youtube-btn" target="_blank" rel="noopener" data-hover>YOUTUBE</a>
@@ -354,18 +361,18 @@
     var tabIds = ['about', 'mix-catalog', 'events', 'ravewear'];
 
     function switchTab(targetId) {
-        var id = targetId && tabIds.indexOf(targetId) >= 0 ? targetId : 'about';
+        var id = (targetId && tabIds.indexOf(targetId) >= 0) ? targetId : null;
         tabPanels.forEach(function (panel) {
-            panel.classList.toggle('is-active', panel.id === id);
-            panel.setAttribute('aria-hidden', panel.id !== id);
+            panel.classList.toggle('is-active', id !== null && panel.id === id);
+            panel.setAttribute('aria-hidden', id === null || panel.id !== id);
         });
         tabBtns.forEach(function (btn) {
             var href = btn.getAttribute('href') || '';
             var btnId = href.slice(1);
-            btn.classList.toggle('is-active', btnId === id);
-            btn.setAttribute('aria-selected', btnId === id);
+            btn.classList.toggle('is-active', id !== null && btnId === id);
+            btn.setAttribute('aria-selected', id !== null && btnId === id);
         });
-        if (history.replaceState) history.replaceState(null, '', '#' + id);
+        if (history.replaceState) history.replaceState(null, '', id ? '#' + id : window.location.pathname || '');
     }
 
     tabBtns.forEach(function (btn) {
@@ -375,13 +382,18 @@
             if (tabIds.indexOf(id) >= 0) {
                 e.preventDefault();
                 switchTab(id);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
     });
 
     function initTabFromHash() {
         var hash = (location.hash || '').slice(1);
-        switchTab(tabIds.indexOf(hash) >= 0 ? hash : 'about');
+        if (tabIds.indexOf(hash) >= 0) {
+            switchTab(hash);
+        } else {
+            switchTab(null);
+        }
     }
     if (document.readyState === 'complete') initTabFromHash();
     else window.addEventListener('load', initTabFromHash);
