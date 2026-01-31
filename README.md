@@ -11,6 +11,7 @@
 
 - **HTML5** … セマンティックなマークアップ
 - **CSS3** … カスタムプロパティ、Grid、アニメーション、レスポンシブ対応
+- **JavaScript** … YouTube サムネイル取得、サムネイルポップアップ
 - **フォント**: [Unbounded](https://fonts.google.com/specimen/Unbounded), [Zen Kaku Gothic New](https://fonts.google.com/specimen/Zen+Kaku+Gothic+New)（Google Fonts）
 
 ## ファイル構成
@@ -19,6 +20,9 @@
 rave2d/
 ├── index.html   # メインHTML
 ├── style.css    # スタイルシート
+├── image/       # ロゴ・画像
+│   └── RAVE2D-WHITE.png
+├── CNAME        # GitHub Pages 用（任意）
 └── README.md    # 本ファイル
 ```
 
@@ -28,9 +32,11 @@ rave2d/
 |-----------|------|
 | **ヘッダー** | ロゴ「RAVE 2D」、サブテキスト「TOKYO SUB CULTURE DJ CATALOG」 |
 | **マーキー** | 上部のスクロールテキスト（新着ミックス告知など） |
-| **ヒーロー** | キャッチコピー「DIGITAL NOISE ARCHIVE」、YouTube / カタログへのリンク |
+| **ヒーロー** | キャッチコピー「2D CATALOG / RECORDED IN TOKYO BASEMENTS」、YouTube / CATALOG / EC SHOP / EVENTS へのボタンリンク |
 | **情報バー** | STATUS（ONLINE）、LOC（TOKYO, JP）、EST（2024） |
-| **ミックスアーカイブ** | カード形式のミックス一覧（TOKYO NIGHT VOL.1、INTERNET ANGEL、BLUE SCREEN など） |
+| **MIX ARCHIVE** | カード形式のミックス一覧。YouTube サムネイル表示・クリックでサムネイルポップアップ＋「YouTubeで見る」リンク |
+| **EC SHOP** | カード形式の商品一覧（TEE、HOODIE、STICKER など）。各カードに「BUY」ボタン |
+| **EVENTS** | カード形式のイベント一覧。各カードに「DETAIL」ボタン |
 | **フッター** | Twitter(X)、Instagram、TikTok へのリンク |
 
 ## デザイン
@@ -39,11 +45,14 @@ rave2d/
 - **アクセントカラー（RAVE BLUE）**: `#0022FF`
 - **文字色**: `#FFFFFF`
 - **レイアウト**: CSS Grid（サイドバー 260px + メインエリア）、最大幅 1600px
-- **アニメーション**: ローダー（フェードアウト）、マーキー（横スクロール）、ONLINE の点滅、カードホバー
+- **アニメーション**: ローダー（フェードアウト）、マーキー（横スクロール）、ONLINE の点滅、カードホバー、サムネイルポップアップ（オーバーレイ＋Esc／クリックで閉じる）
+- **MIX ARCHIVE サムネイル**: YouTube 動画 URL からサムネイルを取得し、カード内で右寄せ表示
 
 ## レスポンシブ
 
-- **768px 以下**: 1カラムレイアウトに切り替え、情報バーは非表示、ヒーロー見出しを縮小
+- **1024px 以下**: サイドバー幅 200px、カタログカードを 220px 基準に調整
+- **768px 以下**: 1カラムレイアウト、情報バー非表示、ヒーロー見出し縮小、カード幅 160px 基準
+- **480px 以下**: カード 1 列、ヒーロー・パディングをさらに縮小
 
 ## ローカルでの閲覧
 
