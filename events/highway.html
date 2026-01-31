@@ -131,15 +131,21 @@
         window.addEventListener('load', function () { setTimeout(hideLoader, 1200); });
     }
 
-    /* --- カーソルに反応する place / date / time アノテーション --- */
+    /* --- 水面のようにカーソルに反応する place / date / time --- */
     var area = document.getElementById('event-visual');
     var annos = document.querySelectorAll('.event-anno[data-anno]');
     if (!area || !annos.length) return;
 
-    var moveStrength = 18;
+    var cursorStrength = 26;
+    var waveAmp = 4;
+    var waveSpeed = 0.75;
+    var rippleDecay = 0.86;
+    var cursorLerp = 0.32;
+    var backLerp = 0.055;
     var placeFactor = { x: 1, y: 1 };
-    var dateFactor = { x: -1.2, y: 0.8 };
-    var timeFactor = { x: 1.1, y: -0.9 };
+    var dateFactor = { x: -1.15, y: 0.9 };
+    var timeFactor = { x: 1.05, y: -0.9 };
+    var phases = [0, 2.4, 5.1];
 
     function getNormPos(e) {
         var rect = area.getBoundingClientRect();
@@ -147,16 +153,28 @@
         var cy = rect.top + rect.height / 2;
         var x = (e.clientX - cx) / (rect.width / 2);
         var y = (e.clientY - cy) / (rect.height / 2);
-        x = Math.max(-1, Math.min(1, x));
-        y = Math.max(-1, Math.min(1, y));
-        return { x: x, y: y };
+        return {
+            x: Math.max(-1, Math.min(1, x)),
+            y: Math.max(-1, Math.min(1, y))
+        };
     }
 
-    function applyTransforms(norm) {
+    var lastNorm = { x: 0, y: 0 };
+    var targetNorm = { x: 0, y: 0 };
+    var ripple = { x: 0, y: 0 };
+    var prevTarget = { x: 0, y: 0 };
+    var t0 = typeof performance !== 'undefined' ? performance.now() * 0.001 : 0;
+    var isInside = false;
+    var rafId = null;
+
+    function applyTransforms(cursor, wave, rippleOff, time) {
         annos.forEach(function (el, i) {
             var f = i === 0 ? placeFactor : (i === 1 ? dateFactor : timeFactor);
-            var tx = norm.x * moveStrength * f.x;
-            var ty = norm.y * moveStrength * f.y;
+            var phaseScale = 0.75 + i * 0.35;
+            var wx = wave.x * phaseScale + Math.sin(time * 0.4 + i * 1.2) * 1.2;
+            var wy = wave.y * phaseScale + Math.cos(time * 0.35 + i * 0.9) * 1.2;
+            var tx = cursor.x * cursorStrength * f.x + wx + rippleOff.x * f.x;
+            var ty = cursor.y * cursorStrength * f.y + wy + rippleOff.y * f.y;
             if (el.classList.contains('event-anno--place')) {
                 el.style.transform = 'translate(calc(-50% + ' + tx + 'px), ' + ty + 'px)';
             } else if (el.classList.contains('event-anno--date')) {
@@ -173,40 +191,48 @@
         });
     }
 
-    var rafId = null;
-    var lastNorm = { x: 0, y: 0 };
-    var targetNorm = { x: 0, y: 0 };
+    function tick() {
+        var t = (typeof performance !== 'undefined' ? performance.now() * 0.001 : 0) - t0;
+        lastNorm.x += (targetNorm.x - lastNorm.x) * (isInside ? cursorLerp : backLerp);
+        lastNorm.y += (targetNorm.y - lastNorm.y) * (isInside ? cursorLerp : backLerp);
+        ripple.x *= rippleDecay;
+        ripple.y *= rippleDecay;
+        var waveX = Math.sin(t * waveSpeed + phases[0]) * waveAmp + Math.sin(t * 0.55 + phases[1]) * waveAmp * 0.45;
+        var waveY = Math.cos(t * waveSpeed * 0.9 + phases[2]) * waveAmp * 0.95 + Math.cos(t * 0.58 + phases[0]) * waveAmp * 0.4;
+        applyTransforms(lastNorm, { x: waveX, y: waveY }, ripple, t);
+        var settled = !isInside && Math.abs(lastNorm.x) < 0.015 && Math.abs(lastNorm.y) < 0.015 && Math.abs(ripple.x) < 0.5 && Math.abs(ripple.y) < 0.5;
+        if (settled) {
+            rafId = null;
+            clearTransforms();
+        } else {
+            rafId = requestAnimationFrame(tick);
+        }
+    }
 
     function onPointerMove(e) {
-        targetNorm = getNormPos(e);
+        var next = getNormPos(e);
+        ripple.x += (next.x - prevTarget.x) * 14;
+        ripple.y += (next.y - prevTarget.y) * 14;
+        prevTarget.x = next.x;
+        prevTarget.y = next.y;
+        targetNorm.x = next.x;
+        targetNorm.y = next.y;
+    }
+
+    area.addEventListener('pointerenter', function () {
+        isInside = true;
         if (rafId === null) {
             rafId = requestAnimationFrame(tick);
         }
-    }
-    function tick() {
-        rafId = null;
-        lastNorm.x += (targetNorm.x - lastNorm.x) * 0.12;
-        lastNorm.y += (targetNorm.y - lastNorm.y) * 0.12;
-        applyTransforms(lastNorm);
-        if (Math.abs(lastNorm.x - targetNorm.x) > 0.01 || Math.abs(lastNorm.y - targetNorm.y) > 0.01) {
-            rafId = requestAnimationFrame(tick);
-        }
-    }
-
+    });
     area.addEventListener('pointermove', onPointerMove, { passive: true });
     area.addEventListener('pointerleave', function () {
+        isInside = false;
         targetNorm = { x: 0, y: 0 };
-        if (rafId === null) rafId = requestAnimationFrame(function smoothBack() {
-            rafId = null;
-            lastNorm.x += (targetNorm.x - lastNorm.x) * 0.08;
-            lastNorm.y += (targetNorm.y - lastNorm.y) * 0.08;
-            applyTransforms(lastNorm);
-            if (Math.abs(lastNorm.x) > 0.01 || Math.abs(lastNorm.y) > 0.01) {
-                rafId = requestAnimationFrame(smoothBack);
-            } else {
-                clearTransforms();
-            }
-        });
+        prevTarget = { x: 0, y: 0 };
+        if (rafId === null) {
+            rafId = requestAnimationFrame(tick);
+        }
     });
 })();
     </script>

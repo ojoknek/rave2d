@@ -466,6 +466,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         padding: 0 0 24px;
     }
+    .page-event .event-main {
+        padding: 32px 24px 40px;
+    }
 }
 
 /* --- RESPONSIVE: スマホ（縦） --- */
@@ -476,7 +479,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         border-left: none;
         border-right: none;
     }
-    .header, .marquee-section, .hero, .info-bar, .main-content, .footer {
+    .header, .marquee-section, .hero, .info-bar, .main-content, .footer,
+    .page-event .event-main, .page-event .event-footer {
         grid-column: 1 / 2;
         grid-row: auto;
         border-right: none;
@@ -548,6 +552,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         padding-left: env(safe-area-inset-left);
         padding-right: env(safe-area-inset-right);
     }
+    body.page-event {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
     .header { padding: 16px 12px; gap: 12px; }
     .logo-img {
         max-width: 90px;
@@ -563,6 +570,46 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .footer-links { gap: 8px; }
     .footer-links a { font-size: 1rem; }
+    /* イベントページ: 小型スマホ */
+    .page-event .event-main {
+        padding: 20px 12px 28px;
+    }
+    .page-event .event-title {
+        font-size: 1.35rem;
+        margin-bottom: 28px;
+    }
+    .page-event .event-visual {
+        margin-bottom: 24px;
+    }
+    .page-event .event-entrance {
+        font-size: 1rem;
+    }
+    .page-event .event-note,
+    .page-event .event-tagline {
+        font-size: 0.75rem;
+    }
+    .page-event .event-lineup-title {
+        font-size: 0.85rem;
+    }
+    .page-event .event-lineup-list a {
+        font-size: 0.9rem;
+        padding: 6px 0;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+    .page-event .event-back {
+        margin-top: 28px;
+    }
+    .page-event .event-back .btn {
+        padding: 14px 20px;
+        font-size: 0.9rem;
+        min-height: 48px;
+    }
+    .page-event .footer {
+        padding: 20px 12px;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    }
 }
 
 /* --- LOADER (Block Studio風) --- */
@@ -744,13 +791,37 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin-top: 40px;
 }
 
-/* Event page responsive */
+/* Event page responsive: スマホ・タブレット */
 @media (max-width: 768px) {
     .page-event .event-main {
         padding: 24px 20px 32px;
     }
+    .page-event .event-title {
+        font-size: clamp(1.35rem, 5vw, 1.75rem);
+        margin-bottom: 32px;
+    }
+    .page-event .event-visual {
+        margin-bottom: 32px;
+        max-width: 100%;
+    }
     .event-visual { margin-bottom: 32px; }
+    .event-anno {
+        font-size: 0.7rem;
+    }
     .event-anno--place { top: -24px; }
     .event-anno--date { right: 0; top: 8px; }
     .event-anno--time { left: 0; }
+    .page-event .event-detail {
+        margin-bottom: 24px;
+    }
+    .page-event .event-footer {
+        padding: 24px 20px;
+    }
+}
+
+/* イベントページ: タッチデバイスでアノテーションの揺れを控えめに */
+@media (hover: none) and (pointer: coarse) {
+    .page-event .event-anno {
+        will-change: auto;
+    }
 }
