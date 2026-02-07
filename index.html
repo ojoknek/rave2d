@@ -98,6 +98,16 @@
         </aside>
 
         <div class="main-content">
+            <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw" data-youtube-api-key="">
+                <div class="latest-video-label">LATEST MIX</div>
+                <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;" data-popup="1">
+                    <span class="latest-video-img" id="latest-video-img" data-thumb></span>
+                </a>
+                <p class="latest-video-fallback" id="latest-video-fallback" style="display:none;">
+                    <a href="https://www.youtube.com/@RAVE2D" target="_blank" rel="noopener">YouTube チャンネルで最新動画を見る</a>
+                </p>
+            </section>
+
             <section id="about" class="tab-panel about-panel" data-reveal role="tabpanel" aria-labelledby="tab-about">
                 <div class="about-inner">
                     <div class="about-story">
@@ -403,6 +413,97 @@
     function thumbnailUrlFallback(id) {
         return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
     }
+
+    /* --- 最新動画: mix-catalog 同様サムネイル表示・ショート除く・クリックで YouTube へ --- */
+    (function () {
+        var section = document.querySelector('.latest-video-section[data-channel-id]');
+        var linkEl = document.getElementById('latest-video-link');
+        var thumbEl = document.getElementById('latest-video-img');
+        var fallback = document.getElementById('latest-video-fallback');
+        if (!section || !linkEl || !thumbEl) return;
+        var channelId = section.getAttribute('data-channel-id');
+        var apiKey = (section.getAttribute('data-youtube-api-key') || '').trim();
+        if (!channelId) return;
+
+        function parseDurationIso8601(duration) {
+            var m = duration && duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+            if (!m) return 0;
+            var h = parseInt(m[1], 10) || 0, min = parseInt(m[2], 10) || 0, s = parseInt(m[3], 10) || 0;
+            return h * 3600 + min * 60 + s;
+        }
+        function showVideo(videoId) {
+            if (!videoId) {
+                linkEl.style.display = 'none';
+                if (fallback) fallback.style.display = 'block';
+                return;
+            }
+            if (fallback) fallback.style.display = 'none';
+            linkEl.href = 'https://www.youtube.com/watch?v=' + videoId;
+            linkEl.style.display = 'block';
+            linkEl.addEventListener('click', function (e) {
+                if (linkEl.getAttribute('data-popup') === '1') {
+                    e.preventDefault();
+                    window.open(linkEl.href, 'youtube-latest', 'width=960,height=540,scrollbars=yes,resizable=yes');
+                }
+            });
+            var hi = thumbnailUrl(videoId);
+            var lo = thumbnailUrlFallback(videoId);
+            thumbEl.style.backgroundImage = 'url(' + hi + ')';
+            thumbEl.style.backgroundSize = 'contain';
+            thumbEl.style.backgroundPosition = 'center';
+            thumbEl.style.backgroundRepeat = 'no-repeat';
+            var img = new Image();
+            img.onerror = function () { thumbEl.style.backgroundImage = 'url(' + lo + ')'; };
+            img.src = hi;
+        }
+
+        if (apiKey) {
+            var searchUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channelId + '&order=date&maxResults=15&type=video&key=' + encodeURIComponent(apiKey);
+            fetch(searchUrl)
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    var items = (data && data.items) || [];
+                    var ids = items.map(function (it) { return it && it.id && it.id.videoId; }).filter(Boolean);
+                    if (ids.length === 0) { showVideo(null); return; }
+                    var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=' + ids.join(',') + '&key=' + encodeURIComponent(apiKey);
+                    return fetch(videosUrl).then(function (r) { return r.json(); }).then(function (vData) {
+                        var vItems = (vData && vData.items) || [];
+                        var byId = {};
+                        vItems.forEach(function (v) { if (v && v.id) byId[v.id] = v; });
+                        for (var i = 0; i < ids.length; i++) {
+                            var id = ids[i];
+                            var v = byId[id];
+                            if (!v || !v.contentDetails || !v.contentDetails.duration) continue;
+                            var sec = parseDurationIso8601(v.contentDetails.duration);
+                            if (sec >= 60) {
+                                showVideo(id);
+                                return;
+                            }
+                        }
+                        showVideo(ids[0]);
+                    });
+                })
+                .catch(function () { tryRss(); });
+        } else {
+            tryRss();
+        }
+
+        function tryRss() {
+            var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
+            var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
+            fetch(proxyUrl)
+                .then(function (res) { return res.text(); })
+                .then(function (xml) {
+                    var match = xml.match(/yt:video:([a-zA-Z0-9_-]{11})/);
+                    var videoId = match ? match[1] : null;
+                    showVideo(videoId);
+                })
+                .catch(function () {
+                    linkEl.style.display = 'none';
+                    if (fallback) fallback.style.display = 'block';
+                });
+        }
+    })();
 
     var popup = document.getElementById('thumbnail-popup');
     var popupImg = popup && popup.querySelector('.popup-img');

@@ -557,6 +557,58 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     padding: 40px 40px 0;
 }
 
+/* 最新動画埋め込み（NEWS下・トンマナに合わせた枠） */
+.latest-video-section {
+    padding-bottom: 32px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+}
+.latest-video-label {
+    font-size: 0.9rem;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    display: inline-block;
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+/* mix-catalog 同様のサムネイル表示・全体が見える（contain）・クリックで YouTube へ */
+.latest-video-link {
+    display: block;
+    max-width: 720px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #0a0a0a;
+    box-shadow: 0 0 0 1px rgba(0, 34, 255, 0.08);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.latest-video-link:hover {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px rgba(0, 34, 255, 0.2);
+}
+.latest-video-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #0a0a0a;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.latest-video-fallback {
+    margin: 12px 0 0;
+    font-size: 0.9rem;
+}
+.latest-video-fallback a {
+    color: var(--blue);
+    text-decoration: underline;
+}
+.latest-video-fallback a:hover {
+    text-decoration: none;
+}
+
 /* --- CATALOG GRID --- */
 .catalog {
     padding: 0 0 40px;
@@ -1129,6 +1181,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .info-bar { display: none; }
     .main-content { padding: 20px 16px 0; }
+    .latest-video-section { padding-bottom: 24px; margin-bottom: 4px; }
+    .latest-video-label { font-size: 0.8rem; margin-bottom: 12px; }
     .catalog { padding: 20px 16px 40px; }
     .catalog-scroll { gap: 16px; }
     .catalog-scroll .card {
@@ -1170,6 +1224,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .hero { padding: 20px 12px; }
     .hero-title { font-size: 1.6rem; }
     .main-content { padding: 16px 12px 0; }
+    .latest-video-section { padding-bottom: 20px; }
+    .latest-video-label { font-size: 0.75rem; padding: 4px 12px; margin-bottom: 10px; }
     .catalog { padding: 16px 12px 40px; }
     .catalog-scroll .card {
         flex: 0 0 180px;
