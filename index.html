@@ -98,7 +98,7 @@
         </aside>
 
         <div class="main-content">
-            <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw" data-youtube-api-key="">
+            <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw" data-youtube-api-key="YOUTUBE_API_KEY">
                 <div class="latest-video-label">LATEST MIX</div>
                 <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;" data-popup="1">
                     <span class="latest-video-img" id="latest-video-img" data-thumb></span>
@@ -475,7 +475,7 @@
                             var v = byId[id];
                             if (!v || !v.contentDetails || !v.contentDetails.duration) continue;
                             var sec = parseDurationIso8601(v.contentDetails.duration);
-                            if (sec >= 60) {
+                            if (sec >= 120) {
                                 showVideo(id);
                                 return;
                             }
