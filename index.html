@@ -98,7 +98,7 @@
         </aside>
 
         <div class="main-content">
-            <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw" data-youtube-api-key="YOUTUBE_API_KEY">
+            <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw">
                 <div class="latest-video-label">LATEST MIX</div>
                 <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;" data-popup="1">
                     <span class="latest-video-img" id="latest-video-img" data-thumb></span>
@@ -414,7 +414,7 @@
         return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
     }
 
-    /* --- 最新動画: RSS で動画ID一覧取得。APIキーあり時のみ再生時間で絞り込み（10分以上）。サムネは既存の thumbnailUrl / thumbnailUrlFallback --- */
+    /* --- 最新動画: RSS でタイトルに "RAVE 2D:" を含む最新の1本を表示。API不要。サムネは thumbnailUrl / thumbnailUrlFallback --- */
     (function () {
         var section = document.querySelector('.latest-video-section[data-channel-id]');
         var linkEl = document.getElementById('latest-video-link');
@@ -422,15 +422,9 @@
         var fallback = document.getElementById('latest-video-fallback');
         if (!section || !linkEl || !thumbEl) return;
         var channelId = section.getAttribute('data-channel-id');
-        var apiKey = (section.getAttribute('data-youtube-api-key') || '').trim();
         if (!channelId) return;
+        var titleFilter = 'RAVE 2D:';
 
-        function parseDurationIso8601(duration) {
-            var m = duration && duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-            if (!m) return 0;
-            var h = parseInt(m[1], 10) || 0, min = parseInt(m[2], 10) || 0, s = parseInt(m[3], 10) || 0;
-            return h * 3600 + min * 60 + s;
-        }
         function showVideo(videoId) {
             if (!videoId) {
                 linkEl.style.display = 'none';
@@ -457,49 +451,28 @@
             img.src = hi;
         }
 
-        function pickVideoId(ids) {
-            if (!ids || ids.length === 0) {
-                showVideo(null);
-                return;
-            }
-            if (!apiKey) {
-                showVideo(ids[0]);
-                return;
-            }
-            var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=' + ids.slice(0, 15).join(',') + '&key=' + encodeURIComponent(apiKey);
-            fetch(videosUrl)
-                .then(function (r) { return r.json(); })
-                .then(function (vData) {
-                    var vItems = (vData && vData.items) || [];
-                    var byId = {};
-                    vItems.forEach(function (v) { if (v && v.id) byId[v.id] = v; });
-                    for (var i = 0; i < ids.length; i++) {
-                        var id = ids[i];
-                        var v = byId[id];
-                        if (!v || !v.contentDetails || !v.contentDetails.duration) continue;
-                        var sec = parseDurationIso8601(v.contentDetails.duration);
-                        if (sec >= 120) {
-                            showVideo(id);
-                            return;
-                        }
-                    }
-                    showVideo(ids[0]);
-                })
-                .catch(function () { showVideo(ids[0]); });
-        }
-
         var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
         var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
         fetch(proxyUrl)
             .then(function (res) { return res.text(); })
             .then(function (xml) {
                 var entries = xml.match(/<entry>[\s\S]*?<\/entry>/g) || [];
-                var ids = [];
-                for (var e = 0; e < entries.length && ids.length < 15; e++) {
-                    var match = entries[e].match(/yt:video:([a-zA-Z0-9_-]{11})/);
-                    if (match) ids.push(match[1]);
+                var videoId = null;
+                for (var e = 0; e < entries.length; e++) {
+                    var entry = entries[e];
+                    var idMatch = entry.match(/yt:video:([a-zA-Z0-9_-]{11})/);
+                    var titleMatch = entry.match(/<title[^>]*>([\s\S]*?)<\/title>/);
+                    var title = titleMatch ? titleMatch[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim() : '';
+                    if (idMatch && title.indexOf(titleFilter) !== -1) {
+                        videoId = idMatch[1];
+                        break;
+                    }
                 }
-                pickVideoId(ids);
+                if (!videoId && entries.length > 0) {
+                    var firstMatch = entries[0].match(/yt:video:([a-zA-Z0-9_-]{11})/);
+                    if (firstMatch) videoId = firstMatch[1];
+                }
+                showVideo(videoId);
             })
             .catch(function () {
                 linkEl.style.display = 'none';
