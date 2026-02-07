@@ -100,7 +100,7 @@
         <div class="main-content">
             <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw">
                 <div class="latest-video-label">LATEST MIX</div>
-                <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;" data-popup="1">
+                <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;">
                     <span class="latest-video-img" id="latest-video-img" data-thumb></span>
                 </a>
                 <p class="latest-video-fallback" id="latest-video-fallback" style="display:none;">
@@ -435,12 +435,6 @@
             if (fallback) fallback.style.display = 'none';
             linkEl.href = 'https://www.youtube.com/watch?v=' + videoId;
             linkEl.style.display = 'block';
-            linkEl.addEventListener('click', function (e) {
-                if (linkEl.getAttribute('data-popup') === '1') {
-                    e.preventDefault();
-                    window.open(linkEl.href, 'youtube-latest', 'width=960,height=540,scrollbars=yes,resizable=yes');
-                }
-            });
             var hi = thumbnailUrl(videoId);
             var lo = thumbnailUrlFallback(videoId);
             thumbEl.style.backgroundImage = 'url(' + hi + ')';
