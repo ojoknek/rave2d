@@ -478,7 +478,7 @@
                         var v = byId[id];
                         if (!v || !v.contentDetails || !v.contentDetails.duration) continue;
                         var sec = parseDurationIso8601(v.contentDetails.duration);
-                        if (sec >= 600) {
+                        if (sec >= 120) {
                             showVideo(id);
                             return;
                         }
