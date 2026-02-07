@@ -243,11 +243,91 @@
             </div>
         </div>
 
+        <!-- ポリシーポップアップ（RAVE WEAR） -->
+        <div id="policy-popup" class="policy-popup-overlay" aria-hidden="true">
+            <div class="policy-popup-backdrop"></div>
+            <div class="policy-popup-box">
+                <button type="button" class="policy-popup-close" aria-label="閉じる">&times;</button>
+                <h2 class="policy-popup-title" id="policy-popup-title"></h2>
+                <div class="policy-popup-body" id="policy-popup-body"></div>
+            </div>
+        </div>
+
+        <!-- ポリシー本文（RAVE WEAR 服販売に関するもの） -->
+        <template id="policy-privacy">
+            <h2 class="policy-heading">プライバシーポリシー</h2>
+            <p class="policy-updated">RAVE 2D（以下「当方」）は、RAVE WEAR の衣類販売および本ウェブサイトの利用において、お客様の個人情報を適切に取り扱います。</p>
+            <h3>1. 収集する情報</h3>
+            <p>ご注文・お問い合わせ時に、氏名・メールアドレス・配送先住所・電話番号・決済情報（Stripe 経由で処理、当方ではクレジットカード番号は保持しません）を収集することがあります。</p>
+            <h3>2. 利用目的</h3>
+            <p>注文の処理、商品の発送、ご連絡、返品・交換対応、および法令に基づく対応に利用します。</p>
+            <h3>3. 第三者提供</h3>
+            <p>決済処理のため Stripe に必要な情報を提供します。その他の第三者には、法令に基づく場合を除き、同意なく提供しません。</p>
+            <h3>4. 保管・削除</h3>
+            <p>必要に応じた期間保管したのち、適切に削除します。開示・訂正・削除のご希望はお問い合わせください。</p>
+            <h3>5. お問い合わせ</h3>
+            <p>プライバシーに関するお問い合わせは、本サイトまたは SNS（X / Instagram）の RAVE 2D アカウントまでご連絡ください。</p>
+        </template>
+        <template id="policy-terms">
+            <h2 class="policy-heading">利用規約</h2>
+            <p class="policy-updated">RAVE WEAR（RAVE 2D が提供する衣類販売）のご利用にあたり、以下の規約に同意いただいたものとみなします。</p>
+            <h3>1. 適用</h3>
+            <p>本規約は、RAVE WEAR の商品の購入および関連する一切のサービスに適用されます。</p>
+            <h3>2. 注文・契約</h3>
+            <p>ご注文は申込みとし、当方の注文確認（メール等）をもって契約が成立します。在庫切れ等の場合はご連絡のうえキャンセル・返金することがあります。</p>
+            <h3>3. 代金・支払い</h3>
+            <p>表示価格は税込です。支払いは注文時に Stripe 経由で行っていただきます。</p>
+            <h3>4. 配送</h3>
+            <p>配送先は日本国内に限らせていただく場合があります。配送日・時間の指定はお受けできない場合があります。</p>
+            <h3>5. 返品・交換</h3>
+            <p>商品の不良・誤配送の場合は返品・交換に対応します。お客様都合の返品は、未使用・未開封に限り、到着後〇日以内など別途案内に従ってご連絡ください。</p>
+            <h3>6. 禁止事項</h3>
+            <p>転売目的の大量購入、虚偽の申告、その他当方または第三者に不利益を与える行為を禁止します。</p>
+            <h3>7. お問い合わせ</h3>
+            <p>利用規約・注文に関するお問い合わせは、本サイトまたは SNS（RAVE 2D）までご連絡ください。</p>
+        </template>
+        <template id="policy-tokushoho">
+            <h2 class="policy-heading">特定商取引法に基づく表記</h2>
+            <p class="policy-updated">RAVE WEAR（衣類販売）における特定商取引法に基づく表記です。</p>
+            <dl class="policy-dl">
+                <dt>販売業者</dt>
+                <dd>NEW ERA DESIGN, CO., LTD.</dd>
+                <dt>代表者</dt>
+                <dd>Ken Kojo</dd>
+                <dt>所在地</dt>
+                <dd>〒160-0023 東京都新宿区西新宿3丁目3番13号西新宿水間ビル2F</dd>
+                <dt>連絡先</dt>
+                <dd>本サイトまたは X(Twitter) / Instagram: @rave_2d の DM にてお問い合わせください。</dd>
+                <dt>販売URL</dt>
+                <dd>https://rave2d.com/</dd>
+                <dt>商品代金</dt>
+                <dd>各商品ページに表示の税込価格（送料は別途表示または注文フローで案内）</dd>
+                <dt>支払方法</dt>
+                <dd>クレジットカード（Stripe 経由）</dd>
+                <dt>支払時期</dt>
+                <dd>ご注文時</dd>
+                <dt>商品の引き渡し時期</dt>
+                <dd>入金確認後、15営業日以内に発送（詳細は注文確認メールでお知らせします）</dd>
+                <dt>返品・キャンセル</dt>
+                <dd>商品の不良・誤配送の場合は返品・交換に対応します。お客様都合の返品は、別途「利用規約」の返品条件に従います。</dd>
+                <dt>その他</dt>
+                <dd>本表記は RAVE WEAR の衣類販売に係るものです。表記内容は予告なく変更することがあります。</dd>
+            </dl>
+            <p class="policy-note">※ RAVE WEARはRAVE 2Dのアパレル形態を意味します。</p>
+        </template>
+
         <footer class="footer">
             <div class="footer-links">
                 <a href="https://x.com/rave_2d" target="_blank">X(TWITTER)</a>
                 <a href="https://www.instagram.com/rave_2d/" target="_blank">INSTAGRAM</a>
                 <a href="https://www.tiktok.com/@rave2d" target="_blank">TIKTOK</a>
+            </div>
+            <div class="footer-policy-links">
+                <button type="button" class="footer-policy-link" data-policy="privacy">プライバシーポリシー</button>
+                <span class="footer-policy-sep">/</span>
+                <button type="button" class="footer-policy-link" data-policy="terms">利用規約</button>
+                <span class="footer-policy-sep">/</span>
+                <button type="button" class="footer-policy-link" data-policy="tokushoho">特定商取引法に基づく表記</button>
             </div>
             <div class="copy">© RAVE 2D ALL RIGHTS RESERVED.</div>
         </footer>
@@ -356,8 +436,42 @@
     }
     if (popupClose) popupClose.addEventListener('click', closePopup);
     if (popupBackdrop) popupBackdrop.addEventListener('click', closePopup);
+
+    /* --- ポリシーポップアップ: プライバシー / 利用規約 / 特定商取引法 --- */
+    var policyPopup = document.getElementById('policy-popup');
+    var policyTitleEl = document.getElementById('policy-popup-title');
+    var policyBodyEl = document.getElementById('policy-popup-body');
+    var policyCloseBtn = policyPopup && policyPopup.querySelector('.policy-popup-close');
+    var policyBackdrop = policyPopup && policyPopup.querySelector('.policy-popup-backdrop');
+    var policyTitles = { privacy: 'プライバシーポリシー', terms: '利用規約', tokushoho: '特定商取引法に基づく表記' };
+
+    function openPolicyPopup(type) {
+        var tpl = document.getElementById('policy-' + type);
+        if (!policyPopup || !policyTitleEl || !policyBodyEl || !tpl) return;
+        policyTitleEl.textContent = policyTitles[type] || type;
+        policyBodyEl.innerHTML = '';
+        policyBodyEl.appendChild(tpl.content.cloneNode(true));
+        policyPopup.setAttribute('aria-hidden', 'false');
+        policyPopup.classList.add('is-open');
+    }
+    function closePolicyPopup() {
+        if (!policyPopup) return;
+        policyPopup.setAttribute('aria-hidden', 'true');
+        policyPopup.classList.remove('is-open');
+    }
+    document.querySelectorAll('.footer-policy-link').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var type = this.getAttribute('data-policy');
+            if (type) openPolicyPopup(type);
+        });
+    });
+    if (policyCloseBtn) policyCloseBtn.addEventListener('click', closePolicyPopup);
+    if (policyBackdrop) policyBackdrop.addEventListener('click', closePolicyPopup);
+
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closePopup();
+        if (e.key !== 'Escape') return;
+        if (policyPopup && policyPopup.classList.contains('is-open')) closePolicyPopup();
+        else closePopup();
     });
 
     /* --- タブ切り替え: ABOUT / CATALOG / EVENTS / RAVE WEAR --- */
