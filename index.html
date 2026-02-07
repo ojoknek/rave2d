@@ -109,6 +109,7 @@
             </section>
 
             <section id="about" class="tab-panel about-panel" data-reveal role="tabpanel" aria-labelledby="tab-about">
+                <div class="section-label">ABOUT</div>
                 <div class="about-inner">
                     <div class="about-story">
                         <p class="about-lead">インターネットとクラブの交差点。東京を拠点に、サブカルチャーなDJたちのミックスをアーカイブするチャンネル、RAVE 2D。</p>
@@ -614,6 +615,8 @@
             btn.classList.toggle('is-active', id !== null && btnId === id);
             btn.setAttribute('aria-selected', id !== null && btnId === id);
         });
+        var latestSection = document.querySelector('.latest-video-section');
+        if (latestSection) latestSection.classList.toggle('is-hidden', id !== null);
         if (history.replaceState) history.replaceState(null, '', id ? '#' + id : window.location.pathname || '');
     }
 

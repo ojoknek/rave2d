@@ -563,6 +563,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin-bottom: 8px;
     border-bottom: 1px solid var(--line);
 }
+.latest-video-section.is-hidden {
+    display: none;
+}
 .latest-video-label {
     font-size: 0.9rem;
     color: var(--blue);
