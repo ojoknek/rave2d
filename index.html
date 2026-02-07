@@ -48,6 +48,21 @@
                 <div class="glitch-burst-layer glitch-burst--blue-light"></div>
             </div>
             <div class="glitch-slices-js" id="glitch-slices-js"></div>
+            <div class="marquee-bar-row">
+                <nav id="nav-menu" class="marquee-nav" aria-hidden="true">
+                    <a href="#about" class="marquee-nav-link tab-btn" data-hover role="tab" aria-selected="false">ABOUT</a>
+                    <a href="#mix-catalog" class="marquee-nav-link tab-btn" data-hover role="tab" aria-selected="false">CATALOG</a>
+                    <a href="#events" class="marquee-nav-link tab-btn" data-hover role="tab" aria-selected="false">EVENTS</a>
+                    <a href="#ravewear" class="marquee-nav-link tab-btn" data-hover role="tab" aria-selected="false">RAVE WEAR</a>
+                </nav>
+                <div class="marquee-menu-wrap">
+                    <button type="button" class="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <main class="hero">
@@ -60,7 +75,7 @@
                     <span class="hero-news-label">NEWS</span>
                     <p class="hero-news-text">RAVE 2D:HIGHWAY が02/08(日)18時より開催されます。</p>
                 </a>
-                <div class="btn-group" data-reveal>
+                <div class="btn-group btn-group--hidden" data-reveal aria-hidden="true">
                     <a href="#about" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ ABOUT</a>
                     <a href="#mix-catalog" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ CATALOG</a>
                     <a href="#events" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ EVENTS</a>
@@ -470,12 +485,42 @@
 
     document.addEventListener('keydown', function (e) {
         if (e.key !== 'Escape') return;
+        if (marqueeSection && marqueeSection.classList.contains('is-menu-open')) { closeNav(); return; }
         if (policyPopup && policyPopup.classList.contains('is-open')) closePolicyPopup();
         else closePopup();
     });
 
-    /* --- タブ切り替え: ABOUT / CATALOG / EVENTS / RAVE WEAR --- */
-    var tabBtns = document.querySelectorAll('.btn-group .tab-btn');
+    /* --- ハンバーガーメニュー開閉（マーキー内インライン表示） --- */
+    var hamburgerBtn = document.querySelector('.hamburger-btn');
+    var navMenu = document.getElementById('nav-menu');
+    var marqueeSection = document.getElementById('marquee-glitch');
+    function openNav() {
+        if (!marqueeSection || !hamburgerBtn) return;
+        marqueeSection.classList.add('is-menu-open');
+        if (navMenu) navMenu.setAttribute('aria-hidden', 'false');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        hamburgerBtn.setAttribute('aria-label', 'メニューを閉じる');
+    }
+    function closeNav() {
+        if (!marqueeSection || !hamburgerBtn) return;
+        marqueeSection.classList.remove('is-menu-open');
+        if (navMenu) navMenu.setAttribute('aria-hidden', 'true');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        hamburgerBtn.setAttribute('aria-label', 'メニューを開く');
+    }
+    function toggleNav() {
+        if (marqueeSection && marqueeSection.classList.contains('is-menu-open')) closeNav();
+        else openNav();
+    }
+    if (hamburgerBtn) hamburgerBtn.addEventListener('click', toggleNav);
+    document.querySelectorAll('.marquee-nav .marquee-nav-link').forEach(function (link) {
+        link.addEventListener('click', function () {
+            closeNav();
+        });
+    });
+
+    /* --- タブ切り替え: ABOUT / CATALOG / EVENTS / RAVE WEAR（ハンバーガー内リンク含む） --- */
+    var tabBtns = document.querySelectorAll('.tab-btn');
     var tabPanels = document.querySelectorAll('.main-content .tab-panel');
     var tabIds = ['about', 'mix-catalog', 'events', 'ravewear'];
 

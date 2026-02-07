@@ -81,6 +81,105 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+}
+
+/* ハンバーガーボタン（マーキー＝青い横バー内に配置） */
+.marquee-menu-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+}
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--blue);
+}
+.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+.hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.25s, opacity 0.2s;
+}
+
+/* マーキー内インラインメニュー（青い横バー内に表示） */
+.marquee-bar-row {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    z-index: 2;
+    padding: 0 8px 0 12px;
+}
+.marquee-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px 16px;
+    flex-wrap: wrap;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-width 0.35s ease, opacity 0.25s ease;
+}
+.marquee-section.is-menu-open .marquee-nav {
+    max-width: 100%;
+    opacity: 1;
+    overflow: visible;
+}
+.marquee-nav-link {
+    font-family: var(--font-en);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 14px;
+    border: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+}
+.marquee-nav-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+.marquee-nav-link.is-active {
+    background: var(--blue);
+    color: #fff;
+}
+
+/* ヒーロー内のボタン群はハンバーガーに移したため非表示 */
+.btn-group--hidden {
+    display: none !important;
 }
 
 /* ロゴ画像（ソース: 3240×3240px）、サイドバー内に収まる表示サイズ */
@@ -110,6 +209,18 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     user-select: none;
     position: relative;
     min-height: 44px;
+}
+
+/* スマホ：メニュー開時はマーキー高さを内容に合わせる（2行になっても収まる） */
+@media (max-width: 768px) {
+    .marquee-section.is-menu-open {
+        min-height: auto;
+    }
+    .marquee-section.is-menu-open .marquee-bar-row {
+        position: relative;
+        padding: 10px 8px 10px 12px;
+        min-height: 44px;
+    }
 }
 
 /* 青系グラデーションのゆっくりした色変化 */
