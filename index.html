@@ -414,7 +414,7 @@
         return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
     }
 
-    /* --- 最新動画: mix-catalog 同様サムネイル表示・ショート除く・クリックで YouTube へ --- */
+    /* --- 最新動画: RSS で動画ID一覧取得。APIキーあり時のみ再生時間で絞り込み（10分以上）。サムネは既存の thumbnailUrl / thumbnailUrlFallback --- */
     (function () {
         var section = document.querySelector('.latest-video-section[data-channel-id]');
         var linkEl = document.getElementById('latest-video-link');
@@ -457,52 +457,54 @@
             img.src = hi;
         }
 
-        if (apiKey) {
-            var searchUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channelId + '&order=date&maxResults=15&type=video&key=' + encodeURIComponent(apiKey);
-            fetch(searchUrl)
-                .then(function (res) { return res.json(); })
-                .then(function (data) {
-                    var items = (data && data.items) || [];
-                    var ids = items.map(function (it) { return it && it.id && it.id.videoId; }).filter(Boolean);
-                    if (ids.length === 0) { showVideo(null); return; }
-                    var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=' + ids.join(',') + '&key=' + encodeURIComponent(apiKey);
-                    return fetch(videosUrl).then(function (r) { return r.json(); }).then(function (vData) {
-                        var vItems = (vData && vData.items) || [];
-                        var byId = {};
-                        vItems.forEach(function (v) { if (v && v.id) byId[v.id] = v; });
-                        for (var i = 0; i < ids.length; i++) {
-                            var id = ids[i];
-                            var v = byId[id];
-                            if (!v || !v.contentDetails || !v.contentDetails.duration) continue;
-                            var sec = parseDurationIso8601(v.contentDetails.duration);
-                            if (sec >= 120) {
-                                showVideo(id);
-                                return;
-                            }
+        function pickVideoId(ids) {
+            if (!ids || ids.length === 0) {
+                showVideo(null);
+                return;
+            }
+            if (!apiKey) {
+                showVideo(ids[0]);
+                return;
+            }
+            var videosUrl = 'https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=' + ids.slice(0, 15).join(',') + '&key=' + encodeURIComponent(apiKey);
+            fetch(videosUrl)
+                .then(function (r) { return r.json(); })
+                .then(function (vData) {
+                    var vItems = (vData && vData.items) || [];
+                    var byId = {};
+                    vItems.forEach(function (v) { if (v && v.id) byId[v.id] = v; });
+                    for (var i = 0; i < ids.length; i++) {
+                        var id = ids[i];
+                        var v = byId[id];
+                        if (!v || !v.contentDetails || !v.contentDetails.duration) continue;
+                        var sec = parseDurationIso8601(v.contentDetails.duration);
+                        if (sec >= 600) {
+                            showVideo(id);
+                            return;
                         }
-                        showVideo(ids[0]);
-                    });
+                    }
+                    showVideo(ids[0]);
                 })
-                .catch(function () { tryRss(); });
-        } else {
-            tryRss();
+                .catch(function () { showVideo(ids[0]); });
         }
 
-        function tryRss() {
-            var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
-            var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
-            fetch(proxyUrl)
-                .then(function (res) { return res.text(); })
-                .then(function (xml) {
-                    var match = xml.match(/yt:video:([a-zA-Z0-9_-]{11})/);
-                    var videoId = match ? match[1] : null;
-                    showVideo(videoId);
-                })
-                .catch(function () {
-                    linkEl.style.display = 'none';
-                    if (fallback) fallback.style.display = 'block';
-                });
-        }
+        var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
+        var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
+        fetch(proxyUrl)
+            .then(function (res) { return res.text(); })
+            .then(function (xml) {
+                var entries = xml.match(/<entry>[\s\S]*?<\/entry>/g) || [];
+                var ids = [];
+                for (var e = 0; e < entries.length && ids.length < 15; e++) {
+                    var match = entries[e].match(/yt:video:([a-zA-Z0-9_-]{11})/);
+                    if (match) ids.push(match[1]);
+                }
+                pickVideoId(ids);
+            })
+            .catch(function () {
+                linkEl.style.display = 'none';
+                if (fallback) fallback.style.display = 'block';
+            });
     })();
 
     var popup = document.getElementById('thumbnail-popup');
