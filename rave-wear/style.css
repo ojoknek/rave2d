@@ -63,7 +63,6 @@ button { cursor: pointer; }
 }
 .wear-loader-dot {
     color: var(--text-subtle);
-}
     animation: loader-blink 1s linear infinite;
 }
 .wear-loader-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -226,13 +225,13 @@ button { cursor: pointer; }
     -webkit-text-stroke: 3px var(--blue);
 }
 .wear-hero-desc {
-    font-family: var(--font-jp);
+    font-family: var(--font-en);
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-muted);
     margin: 0;
     line-height: 1.6;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
 }
 
 /* ============================================================
@@ -284,7 +283,8 @@ button { cursor: pointer; }
 .product-card:last-child {
     border-right: none;
 }
-.product-card:hover {
+.product-card:hover,
+.product-card:has(.product-card-link:focus-visible) {
     background: var(--surface);
 }
 
@@ -308,7 +308,8 @@ button { cursor: pointer; }
     background-repeat: no-repeat;
     transition: transform 0.6s var(--ease-out-expo);
 }
-.product-card:hover .product-img {
+.product-card:hover .product-img,
+.product-card-link:hover .product-img {
     transform: scale(1.02);
 }
 
@@ -327,9 +328,24 @@ button { cursor: pointer; }
     z-index: 2;
 }
 
+/* カード全体を Stripe へ（画像＋商品情報） */
+.product-card-link {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+.product-card-link:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: -2px;
+}
+
 /* 商品情報 */
 .product-info {
-    padding: 20px 24px 12px;
+    padding: 20px 24px 20px;
     flex: 1;
     text-align: center;
 }
@@ -360,30 +376,6 @@ button { cursor: pointer; }
     color: var(--text-muted);
     margin-left: 4px;
     font-family: var(--font-jp);
-}
-
-/* 購入ボタン */
-.product-buy {
-    display: block;
-    text-align: center;
-    padding: 16px 24px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    border-top: 1px solid var(--line);
-    color: var(--text);
-    background: transparent;
-    transition: background 0.25s, color 0.2s, border-color 0.2s, box-shadow 0.25s;
-}
-.product-buy:hover {
-    background: var(--text);
-    border-color: var(--text);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    color: #fff;
-}
-.product-buy:focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 2px;
 }
 
 /* ============================================================
@@ -418,7 +410,7 @@ button { cursor: pointer; }
 }
 .wear-footer-brand-name {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.1em;
 }
 .wear-footer-socials {
@@ -623,7 +615,7 @@ button { cursor: pointer; }
     .product-card:nth-child(even):not(:last-child) {
         border-bottom: 1px solid var(--line);
     }
-    .product-info { padding: 14px 16px 8px; }
+    .product-info { padding: 14px 16px 16px; }
     .product-name { font-size: 0.85rem; }
     .product-price { font-size: 0.9rem; }
 
@@ -668,7 +660,7 @@ button { cursor: pointer; }
         border-bottom: none;
     }
     .product-img-wrap { aspect-ratio: 1 / 1; }
-    .product-info { padding: 16px 20px 10px; }
+    .product-info { padding: 16px 20px 18px; }
 
     .wear-footer-inner { padding: 28px 16px 24px; }
 }
