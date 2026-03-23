@@ -5,14 +5,18 @@
 
 /* --- DESIGN TOKENS --- */
 :root {
-    --bg: #050505;
-    --text: #FFFFFF;
+    --bg: #ffffff;
+    --text: #0a0a0a;
+    --text-muted: rgba(10, 10, 10, 0.55);
+    --text-subtle: rgba(10, 10, 10, 0.4);
     --blue: #0022FF;
-    --blue-glow: rgba(0, 34, 255, 0.4);
-    --blue-dim: rgba(0, 34, 255, 0.08);
-    --line: #333333;
-    --font-en: 'Unbounded', sans-serif;
-    --font-jp: 'Zen Kaku Gothic New', sans-serif;
+    --blue-glow: rgba(0, 34, 255, 0.18);
+    --blue-dim: rgba(0, 34, 255, 0.06);
+    --line: #e8e8e8;
+    --surface: #fafafa;
+    --surface-elevated: #f3f3f3;
+    --font-en: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-jp: 'Noto Sans JP', sans-serif;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
@@ -26,8 +30,11 @@ body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-en);
-    line-height: 1.4;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 a { text-decoration: none; color: inherit; cursor: pointer; }
 button { cursor: pointer; }
@@ -43,8 +50,8 @@ button { cursor: pointer; }
     justify-content: center;
     gap: 0;
     font-family: var(--font-en);
-    font-size: 1.2rem;
-    font-weight: 900;
+    font-size: 0.85rem;
+    font-weight: 600;
     letter-spacing: 0.2em;
     color: var(--text);
     transition: opacity 0.5s var(--ease-in-out);
@@ -52,10 +59,11 @@ button { cursor: pointer; }
 .wear-loader.is-hidden { opacity: 0; pointer-events: none; }
 
 .wear-loader-text {
-    color: var(--blue);
+    color: var(--text);
 }
 .wear-loader-dot {
-    color: var(--blue);
+    color: var(--text-subtle);
+}
     animation: loader-blink 1s linear infinite;
 }
 .wear-loader-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -105,7 +113,7 @@ button { cursor: pointer; }
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(5, 5, 5, 0.95);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -115,8 +123,8 @@ button { cursor: pointer; }
     align-items: center;
     gap: 8px;
     font-size: 0.75rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    color: var(--text-muted);
     letter-spacing: 0.1em;
     transition: color 0.2s;
     min-height: 44px;
@@ -137,15 +145,15 @@ button { cursor: pointer; }
 }
 .wear-header-title {
     font-family: var(--font-en);
-    font-size: 1rem;
-    font-weight: 900;
-    letter-spacing: 0.15em;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     line-height: 1;
 }
 .wear-header-by {
     font-size: 0.6rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-subtle);
     letter-spacing: 0.1em;
 }
 
@@ -157,9 +165,9 @@ button { cursor: pointer; }
 }
 .wear-social-link {
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--text-muted);
     transition: color 0.2s;
     min-height: 44px;
     display: inline-flex;
@@ -174,31 +182,22 @@ button { cursor: pointer; }
     position: relative;
     height: 36px;
     overflow: hidden;
-    background: #001a66;
-    border-bottom: 1px solid rgba(0, 34, 255, 0.3);
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
 }
 .wear-bar-bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, #001a66 0%, #0022aa 35%, #001a88 60%, #0022cc 100%);
-    background-size: 300% 300%;
-    animation: wear-bar-shift 10s ease-in-out infinite;
+    background: var(--bg);
+    background-size: auto;
+    animation: none;
 }
 @keyframes wear-bar-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 .wear-bar-scan {
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-        105deg,
-        transparent 0px, transparent 2px,
-        rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px
-    );
-    background-size: 200% 100%;
-    animation: wear-bar-stripe 14s linear infinite;
-    pointer-events: none;
+    display: none;
 }
 @keyframes wear-bar-stripe {
     0% { background-position: 0 0; }
@@ -215,10 +214,10 @@ button { cursor: pointer; }
 .wear-bar-text {
     display: inline-block;
     padding-right: 0;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--text-subtle);
     animation: wear-bar-scroll 24s linear infinite;
     will-change: transform;
 }
@@ -238,10 +237,11 @@ button { cursor: pointer; }
     padding: 80px 60px 100px;
     border-bottom: 1px solid var(--line);
     overflow: hidden;
+    background-color: var(--bg);
     background-image:
-        linear-gradient(#111 1px, transparent 1px),
-        linear-gradient(90deg, #111 1px, transparent 1px);
-    background-size: 40px 40px;
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 48px 48px;
     background-position: center top;
 }
 .wear-hero-inner {
@@ -253,19 +253,20 @@ button { cursor: pointer; }
 }
 .wear-hero-tag {
     display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 6px 16px;
-    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    border: 1px solid var(--line);
+    padding: 6px 14px;
+    border-radius: 2px;
     margin: 0 auto 28px;
 }
 .wear-hero-title {
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 900;
-    line-height: 0.9;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
     margin: 0 0 32px;
     display: flex;
     flex-direction: column;
@@ -280,9 +281,9 @@ button { cursor: pointer; }
 }
 .wear-hero-desc {
     font-family: var(--font-jp);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.55);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
     margin: 0;
     line-height: 1.6;
     letter-spacing: 0.08em;
@@ -299,21 +300,21 @@ button { cursor: pointer; }
     border-bottom: 1px solid var(--line);
 }
 .wear-collection-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 5px 16px;
-    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text);
+    border: 1px solid var(--line);
+    padding: 6px 14px;
+    border-radius: 2px;
     justify-self: start;
 }
 .wear-collection-count {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.1em;
-    font-family: monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--text-subtle);
+    letter-spacing: 0.08em;
+    font-family: var(--font-en);
     justify-self: end;
 }
 
@@ -338,7 +339,7 @@ button { cursor: pointer; }
     border-right: none;
 }
 .product-card:hover {
-    background: rgba(0, 34, 255, 0.02);
+    background: var(--surface);
 }
 
 /* プロダクト画像 */
@@ -346,7 +347,7 @@ button { cursor: pointer; }
     position: relative;
     overflow: hidden;
     aspect-ratio: 1 / 1;
-    background: #0d0d0d;
+    background: var(--surface-elevated);
     border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
@@ -371,11 +372,11 @@ button { cursor: pointer; }
     top: 16px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.65rem;
-    font-weight: 900;
-    letter-spacing: 0.1em;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     padding: 5px 12px;
-    background: var(--blue);
+    background: var(--text);
     color: #fff;
     z-index: 2;
 }
@@ -387,30 +388,30 @@ button { cursor: pointer; }
     text-align: center;
 }
 .product-name {
-    font-size: 1rem;
-    font-weight: 900;
+    font-size: 0.95rem;
+    font-weight: 600;
     margin: 0 0 8px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
     line-height: 1.2;
 }
 .product-meta {
     font-size: 0.7rem;
     font-weight: 400;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     margin: 0 0 16px;
-    font-family: monospace;
+    font-family: var(--font-en);
     letter-spacing: 0.08em;
 }
 .product-price {
-    font-size: 1.05rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 600;
     margin: 0;
     letter-spacing: 0.02em;
 }
 .product-tax {
     font-size: 0.65rem;
     font-weight: 400;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     margin-left: 4px;
     font-family: var(--font-jp);
 }
@@ -420,22 +421,22 @@ button { cursor: pointer; }
     display: block;
     text-align: center;
     padding: 16px 24px;
-    font-size: 0.8rem;
-    font-weight: 900;
-    letter-spacing: 0.15em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     border-top: 1px solid var(--line);
     color: var(--text);
     background: transparent;
     transition: background 0.25s, color 0.2s, border-color 0.2s, box-shadow 0.25s;
 }
 .product-buy:hover {
-    background: var(--blue);
-    border-color: var(--blue);
-    box-shadow: 0 0 20px var(--blue-glow);
+    background: var(--text);
+    border-color: var(--text);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     color: #fff;
 }
 .product-buy:focus-visible {
-    outline: 2px solid var(--blue);
+    outline: 2px solid var(--text);
     outline-offset: 2px;
 }
 
@@ -445,8 +446,9 @@ button { cursor: pointer; }
 .wear-statement {
     padding: 80px 60px;
     border-bottom: 1px solid var(--line);
-    background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 48px 48px;
     background-position: center top;
 }
 .wear-statement-inner {
@@ -455,22 +457,22 @@ button { cursor: pointer; }
     text-align: center;
 }
 .wear-statement-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--blue);
-    border: 1px solid var(--blue);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    border: 1px solid var(--line);
     display: inline-block;
-    padding: 5px 16px;
-    border-radius: 100px;
+    padding: 6px 14px;
+    border-radius: 2px;
     margin: 0 auto 28px;
 }
 .wear-statement-jp {
     font-family: var(--font-jp);
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 500;
     line-height: 1.85;
-    color: rgba(255,255,255,0.75);
+    color: var(--text-muted);
     margin: 0;
 }
 
@@ -501,11 +503,12 @@ button { cursor: pointer; }
     width: 48px;
     height: 48px;
     object-fit: contain;
-    opacity: 0.8;
+    opacity: 0.9;
+    filter: brightness(0);
 }
 .wear-footer-brand-name {
-    font-size: 1.1rem;
-    font-weight: 900;
+    font-size: 1rem;
+    font-weight: 600;
     letter-spacing: 0.1em;
 }
 .wear-footer-socials {
@@ -515,9 +518,9 @@ button { cursor: pointer; }
 }
 .wear-footer-socials a {
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.4);
+    color: var(--text-muted);
     transition: color 0.2s;
     min-height: 44px;
     display: inline-flex;
@@ -538,24 +541,24 @@ button { cursor: pointer; }
 .wear-policy-link {
     background: none;
     border: none;
-    color: rgba(255,255,255,0.35);
+    color: var(--text-muted);
     padding: 2px 0;
     font-family: inherit;
     font-size: inherit;
     font-weight: 400;
     transition: color 0.2s;
 }
-.wear-policy-link:hover { color: rgba(255,255,255,0.7); }
+.wear-policy-link:hover { color: var(--text); }
 .wear-policy-sep {
-    color: #333;
+    color: var(--line);
     font-size: 0.65rem;
     pointer-events: none;
 }
 .wear-footer-copy {
     font-size: 0.65rem;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 0.08em;
-    font-family: monospace;
+    color: var(--text-subtle);
+    letter-spacing: 0.06em;
+    font-family: var(--font-en);
     text-align: center;
 }
 
@@ -582,7 +585,7 @@ button { cursor: pointer; }
 .wear-popup-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.88);
+    background: rgba(0,0,0,0.45);
     cursor: pointer;
 }
 .wear-popup-box {
@@ -594,7 +597,7 @@ button { cursor: pointer; }
     flex-direction: column;
     background: var(--bg);
     border: 1px solid var(--line);
-    box-shadow: 0 0 40px rgba(0,34,255,0.2);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.12);
     overflow: hidden;
 }
 .wear-popup-close {
@@ -612,16 +615,17 @@ button { cursor: pointer; }
     transition: background 0.2s, border-color 0.2s;
 }
 .wear-popup-close:hover {
-    background: var(--blue);
-    border-color: var(--blue);
+    background: var(--text);
+    border-color: var(--text);
+    color: #fff;
 }
 .wear-popup-title {
     flex-shrink: 0;
     margin: 0;
     padding: 24px 48px 16px 24px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--blue);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
     border-bottom: 1px solid var(--line);
     font-family: var(--font-jp);
 }
@@ -632,7 +636,7 @@ button { cursor: pointer; }
     font-family: var(--font-jp);
     font-size: 0.9rem;
     line-height: 1.75;
-    color: rgba(255,255,255,0.9);
+    color: var(--text);
 }
 .wear-popup-body .policy-heading { display: none; }
 .wear-popup-body h3 {
@@ -644,20 +648,20 @@ button { cursor: pointer; }
 .wear-popup-body h3:first-child { margin-top: 0; }
 .wear-popup-body p { margin: 0 0 0.8em; }
 .wear-popup-body .policy-updated {
-    color: rgba(255,255,255,0.6);
+    color: var(--text-muted);
     font-size: 0.85rem;
     margin-bottom: 1em;
 }
 .wear-popup-body .policy-dl { margin: 1em 0; }
 .wear-popup-body .policy-dl dt {
-    font-weight: 700;
+    font-weight: 600;
     margin-top: 0.8em;
-    color: var(--blue);
+    color: var(--text);
     font-size: 0.85rem;
 }
 .wear-popup-body .policy-dl dt:first-child { margin-top: 0; }
 .wear-popup-body .policy-dl dd { margin: 0.25em 0 0; padding-left: 0.5em; }
-.wear-popup-body .policy-note { font-size: 0.8rem; color: #555; margin-top: 1.2em; }
+.wear-popup-body .policy-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 1.2em; }
 
 /* ============================================================
    RESPONSIVE: Tablet
