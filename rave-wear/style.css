@@ -176,60 +176,6 @@ button { cursor: pointer; }
 .wear-social-link:hover { color: var(--text); }
 
 /* ============================================================
-   MARQUEE BAR (blue animated strip)
-   ============================================================ */
-.wear-bar {
-    position: relative;
-    height: 36px;
-    overflow: hidden;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
-}
-.wear-bar-bg {
-    position: absolute;
-    inset: 0;
-    background: var(--bg);
-    background-size: auto;
-    animation: none;
-}
-@keyframes wear-bar-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-.wear-bar-scan {
-    display: none;
-}
-@keyframes wear-bar-stripe {
-    0% { background-position: 0 0; }
-    100% { background-position: 120px 0; }
-}
-.wear-bar-marquee {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.wear-bar-text {
-    display: inline-block;
-    padding-right: 0;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    color: var(--text-subtle);
-    animation: wear-bar-scroll 24s linear infinite;
-    will-change: transform;
-}
-.wear-bar-text:nth-child(2) {
-    animation-delay: -12s;
-}
-@keyframes wear-bar-scroll {
-    0% { transform: translateX(100vw); }
-    100% { transform: translateX(-100%); }
-}
-
-/* ============================================================
    HERO
    ============================================================ */
 .wear-hero {
@@ -441,42 +387,6 @@ button { cursor: pointer; }
 }
 
 /* ============================================================
-   BRAND STATEMENT
-   ============================================================ */
-.wear-statement {
-    padding: 80px 60px;
-    border-bottom: 1px solid var(--line);
-    background-color: var(--bg);
-    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 48px 48px;
-    background-position: center top;
-}
-.wear-statement-inner {
-    max-width: 560px;
-    margin: 0 auto;
-    text-align: center;
-}
-.wear-statement-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--text);
-    border: 1px solid var(--line);
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 2px;
-    margin: 0 auto 28px;
-}
-.wear-statement-jp {
-    font-family: var(--font-jp);
-    font-size: 0.95rem;
-    font-weight: 500;
-    line-height: 1.85;
-    color: var(--text-muted);
-    margin: 0;
-}
-
-/* ============================================================
    FOOTER
    ============================================================ */
 .wear-footer {
@@ -669,7 +579,6 @@ button { cursor: pointer; }
 @media (max-width: 1024px) {
     .wear-hero { padding: 60px 40px 80px; }
     .wear-collection-bar { padding: 16px 40px; }
-    .wear-statement { padding: 60px 40px; }
     .wear-footer-inner { padding: 40px 40px 32px; }
 }
 
@@ -718,9 +627,6 @@ button { cursor: pointer; }
     .product-name { font-size: 0.85rem; }
     .product-price { font-size: 0.9rem; }
 
-    .wear-statement { padding: 48px 20px; }
-    .wear-statement-jp { font-size: 0.95rem; }
-
     .wear-footer-inner { padding: 32px 20px 28px; }
     .wear-footer-top {
         grid-template-columns: 1fr;
@@ -764,6 +670,5 @@ button { cursor: pointer; }
     .product-img-wrap { aspect-ratio: 1 / 1; }
     .product-info { padding: 16px 20px 10px; }
 
-    .wear-statement { padding: 40px 16px; }
     .wear-footer-inner { padding: 28px 16px 24px; }
 }

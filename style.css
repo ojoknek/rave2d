@@ -1,16 +1,12 @@
 /* --- RESET & VARS --- */
 :root {
-    --bg: #ffffff;
-    --text: #0a0a0a;
-    --text-muted: rgba(10, 10, 10, 0.55);
-    --text-subtle: rgba(10, 10, 10, 0.4);
-    --blue: #0022FF;
-    --blue-glow: rgba(0, 34, 255, 0.18);
-    --line: #e8e8e8;
-    --surface: #fafafa;
-    --surface-elevated: #f3f3f3;
-    --font-en: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-jp: 'Noto Sans JP', sans-serif;
+    --bg: #050505;
+    --text: #FFFFFF;
+    --blue: #0022FF; /* RAVE BLUE */
+    --blue-glow: rgba(0, 34, 255, 0.4);
+    --line: #333333;
+    --font-en: 'Unbounded', sans-serif;
+    --font-jp: 'Zen Kaku Gothic New', sans-serif;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
     --reveal-duration: 0.8s;
@@ -28,11 +24,8 @@ body {
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-en);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.5;
+    line-height: 1.4;
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
 }
 
 a { text-decoration: none; color: inherit; cursor: pointer; }
@@ -109,13 +102,13 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     padding: 0;
     border: none;
     background: transparent;
-    color: var(--text);
+    color: #fff;
     cursor: pointer;
     flex-shrink: 0;
     transition: background 0.2s;
 }
 .hamburger-btn:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.08);
 }
 .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
@@ -164,10 +157,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 .marquee-nav-link {
     font-family: var(--font-en);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
     text-decoration: none;
     padding: 8px 14px;
     border: none;
@@ -192,11 +184,11 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     transition-delay: 0s;
 }
 .marquee-nav-link:hover {
-    background: rgba(0, 0, 0, 0.06);
-    color: var(--text);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
 }
 .marquee-nav-link.is-active {
-    background: var(--text);
+    background: var(--blue);
     color: #fff;
 }
 
@@ -218,15 +210,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     height: auto;
     display: block;
     object-fit: contain;
-    filter: brightness(0);
 }
 
 .sub-text {
     font-family: var(--font-jp);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
     margin-top: 10px;
 }
 
@@ -235,7 +224,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     border-bottom: 1px solid var(--line);
-    background: var(--bg);
+    background: #001a66;
     overflow: hidden;
     padding: 0;
     user-select: none;
@@ -255,29 +244,65 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
 }
 
-/* マーキー帯：ライトテーマでは装飾を抑えたフラット背景 */
+/* 青系グラデーションのゆっくりした色変化 */
 .marquee-glitch .glitch-bg {
     position: absolute;
     inset: 0;
-    background: var(--bg);
-    background-size: auto;
-    animation: none;
+    background: linear-gradient(
+        120deg,
+        #001a66 0%,
+        #0022aa 25%,
+        #001a88 50%,
+        #0022cc 75%,
+        #001a66 100%
+    );
+    background-size: 400% 400%;
+    animation: marquee-color-shift 12s ease-in-out infinite;
 }
 @keyframes marquee-color-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
+/* 斜めストライプ（ゆっくり流れ） */
 .marquee-glitch .glitch-bg::after {
-    display: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        105deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255, 255, 255, 0.04) 2px,
+        rgba(255, 255, 255, 0.04) 4px
+    );
+    background-size: 200% 100%;
+    animation: glitch-stripe 16s linear infinite;
+    pointer-events: none;
 }
 @keyframes glitch-stripe {
     0% { background-position: 0 0; }
     100% { background-position: 100px 0; }
 }
 
+/* 横スライス：ゆっくりした透明度の変化のみ（点滅なし） */
 .marquee-glitch .glitch-slice {
-    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(0);
+    mix-blend-mode: overlay;
+    animation-timing-function: ease-in-out;
+}
+.marquee-glitch .glitch-slice--1 {
+    top: 20%;
+    animation: slice-breathe-1 6s ease-in-out infinite;
+}
+.marquee-glitch .glitch-slice--2 {
+    top: 60%;
+    animation: slice-breathe-2 7s ease-in-out infinite;
 }
 @keyframes slice-breathe-1 {
     0%, 100% { opacity: 0.4; }
@@ -288,16 +313,49 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     50% { opacity: 0.85; }
 }
 
+/* 走査線：点滅をやめ、ゆっくりした明るさの波に */
 .marquee-glitch .glitch-scan {
-    display: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 40, 120, 0.2) 30%,
+        transparent 50%,
+        rgba(0, 60, 160, 0.15) 70%,
+        transparent 100%
+    );
+    background-size: 100% 200%;
+    animation: glitch-scan-slow 8s ease-in-out infinite;
+    pointer-events: none;
 }
 @keyframes glitch-scan-slow {
     0%, 100% { opacity: 0.6; background-position: 0 0%; }
     50% { opacity: 1; background-position: 0 100%; }
 }
 
+/* 青系のゆっくりしたブレス（点滅なし・CSSのみ） */
 .marquee-glitch .glitch-burst {
-    display: none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.marquee-glitch .glitch-burst-layer {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: screen;
+    animation-timing-function: ease-in-out;
+}
+.marquee-glitch .glitch-burst--blue-dark {
+    background: rgba(0, 30, 120, 0.25);
+    opacity: 0;
+    animation: burst-breathe-dark 10s ease-in-out infinite;
+}
+.marquee-glitch .glitch-burst--blue-light {
+    background: rgba(80, 140, 255, 0.12);
+    opacity: 0;
+    animation: burst-breathe-light 10s ease-in-out infinite 1.5s;
 }
 @keyframes burst-breathe-dark {
     0%, 100% { opacity: 0; }
@@ -335,9 +393,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: flex;
     align-items: center;
     position: relative;
-    background-color: var(--bg);
-    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 48px 48px;
+    background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+    background-size: 40px 40px;
     overflow: hidden;
 }
 
@@ -347,12 +404,10 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 
 .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4.75rem);
-    line-height: 1.02;
+    font-size: 5rem;
+    line-height: 0.9;
     margin: 0 0 30px 0;
     text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: -0.03em;
 }
 
 .blue-txt {
@@ -373,34 +428,33 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     opacity: 0.9;
 }
 .hero-news-link:hover .hero-news-label {
-    background: var(--text);
+    background: var(--blue);
     color: #fff;
-    border-color: var(--text);
 }
 .hero-news-link:hover .hero-news-text {
-    color: var(--text);
+    color: #fff;
 }
 .hero-news-link:focus-visible {
-    outline: 2px solid var(--text);
+    outline: 2px solid var(--blue);
     outline-offset: 4px;
 }
 .hero-news-label {
     display: inline-block;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--text);
-    border: 1px solid var(--line);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--blue);
+    border: 1px solid var(--blue);
     padding: 6px 12px;
-    border-radius: 2px;
+    border-radius: 4px;
     margin-bottom: 12px;
 }
 .hero-news-text {
     font-family: var(--font-jp);
-    font-weight: 500;
-    font-size: 0.95rem;
+    font-weight: 700;
+    font-size: 1rem;
     margin: 0;
-    color: var(--text);
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /* Block Studio風 装飾テキスト（背景） */
@@ -413,11 +467,11 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     flex-wrap: wrap;
     gap: 0.5em 1.5em;
     padding: 0 0 20px 0;
-    font-size: clamp(0.65rem, 1.4vw, 0.9rem);
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.04);
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.04);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     pointer-events: none;
     z-index: 0;
 }
@@ -446,18 +500,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     box-sizing: border-box;
     border: 1px solid var(--text);
     margin-right: 15px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.06em;
+    font-weight: 700;
     transition: transform 0.25s var(--ease-out-expo), background 0.25s, border-color 0.25s, box-shadow 0.25s;
 }
 .btn:hover,
 .btn:focus-visible {
-    background: var(--text);
-    border-color: var(--text);
-    color: #fff;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    transform: translateY(-1px);
+    background: var(--blue);
+    border-color: var(--blue);
+    box-shadow: 0 0 20px var(--blue-glow);
+    transform: translateY(-2px);
 }
 .btn:active {
     transform: translateY(0);
@@ -475,7 +526,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 [data-hover].btn:hover::before {
     opacity: 1;
-    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 0 30px rgba(0, 34, 255, 0.2);
 }
 .btn {
     position: relative;
@@ -487,10 +538,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     grid-row: 3 / 5;
     border-right: 1px solid var(--line);
     padding: 30px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--text-muted);
+    font-size: 0.8rem;
+    color: #888;
 }
 .info-bar ul { list-style: none; padding: 0; }
 .info-bar li { margin-bottom: 15px; }
@@ -518,15 +567,13 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: none;
 }
 .latest-video-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--text);
-    border: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--blue);
+    border: 1px solid var(--blue);
     display: inline-block;
     width: fit-content;
-    padding: 6px 14px;
-    border-radius: 2px;
+    padding: 5px 15px;
+    border-radius: 20px;
     margin-bottom: 16px;
 }
 /* mix-catalog 同様のサムネイル表示・全体が見える（contain）・クリックで YouTube へ */
@@ -534,21 +581,21 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: block;
     max-width: 720px;
     border: 1px solid var(--line);
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
-    background: var(--surface);
-    box-shadow: none;
+    background: #0a0a0a;
+    box-shadow: 0 0 0 1px rgba(0, 34, 255, 0.08);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 .latest-video-link:hover {
-    border-color: var(--text);
-    box-shadow: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 1px rgba(0, 34, 255, 0.2);
 }
 .latest-video-img {
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
-    background-color: var(--surface-elevated);
+    background-color: #0a0a0a;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -604,12 +651,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* タブボタンのアクティブ状態 */
 .btn-group .tab-btn.is-active {
-    background: var(--text);
+    background: var(--blue);
     color: #fff;
-    border-color: var(--text);
+    border-color: var(--blue);
 }
 
-/* --- ABOUT パネル（リンクのみ） --- */
+/* --- ABOUT パネル（コンセプト＋YouTube） --- */
 .about-panel {
     padding: 0 0 40px;
 }
@@ -619,10 +666,38 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     align-items: stretch;
     gap: 0;
 }
+.about-story {
+    min-width: 0;
+    max-width: 56ch;
+}
+.about-lead {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--blue);
+    margin: 0 0 1.2em;
+    font-weight: 700;
+}
+.about-story p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin: 0 0 1em;
+    color: rgba(255, 255, 255, 0.9);
+}
+.about-story p:last-child {
+    margin-bottom: 0;
+}
+.about-story .about-en {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 0.25em;
+    margin-bottom: 1.2em;
+}
+.about-story .about-en:last-child {
+    margin-bottom: 0;
+}
 .about-actions {
     width: 100%;
-    max-width: 360px;
-    margin-top: 0;
+    margin-top: 2.5em;
     margin-bottom: 0;
 }
 .about-youtube-btn {
@@ -632,43 +707,41 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     width: 100%;
     box-sizing: border-box;
     padding: 16px 24px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
     border: 1px solid var(--line);
-    background: var(--bg);
-    color: var(--text);
+    background: transparent;
+    color: #FF0000; /* YouTube Red */
     text-decoration: none;
     transition: background 0.3s, color 0.2s, border-color 0.3s;
 }
 .about-youtube-btn:hover {
-    background: var(--text);
+    background: var(--blue);
     color: #fff;
-    border-color: var(--text);
+    border-color: var(--blue);
 }
 .about-youtube-btn:focus-visible {
-    outline: 2px solid var(--text);
+    outline: 2px solid var(--blue);
     outline-offset: 2px;
 }
 
 .section-label {
     grid-column: 1 / -1;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: var(--text);
-    border: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--blue);
+    border: 1px solid var(--blue);
     display: inline-block;
     width: fit-content;
-    padding: 6px 14px;
-    border-radius: 2px;
+    padding: 5px 15px;
+    border-radius: 20px;
     margin-bottom: 20px;
 }
 
 .card {
     border: 1px solid var(--line);
-    background: var(--bg);
-    transition: transform 0.35s var(--ease-out-expo), border-color 0.3s, box-shadow 0.3s;
+    background: #0a0a0a;
+    transition: transform 0.4s var(--ease-out-expo), border-color 0.3s, box-shadow 0.3s;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -679,15 +752,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.02) 100%);
+    background: linear-gradient(180deg, transparent 40%, rgba(0, 34, 255, 0.03) 100%);
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
 }
 .card:hover {
-    border-color: var(--text);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.06);
+    border-color: var(--blue);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 34, 255, 0.15);
 }
 .card:hover::before {
     opacity: 1;
@@ -698,7 +771,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     flex-shrink: 0;
     aspect-ratio: 1/1;
     min-height: 0;
-    background: var(--surface-elevated) center/cover no-repeat;
+    background: #222 center/cover no-repeat;
     transition: transform 0.5s var(--ease-out-expo);
     cursor: pointer;
 }
@@ -706,7 +779,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     transform: scale(1.05);
 }
 .card-img[style*="background-image"] {
-    background-color: var(--surface);
+    background-color: #111;
 }
 
 /* EVENTS ゾーンのサムネイルは上揃え */
@@ -727,7 +800,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     pointer-events: none;
 }
 .card-tag-upcoming {
-    background: var(--text);
+    background: var(--blue);
     color: #fff;
     text-transform: uppercase;
 }
@@ -758,11 +831,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 .card-info p {
     font-size: 0.7rem;
-    color: var(--text-muted);
+    color: #888;
     margin: 0;
-    font-family: var(--font-en);
-    font-weight: 400;
-    letter-spacing: 0.02em;
+    font-family: monospace;
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -773,20 +844,18 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     flex-shrink: 0;
     display: block;
     text-align: center;
-    background: var(--surface-elevated);
+    background: var(--line);
     padding: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: bold;
     transition: background 0.3s, color 0.2s, transform 0.2s;
 }
 .card:hover .card-link {
-    background: var(--text);
+    background: var(--blue);
     color: #fff;
 }
 .card-link:focus-visible {
-    outline: 2px solid var(--text);
+    outline: 2px solid var(--blue);
     outline-offset: 2px;
 }
 
@@ -808,20 +877,19 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 .footer-links a {
     margin: 0 15px;
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-size: 1.5rem;
+    font-weight: 900;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
     transition: color 0.25s, transform 0.2s;
 }
 .footer-links a:hover {
-    color: var(--text-subtle);
-    transform: translateY(-1px);
+    color: var(--blue);
+    transform: translateY(-2px);
 }
 
-.copy { margin-top: 30px; font-size: 0.7rem; color: var(--text-subtle); }
+.copy { margin-top: 30px; font-size: 0.7rem; color: #555; }
 
 /* --- フッター ポリシーリンク（RAVE WEAR） --- */
 .footer-policy-links {
@@ -838,7 +906,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .footer-policy-link {
     background: none;
     border: none;
-    color: var(--text-muted);
+    color: #666;
     cursor: pointer;
     padding: 2px 0;
     font-family: inherit;
@@ -848,10 +916,10 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     transition: color 0.2s;
 }
 .footer-policy-link:hover {
-    color: var(--text);
+    color: rgba(255, 255, 255, 0.7);
 }
 .footer-policy-sep {
-    color: var(--line);
+    color: #444;
     font-size: 0.65rem;
     pointer-events: none;
 }
@@ -877,7 +945,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .policy-popup-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.88);
     cursor: pointer;
 }
 .policy-popup-box {
@@ -889,7 +957,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     flex-direction: column;
     background: var(--bg);
     border: 1px solid var(--line);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0 40px rgba(0, 34, 255, 0.2);
     overflow: hidden;
 }
 .policy-popup-close {
@@ -908,17 +976,16 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     transition: background 0.2s, border-color 0.2s;
 }
 .policy-popup-close:hover {
-    background: var(--text);
-    border-color: var(--text);
-    color: #fff;
+    background: var(--blue);
+    border-color: var(--blue);
 }
 .policy-popup-title {
     flex-shrink: 0;
     margin: 0;
     padding: 24px 48px 16px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--blue);
     border-bottom: 1px solid var(--line);
     font-family: var(--font-jp);
 }
@@ -929,7 +996,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     font-family: var(--font-jp);
     font-size: 0.9rem;
     line-height: 1.75;
-    color: var(--text);
+    color: rgba(255, 255, 255, 0.9);
 }
 .policy-popup-body .policy-heading {
     display: none;
@@ -947,7 +1014,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin: 0 0 0.8em;
 }
 .policy-popup-body .policy-updated {
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.75);
     font-size: 0.85rem;
     margin-bottom: 1em;
 }
@@ -955,9 +1022,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin: 1em 0;
 }
 .policy-popup-body .policy-dl dt {
-    font-weight: 600;
+    font-weight: 700;
     margin-top: 0.8em;
-    color: var(--text);
+    color: var(--blue);
     font-size: 0.85rem;
 }
 .policy-popup-body .policy-dl dt:first-child {
@@ -969,7 +1036,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 .policy-popup-body .policy-note {
     font-size: 0.8rem;
-    color: var(--text-muted);
+    color: #666;
     margin-top: 1.2em;
 }
 
@@ -994,7 +1061,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .popup-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.85);
     cursor: pointer;
 }
 .popup-content {
@@ -1021,9 +1088,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     transition: background 0.2s, border-color 0.2s;
 }
 .popup-close:hover {
-    background: var(--text);
-    border-color: var(--text);
-    color: #fff;
+    background: var(--blue);
+    border-color: var(--blue);
 }
 .popup-img {
     max-width: 100%;
@@ -1032,7 +1098,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     height: auto;
     display: block;
     border: 1px solid var(--line);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 30px rgba(0, 34, 255, 0.3);
 }
 .popup-content .popup-link {
     flex-shrink: 0;
@@ -1223,10 +1289,10 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     justify-content: center;
     gap: 2px;
     z-index: 9999;
-    font-size: 0.85rem;
-    color: var(--text);
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-size: 1.25rem;
+    color: var(--blue);
+    font-weight: bold;
+    letter-spacing: 0.15em;
     transition: opacity 0.6s var(--ease-out-expo);
     pointer-events: none;
 }
@@ -1296,9 +1362,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .event-anno {
     position: absolute;
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: #aaa;
     font-family: var(--font-jp);
-    font-weight: 500;
+    font-weight: 700;
     z-index: 1;
     will-change: transform;
 }
@@ -1306,7 +1372,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: block;
     font-size: 0.65rem;
     text-transform: lowercase;
-    color: var(--text-subtle);
+    color: var(--blue);
     letter-spacing: 0.1em;
     margin-bottom: 4px;
 }
@@ -1351,7 +1417,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 .event-note {
     font-size: 0.8rem;
-    color: var(--text-muted);
+    color: #888;
     font-family: var(--font-jp);
     line-height: 1.6;
     margin: 0 0 32px 0;
@@ -1407,18 +1473,18 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin: 0 0 24px 0;
 }
 .event-ticket-links .btn--secondary {
-    border-color: var(--line);
-    color: var(--text-muted);
+    border-color: #666;
+    color: #999;
 }
 .event-ticket-links .btn--secondary:hover {
-    border-color: var(--text);
-    color: var(--text);
+    border-color: var(--blue);
+    color: var(--blue);
 }
 
 .event-lineup-title {
-    font-size: 0.85rem;
-    color: var(--text-subtle);
-    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--blue);
+    font-weight: 700;
     letter-spacing: 0.05em;
     margin: 0 0 12px 0;
 }
@@ -1437,12 +1503,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     transition: color 0.2s, transform 0.2s;
 }
 .event-lineup-list a:hover {
-    color: var(--text-subtle);
+    color: var(--blue);
 }
 
 .event-tagline {
     font-size: 0.8rem;
-    color: var(--text-muted);
+    color: #666;
     font-family: var(--font-jp);
     line-height: 1.5;
     margin: 0;
