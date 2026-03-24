@@ -12,9 +12,9 @@
     --blue: #0022FF;
     --blue-glow: rgba(0, 34, 255, 0.18);
     --blue-dim: rgba(0, 34, 255, 0.06);
-    --line: #e8e8e8;
-    --surface: #fafafa;
-    --surface-elevated: #f3f3f3;
+    --line: #ebebeb;
+    --surface: #ffffff;
+    --surface-elevated: #ffffff;
     --font-en: 'Inter', system-ui, -apple-system, sans-serif;
     --font-jp: 'Noto Sans JP', sans-serif;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -95,8 +95,6 @@ button { cursor: pointer; }
     flex-direction: column;
     max-width: 1600px;
     margin: 0 auto;
-    border-left: 1px solid var(--line);
-    border-right: 1px solid var(--line);
 }
 
 /* ============================================================
@@ -241,24 +239,22 @@ button { cursor: pointer; }
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 20px 60px;
-    border-bottom: 1px solid var(--line);
+    padding: 28px 60px 20px;
+    border-bottom: none;
 }
 .wear-collection-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
     color: var(--text);
-    border: 1px solid var(--line);
-    padding: 6px 14px;
-    border-radius: 2px;
     justify-self: start;
 }
 .wear-collection-count {
     font-size: 0.65rem;
-    font-weight: 500;
-    color: var(--text-subtle);
-    letter-spacing: 0.08em;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.14em;
     font-family: var(--font-en);
     justify-self: end;
 }
@@ -269,23 +265,17 @@ button { cursor: pointer; }
 .wear-products {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-bottom: 1px solid var(--line);
+    gap: clamp(32px, 5vw, 56px) clamp(24px, 4vw, 40px);
+    padding: 8px 60px clamp(64px, 10vw, 100px);
+    background: var(--bg);
+    border-bottom: none;
 }
 
 /* 各プロダクトカード */
 .product-card {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--line);
-    transition: background 0.3s;
     position: relative;
-}
-.product-card:last-child {
-    border-right: none;
-}
-.product-card:hover,
-.product-card:has(.product-card-link:focus-visible) {
-    background: var(--surface);
 }
 
 /* プロダクト画像 */
@@ -293,12 +283,12 @@ button { cursor: pointer; }
     position: relative;
     overflow: hidden;
     aspect-ratio: 1 / 1;
-    background: var(--surface-elevated);
-    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding: clamp(8px, 2vw, 20px);
 }
 .product-img {
     width: 100%;
@@ -310,7 +300,7 @@ button { cursor: pointer; }
 }
 .product-card:hover .product-img,
 .product-card-link:hover .product-img {
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
 /* NEWバッジ */
@@ -345,30 +335,32 @@ button { cursor: pointer; }
 
 /* 商品情報 */
 .product-info {
-    padding: 20px 24px 20px;
+    padding: 20px 8px 0;
     flex: 1;
-    text-align: center;
+    text-align: left;
 }
 .product-name {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0 0 8px;
-    letter-spacing: 0.03em;
-    line-height: 1.2;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 0 0 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.35;
 }
 .product-meta {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 400;
     color: var(--text-muted);
-    margin: 0 0 16px;
+    margin: 0 0 14px;
     font-family: var(--font-en);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 .product-price {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     margin: 0;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.06em;
 }
 .product-tax {
     font-size: 0.65rem;
@@ -570,7 +562,8 @@ button { cursor: pointer; }
    ============================================================ */
 @media (max-width: 1024px) {
     .wear-hero { padding: 60px 40px 80px; }
-    .wear-collection-bar { padding: 16px 40px; }
+    .wear-collection-bar { padding: 24px 40px 16px; }
+    .wear-products { padding-left: 40px; padding-right: 40px; }
     .wear-footer-inner { padding: 40px 40px 32px; }
 }
 
@@ -578,10 +571,6 @@ button { cursor: pointer; }
    RESPONSIVE: Mobile
    ============================================================ */
 @media (max-width: 768px) {
-    .wear-wrap {
-        border-left: none;
-        border-right: none;
-    }
     .wear-header {
         padding: 0 16px;
         height: 56px;
@@ -600,22 +589,15 @@ button { cursor: pointer; }
         -webkit-text-stroke: 2px var(--blue);
     }
 
-    .wear-collection-bar { padding: 14px 20px; }
+    .wear-collection-bar { padding: 20px 20px 14px; }
 
     /* モバイルは2カラム */
     .wear-products {
         grid-template-columns: repeat(2, 1fr);
+        gap: 28px 20px;
+        padding: 4px 20px 56px;
     }
-    .product-card:nth-child(even) {
-        border-right: none;
-    }
-    .product-card:nth-child(odd):not(:nth-last-child(-n+2)) {
-        border-bottom: 1px solid var(--line);
-    }
-    .product-card:nth-child(even):not(:last-child) {
-        border-bottom: 1px solid var(--line);
-    }
-    .product-info { padding: 14px 16px 16px; }
+    .product-info { padding: 16px 4px 0; }
     .product-name { font-size: 0.85rem; }
     .product-price { font-size: 0.9rem; }
 
@@ -645,22 +627,17 @@ button { cursor: pointer; }
     .wear-hero-title { font-size: clamp(2rem, 11vw, 2.8rem); }
     .wear-hero-desc { font-size: 0.9rem; }
 
-    .wear-collection-bar { padding: 12px 16px; }
-    .wear-collection-label { font-size: 0.7rem; }
+    .wear-collection-bar { padding: 18px 16px 12px; }
+    .wear-collection-label { font-size: 0.65rem; }
 
     /* 極小画面は1カラム */
     .wear-products {
         grid-template-columns: 1fr;
-    }
-    .product-card {
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-    }
-    .product-card:last-child {
-        border-bottom: none;
+        gap: 40px;
+        padding: 4px 16px 48px;
     }
     .product-img-wrap { aspect-ratio: 1 / 1; }
-    .product-info { padding: 16px 20px 18px; }
+    .product-info { padding: 18px 0 0; }
 
     .wear-footer-inner { padding: 28px 16px 24px; }
 }
