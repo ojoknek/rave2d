@@ -12,23 +12,37 @@
 - **HTML5** … セマンティックなマークアップ、`viewport-fit=cover` によるノッチ対応
 - **CSS3** … カスタムプロパティ、Grid、アニメーション、レスポンシブ（スマホ・タブレット・デスクトップ）、safe-area
 - **JavaScript** … ローダー制御、YouTube サムネイル取得・ポップアップ、イベントページのカーソル連動アノテーション
-- **フォント**: [Unbounded](https://fonts.google.com/specimen/Unbounded), [Zen Kaku Gothic New](https://fonts.google.com/specimen/Zen+Kaku+Gothic+New)（Google Fonts）
+- **フォント（トップ・イベント）**: [Unbounded](https://fonts.google.com/specimen/Unbounded), [Zen Kaku Gothic New](https://fonts.google.com/specimen/Zen+Kaku+Gothic+New)（Google Fonts）
+- **RAVE WEAR 専用ページ**（`rave-wear/`）: Inter / Noto Sans JP、スタイルはルートの `style.css` とは別の `rave-wear/style.css`
 
 ## ファイル構成
 
 ```
 rave2d/
-├── index.html        # トップページ（カタログ・EC・イベント一覧）
-├── style.css         # 共通スタイル（グリッド・レスポンシブ・イベントページ含む）
-├── image/            # ロゴ・イベント画像
+├── index.html              # トップページ（カタログ・EC 導線・イベント一覧）
+├── style.css               # トップ・イベント詳細の共通スタイル
+├── CNAME                   # GitHub Pages 用（任意）
+├── README.md               # 本ファイル
+├── image/                  # ロゴ・イベントビジュアル・商品画像・ファビコン
+│   ├── RAVE2D-fabicon.svg
 │   ├── RAVE2D-WHITE.png
+│   ├── RAVE2D-WORD.png
 │   ├── RAVE2D-HIGHWAY1.png
-│   └── …
-├── events/
-│   └── highway/
-│       └── index.html  # イベント詳細ページ（RAVE 2D: Highway）
-├── CNAME             # GitHub Pages 用（任意）
-└── README.md         # 本ファイル
+│   ├── RAVE2D-MIRAI.png
+│   ├── RAVE2D-OSAKA.png
+│   ├── RAVE2D-OSAKA-Flyer.png
+│   ├── RAVE2D-ASAGAYA.png
+│   ├── TEE-LOGO.png
+│   ├── TEE-MIXTAPE.png
+│   └── TEE-SMOKY.png
+├── rave-wear/
+│   ├── index.html          # RAVE WEAR ランディング（EC 導線）
+│   └── style.css           # RAVE WEAR 専用スタイル
+└── events/                 # イベント詳細（各フォルダに index.html）
+    ├── mirai/
+    ├── highway/
+    ├── osaka/
+    └── asagaya/
 ```
 
 ---
@@ -47,7 +61,7 @@ rave2d/
 | **CATALOG / CARD / POPUP** | カタログカード、サムネイルポップアップ |
 | **RESPONSIVE** | 1024px / 768px / 480px のメディアクエリ |
 | **LOADER** | 初回表示ローダー（Block Studio 風） |
-| **EVENT PAGE** | `.page-event` 用（events/highway/index.html）のグリッド・コンポーネント・レスポンシブ |
+| **EVENT PAGE** | `body.page-event` 用（`events/*/index.html`）のグリッド・コンポーネント・レスポンシブ |
 
 ### グリッドレイアウト
 
@@ -55,7 +69,7 @@ rave2d/
 - **デスクトップ（index.html）**
   - 列1: `.header`（1〜2行）、`.info-bar`（3〜5行）
   - 列2: `.marquee-section`（1行）、`.hero`（2行）、`.main-content`（3行）、`.footer`（4行）
-- **デスクトップ（events/highway/index.html / `body.page-event`）**
+- **デスクトップ（events/*/index.html / `body.page-event`）**
   - 列1: `.header`、`.info-bar`
   - 列2: `.marquee-section`、`.event-main`（2〜4行）、`.event-footer`（4行）
 - **1024px 以下（タブレット）**: 列幅を `200px 1fr` に変更。ヒーロー・カタログ・イベントメインのパディング・フォントを調整。
@@ -68,6 +82,7 @@ rave2d/
 | ページ | body クラス | メインコンテンツ | 備考 |
 |--------|-------------|------------------|------|
 | トップ | なし | `.hero` + `.main-content` | ヒーロー、MIX CATALOG / RAVE WEAR / EVENTS |
+| RAVE WEAR | `page-wear` | `rave-wear/index.html` 内の `.wear-wrap` など | `rave-wear/style.css` でスタイル。トップへ戻るリンク |
 | イベント詳細 | `page-event` | `.event-main` | タイトル、ビジュアル、place/date/time アノテーション、DJ lineup、BACK ボタン。フッターは `.footer.event-footer` |
 
 ### 主なコンポーネント（クラス）
@@ -97,15 +112,32 @@ rave2d/
 | セクション | 内容 |
 |-----------|------|
 | **ヘッダー** | ロゴ「RAVE 2D」、サブテキスト「TOKYO SUB CULTURE DJ CATALOG」 |
-| **マーキー** | 上部のスクロールテキスト（新着ミックス告知など） |
-| **ヒーロー** | キャッチコピー「RAVE IN BLUE / ARCHIVE IN 2D / TOKYO BACKROOMS.」、YouTube / CATALOG / RAVE WEAR / EVENTS へのボタンリンク |
+| **マーキー** | 上部のスクロールテキスト。ナビから ABOUT / CATALOG / EVENTS へジャンプ（タブ切替）、RAVE WEAR は `rave-wear/` へ |
+| **ヒーロー** | キャッチコピー、NEWS（RAVE WEAR 公開案内）、**LATEST MIX**（YouTube 埋め込み）、ABOUT・CATALOG・EVENTS・RAVE WEAR への導線 |
 | **情報バー** | STATUS（ONLINE）、LOC（TOKYO, JP）、EST（2024）※768px 以下で非表示 |
-| **MIX CATALOG** | カード形式のミックス一覧。YouTube サムネイル表示・クリックでサムネイルポップアップ＋「Watch on YouTube」リンク |
-| **RAVE WEAR** | カード形式の商品一覧（MIXTAPE TEE、LOGO HOODIE、STICKER PACK など）。各カードに「BUY」ボタン |
-| **EVENTS** | カード形式のイベント一覧。各カードに「DETAIL」ボタン（例: Highway → events/highway/） |
+| **メイン（タブパネル）** | `.main-content` 内を **ABOUT / MIX CATALOG / EVENTS / RAVE WEAR** のパネルで切替（マーキー・ヒーローのタブボタンと連動） |
+| **ABOUT** | ブランド紹介コピー、YouTube へのボタン |
+| **MIX CATALOG** | カード形式のミックス一覧。YouTube サムネイル表示・クリックでサムネイルポップアップ＋「LISTEN」など |
+| **EVENTS** | カード形式のイベント一覧。各カードに「DETAIL」→ `events/mirai/` など |
+| **RAVE WEAR** | カード形式の商品一覧。Stripe などへの「BUY」ボタン。専用ランディングは `rave-wear/` |
 | **フッター** | X(Twitter)、Instagram、TikTok へのリンク |
 
-### イベント詳細ページ（events/highway/index.html）
+### RAVE WEAR ページ（rave-wear/index.html）
+
+トップからマーキー・ヒーロー・ボタンで遷移。独自ローダー・ヘッダー（トップへ戻る）・商品グリッドなど、`rave-wear/style.css` で構成。
+
+### イベント詳細ページ（events/*/index.html）
+
+共通レイアウトは `style.css` の `.page-event`。トップの EVENTS からリンクされるページ:
+
+| パス | カード上の表記（例） |
+|------|----------------------|
+| `events/mirai/` | MIRAI — IKEJIRI-OHASHI, TOKYO |
+| `events/highway/` | HIGHWAY — IKEJIRI-OHASHI, TOKYO |
+| `events/osaka/` | OSAKA — NAMBA, OSAKA |
+| `events/asagaya/` | ASAGAYA — ASAGAYA, TOKYO |
+
+各ページの内容イメージ:
 
 | セクション | 内容 |
 |-----------|------|
@@ -142,13 +174,18 @@ rave2d/
 
 1. リポジトリをクローンまたはダウンロード
 2. `index.html` をブラウザで開く  
-   （またはローカルサーバーで `index.html` を配信）
+   （またはローカルサーバーでサイトルートを配信）
 
 ```bash
-# 例: Python で簡易サーバー
+# 例: Python で簡易サーバー（リポジトリのルートで実行）
 python3 -m http.server 8000
-# http://localhost:8000 でアクセス
-# イベント詳細: http://localhost:8000/events/highway/
+# トップ: http://localhost:8000/
+# RAVE WEAR: http://localhost:8000/rave-wear/
+# イベント例:
+#   http://localhost:8000/events/mirai/
+#   http://localhost:8000/events/highway/
+#   http://localhost:8000/events/osaka/
+#   http://localhost:8000/events/asagaya/
 ```
 
 ## リンク
