@@ -81,7 +81,7 @@
                 </a>
                 <section class="latest-video-section" data-reveal>
                     <div class="latest-video-label">LATEST MIX</div>
-                    <div class="latest-video-embed-wrap" id="latest-video-embed-wrap" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=UU6VahhLMGPoY3_iqF_Cisuw">
+                    <div class="latest-video-embed-wrap" id="latest-video-embed-wrap" data-embed-src="https://www.youtube-nocookie.com/embed/Zucuy7bJBHI">
                         <iframe
                             class="latest-video-iframe"
                             id="latest-video-iframe"
@@ -441,7 +441,7 @@
         return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
     }
 
-    /* --- LATEST MIX: サムネは常に img 表示（hqdefault フォールバック）→ クリックで iframe 読込 --- */
+    /* --- LATEST MIX: RSS でタイトルに「RAVE 2D:」を含む最新を優先、なければ先頭。サムネと埋め込み同一 ID。失敗時はカタログからランダム --- */
     (function () {
         var wrap = document.getElementById('latest-video-embed-wrap');
         var iframe = document.getElementById('latest-video-iframe');
@@ -449,8 +449,18 @@
         var poster = document.getElementById('latest-video-poster');
         if (!wrap || !iframe || !btn || !poster) return;
 
-        function applyPosterForVideoId(videoId) {
+        var catalogVideoIds = [
+            'kGBW0bLSxM8', 'Zucuy7bJBHI', 'YNJcDYcDas8', '5niSTk3l-B8',
+            'kuAh4C5q2oY', 'sKOZn2K-Y5I', 'j0G5mtGyyiA', 'jp980g578UY'
+        ];
+
+        function embedSrcForVideoId(videoId) {
+            return 'https://www.youtube-nocookie.com/embed/' + videoId;
+        }
+
+        function applyLatestVideo(videoId) {
             if (!videoId) return;
+            wrap.setAttribute('data-embed-src', embedSrcForVideoId(videoId));
             var hi = thumbnailUrl(videoId);
             var lo = thumbnailUrlFallback(videoId);
             var probe = new Image();
@@ -460,6 +470,10 @@
                 poster.srcset = '';
             };
             probe.src = hi;
+        }
+
+        function pickRandomCatalogId() {
+            return catalogVideoIds[Math.floor(Math.random() * catalogVideoIds.length)];
         }
 
         var channelId = 'UC6VahhLMGPoY3_iqF_Cisuw';
@@ -486,9 +500,12 @@
                     var firstMatch = entries[0].match(/yt:video:([a-zA-Z0-9_-]{11})/);
                     if (firstMatch) videoId = firstMatch[1];
                 }
-                applyPosterForVideoId(videoId);
+                if (videoId) applyLatestVideo(videoId);
+                else applyLatestVideo(pickRandomCatalogId());
             })
-            .catch(function () { /* HTML の hqdefault を維持 */ });
+            .catch(function () {
+                applyLatestVideo(pickRandomCatalogId());
+            });
 
         btn.addEventListener('click', function () {
             var src = wrap.getAttribute('data-embed-src');
