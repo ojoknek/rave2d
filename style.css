@@ -557,12 +557,13 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     padding: 40px 40px 0;
 }
 
-/* 最新動画（ヒーロー内・NEWS直下）：カタログと同様のサムネ cover・クリックで YouTube */
+/* 最新動画（ヒーロー内・NEWS直下）：サムネ cover・クリックで YouTube。幅は clamp でレスポンシブ */
 .latest-video-section {
     padding-bottom: 28px;
     margin-bottom: 12px;
-    border-bottom: 1px solid var(--line);
-    max-width: 720px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    width: 100%;
+    max-width: min(100%, clamp(260px, 85vw, 420px));
 }
 .hero .latest-video-section {
     margin-top: 4px;
@@ -573,23 +574,35 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .latest-video-label {
     font-size: 0.9rem;
     color: var(--blue);
-    border: 1px solid var(--blue);
+    border: 1px solid rgba(0, 34, 255, 0.55);
     display: inline-block;
     width: fit-content;
     padding: 5px 15px;
     border-radius: 20px;
     margin-bottom: 16px;
+    background: rgba(0, 0, 0, 0.35);
 }
 .latest-video-embed-wrap {
     position: relative;
     width: 100%;
-    max-width: 720px;
+    max-width: 100%;
     aspect-ratio: 16 / 9;
-    border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: 6px;
     overflow: hidden;
-    background: #0a0a0a;
-    box-shadow: 0 0 0 1px rgba(0, 34, 255, 0.08);
+    background: #000;
+    border: 1px solid #0a0a0a;
+    box-shadow:
+        0 0 0 1px rgba(0, 34, 255, 0.28),
+        0 12px 40px rgba(0, 0, 0, 0.72),
+        inset 0 1px 0 rgba(0, 34, 255, 0.1);
+    transition: box-shadow 0.25s ease;
+}
+.latest-video-embed-wrap:hover {
+    border-color: #0d0d0d;
+    box-shadow:
+        0 0 0 1px rgba(0, 34, 255, 0.48),
+        0 16px 48px rgba(0, 0, 0, 0.82),
+        inset 0 1px 0 rgba(0, 34, 255, 0.16);
 }
 .latest-video-poster-btn {
     position: absolute;
@@ -612,6 +625,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     height: 100%;
     object-fit: cover;
     display: block;
+    border: 0;
 }
 .latest-video-play-icon {
     position: absolute;
@@ -1225,8 +1239,20 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .info-bar { display: none; }
     .main-content { padding: 20px 16px 0; }
-    .latest-video-section { padding-bottom: 24px; margin-bottom: 4px; }
+    .latest-video-section { padding-bottom: 24px; margin-bottom: 4px; max-width: min(100%, clamp(240px, 92vw, 400px)); }
     .latest-video-label { font-size: 0.8rem; margin-bottom: 12px; }
+    .latest-video-play-icon {
+        width: 56px;
+        height: 40px;
+        margin-left: -28px;
+        margin-top: -20px;
+        border-radius: 10px;
+    }
+    .latest-video-play-icon::after {
+        margin-left: -4px;
+        margin-top: -8px;
+        border-width: 8px 0 8px 14px;
+    }
     .catalog { padding: 20px 16px 40px; }
     .catalog-scroll { gap: 16px; }
     .catalog-scroll .card {
