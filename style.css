@@ -557,11 +557,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     padding: 40px 40px 0;
 }
 
-/* 最新動画埋め込み（NEWS下・トンマナに合わせた枠） */
+/* 最新動画（ヒーロー内・NEWS直下）：カタログと同様のサムネ cover・クリックで YouTube */
 .latest-video-section {
-    padding-bottom: 32px;
-    margin-bottom: 8px;
+    padding-bottom: 28px;
+    margin-bottom: 12px;
     border-bottom: 1px solid var(--line);
+    max-width: 720px;
+}
+.hero .latest-video-section {
+    margin-top: 4px;
 }
 .latest-video-section.is-hidden {
     display: none;
@@ -576,9 +580,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     border-radius: 20px;
     margin-bottom: 16px;
 }
-/* mix-catalog 同様のサムネイル表示・全体が見える（contain）・クリックで YouTube へ */
 .latest-video-link {
     display: block;
+    width: 100%;
     max-width: 720px;
     border: 1px solid var(--line);
     border-radius: 4px;
@@ -595,9 +599,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
-    background-color: #0a0a0a;
-    background-size: contain;
-    background-position: center;
+    background-color: #111;
+    background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
 }
 .latest-video-fallback {

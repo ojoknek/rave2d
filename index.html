@@ -77,6 +77,15 @@
                     <span class="hero-news-label">NEWS</span>
                     <p class="hero-news-text">RAVE WEAR のページを公開しました。アパレル・購入の案内はこちら。</p>
                 </a>
+                <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw">
+                    <div class="latest-video-label">LATEST MIX</div>
+                    <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;">
+                        <span class="latest-video-img" id="latest-video-img" data-thumb></span>
+                    </a>
+                    <p class="latest-video-fallback" id="latest-video-fallback" style="display:none;">
+                        <a href="https://www.youtube.com/@RAVE2D" target="_blank" rel="noopener">YouTube チャンネルで最新動画を見る</a>
+                    </p>
+                </section>
                 <div class="btn-group btn-group--hidden" data-reveal aria-hidden="true">
                     <a href="#about" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ ABOUT</a>
                     <a href="#mix-catalog" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ CATALOG</a>
@@ -98,16 +107,6 @@
         </aside>
 
         <div class="main-content">
-            <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw">
-                <div class="latest-video-label">LATEST MIX</div>
-                <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;">
-                    <span class="latest-video-img" id="latest-video-img" data-thumb></span>
-                </a>
-                <p class="latest-video-fallback" id="latest-video-fallback" style="display:none;">
-                    <a href="https://www.youtube.com/@RAVE2D" target="_blank" rel="noopener">YouTube チャンネルで最新動画を見る</a>
-                </p>
-            </section>
-
             <section id="about" class="tab-panel about-panel" data-reveal role="tabpanel" aria-labelledby="tab-about">
                 <div class="section-label">ABOUT</div>
                 <div class="about-inner">
@@ -446,8 +445,8 @@
             var hi = thumbnailUrl(videoId);
             var lo = thumbnailUrlFallback(videoId);
             thumbEl.style.backgroundImage = 'url(' + hi + ')';
-            thumbEl.style.backgroundSize = 'contain';
-            thumbEl.style.backgroundPosition = 'center';
+            thumbEl.style.backgroundSize = 'cover';
+            thumbEl.style.backgroundPosition = 'center center';
             thumbEl.style.backgroundRepeat = 'no-repeat';
             var img = new Image();
             img.onerror = function () { thumbEl.style.backgroundImage = 'url(' + lo + ')'; };
