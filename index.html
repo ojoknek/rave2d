@@ -22,6 +22,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://www.youtube-nocookie.com">
+    <link rel="preconnect" href="https://i.ytimg.com">
 </head>
 <body>
 
@@ -77,14 +79,22 @@
                     <span class="hero-news-label">NEWS</span>
                     <p class="hero-news-text">RAVE WEAR のページを公開しました。アパレル・購入の案内はこちら。</p>
                 </a>
-                <section class="latest-video-section" data-reveal data-channel-id="UC6VahhLMGPoY3_iqF_Cisuw">
+                <section class="latest-video-section" data-reveal>
                     <div class="latest-video-label">LATEST MIX</div>
-                    <a href="#" class="latest-video-link" id="latest-video-link" target="_blank" rel="noopener" aria-label="YouTubeで最新動画を見る" style="display:none;">
-                        <span class="latest-video-img" id="latest-video-img" data-thumb></span>
-                    </a>
-                    <p class="latest-video-fallback" id="latest-video-fallback" style="display:none;">
-                        <a href="https://www.youtube.com/@RAVE2D" target="_blank" rel="noopener">YouTube チャンネルで最新動画を見る</a>
-                    </p>
+                    <div class="latest-video-embed-wrap" id="latest-video-embed-wrap" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=UU6VahhLMGPoY3_iqF_Cisuw">
+                        <iframe
+                            class="latest-video-iframe"
+                            id="latest-video-iframe"
+                            title="RAVE 2D 最新のミックス（YouTube）"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                            hidden></iframe>
+                        <button type="button" class="latest-video-poster-btn" id="latest-video-poster-btn" aria-label="最新ミックスを再生">
+                            <img class="latest-video-poster" id="latest-video-poster" src="https://img.youtube.com/vi/Zucuy7bJBHI/hqdefault.jpg" alt="" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high">
+                            <span class="latest-video-play-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </section>
                 <div class="btn-group btn-group--hidden" data-reveal aria-hidden="true">
                     <a href="#about" class="btn tab-btn" data-hover role="tab" aria-selected="false">▼ ABOUT</a>
@@ -132,13 +142,22 @@
                 <article class="card" data-reveal data-stagger="0">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
+                        <h3>SIGRIA</h3>
+                        <p>SHIBUYA, TOKYO / Hyper & DnB Vibes</p>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=kGBW0bLSxM8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
+                </article>
+
+                <article class="card" data-reveal data-stagger="1">
+                    <div class="card-img" data-thumb></div>
+                    <div class="card-info">
                         <h3>MAEZAWA</h3>
                         <p>NAMBA,OSAKA / Hyper Vibes</p>
                     </div>
                     <a href="https://www.youtube.com/watch?v=Zucuy7bJBHI" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card" data-reveal data-stagger="1">
+                <article class="card" data-reveal data-stagger="2">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>KAMI-TO-WAKAI-SEYO</h3>
@@ -147,7 +166,7 @@
                     <a href="https://www.youtube.com/watch?v=YNJcDYcDas8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card" data-reveal data-stagger="2">
+                <article class="card" data-reveal data-stagger="3">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>RUUCHAN</h3>
@@ -156,7 +175,7 @@
                     <a href="https://www.youtube.com/watch?v=5niSTk3l-B8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card" data-reveal data-stagger="3">
+                <article class="card" data-reveal data-stagger="4">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>SYNTHION</h3>
@@ -165,7 +184,7 @@
                     <a href="https://www.youtube.com/watch?v=kuAh4C5q2oY" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card" data-reveal data-stagger="4">
+                <article class="card" data-reveal data-stagger="5">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>QW3R7Y</h3>
@@ -174,7 +193,7 @@
                     <a href="https://www.youtube.com/watch?v=sKOZn2K-Y5I" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card" data-reveal data-stagger="5">
+                <article class="card" data-reveal data-stagger="6">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>DIVINE ORACLE</h3>
@@ -183,22 +202,13 @@
                     <a href="https://www.youtube.com/watch?v=j0G5mtGyyiA" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
 
-                <article class="card" data-reveal data-stagger="6">
+                <article class="card" data-reveal data-stagger="7">
                     <div class="card-img" data-thumb></div>
                     <div class="card-info">
                         <h3>MAEZAWA B2B MARBLE</h3>
                         <p>YUSHIMA,TOKYO / Hard Dance Vibes</p>
                     </div>
                     <a href="https://www.youtube.com/watch?v=jp980g578UY" class="card-link" target="_blank" rel="noopener">LISTEN</a>
-                </article>
-
-                <article class="card" data-reveal data-stagger="7">
-                    <div class="card-img" data-thumb></div>
-                    <div class="card-info">
-                        <h3>SIGRIA</h3>
-                        <p>SHIBUYA, TOKYO / Hyper & DnB vibes</p>
-                    </div>
-                    <a href="https://www.youtube.com/watch?v=kGBW0bLSxM8" class="card-link" target="_blank" rel="noopener">LISTEN</a>
                 </article>
                 </div>
             </section>
@@ -431,37 +441,29 @@
         return 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
     }
 
-    /* --- 最新動画: RSS でタイトルに "RAVE 2D:" を含む最新の1本を表示。API不要。サムネは thumbnailUrl / thumbnailUrlFallback --- */
+    /* --- LATEST MIX: サムネは常に img 表示（hqdefault フォールバック）→ クリックで iframe 読込 --- */
     (function () {
-        var section = document.querySelector('.latest-video-section[data-channel-id]');
-        var linkEl = document.getElementById('latest-video-link');
-        var thumbEl = document.getElementById('latest-video-img');
-        var fallback = document.getElementById('latest-video-fallback');
-        if (!section || !linkEl || !thumbEl) return;
-        var channelId = section.getAttribute('data-channel-id');
-        if (!channelId) return;
-        var titleFilter = 'RAVE 2D:';
+        var wrap = document.getElementById('latest-video-embed-wrap');
+        var iframe = document.getElementById('latest-video-iframe');
+        var btn = document.getElementById('latest-video-poster-btn');
+        var poster = document.getElementById('latest-video-poster');
+        if (!wrap || !iframe || !btn || !poster) return;
 
-        function showVideo(videoId) {
-            if (!videoId) {
-                linkEl.style.display = 'none';
-                if (fallback) fallback.style.display = 'block';
-                return;
-            }
-            if (fallback) fallback.style.display = 'none';
-            linkEl.href = 'https://www.youtube.com/watch?v=' + videoId;
-            linkEl.style.display = 'block';
+        function applyPosterForVideoId(videoId) {
+            if (!videoId) return;
             var hi = thumbnailUrl(videoId);
             var lo = thumbnailUrlFallback(videoId);
-            thumbEl.style.backgroundImage = 'url(' + hi + ')';
-            thumbEl.style.backgroundSize = 'cover';
-            thumbEl.style.backgroundPosition = 'center center';
-            thumbEl.style.backgroundRepeat = 'no-repeat';
-            var img = new Image();
-            img.onerror = function () { thumbEl.style.backgroundImage = 'url(' + lo + ')'; };
-            img.src = hi;
+            var probe = new Image();
+            probe.onload = function () { poster.src = hi; poster.srcset = ''; };
+            probe.onerror = function () {
+                poster.src = lo;
+                poster.srcset = '';
+            };
+            probe.src = hi;
         }
 
+        var channelId = 'UC6VahhLMGPoY3_iqF_Cisuw';
+        var titleFilter = 'RAVE 2D:';
         var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
         var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
         fetch(proxyUrl)
@@ -469,7 +471,8 @@
             .then(function (xml) {
                 var entries = xml.match(/<entry>[\s\S]*?<\/entry>/g) || [];
                 var videoId = null;
-                for (var e = 0; e < entries.length; e++) {
+                var e;
+                for (e = 0; e < entries.length; e++) {
                     var entry = entries[e];
                     var idMatch = entry.match(/yt:video:([a-zA-Z0-9_-]{11})/);
                     var titleMatch = entry.match(/<title[^>]*>([\s\S]*?)<\/title>/);
@@ -483,12 +486,17 @@
                     var firstMatch = entries[0].match(/yt:video:([a-zA-Z0-9_-]{11})/);
                     if (firstMatch) videoId = firstMatch[1];
                 }
-                showVideo(videoId);
+                applyPosterForVideoId(videoId);
             })
-            .catch(function () {
-                linkEl.style.display = 'none';
-                if (fallback) fallback.style.display = 'block';
-            });
+            .catch(function () { /* HTML の hqdefault を維持 */ });
+
+        btn.addEventListener('click', function () {
+            var src = wrap.getAttribute('data-embed-src');
+            if (!src) return;
+            iframe.src = src;
+            iframe.removeAttribute('hidden');
+            btn.hidden = true;
+        });
     })();
 
     var popup = document.getElementById('thumbnail-popup');
