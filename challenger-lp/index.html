@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RAVE 2D: CHALLENGER | DJ公募</title>
+    <meta name="description" content="PROVE YOUR SOUND. RAVE 2D: OSAKA2 の出演枠1つを公募で決定。2026.08.29 at MEMEME, 大阪梅田">
+    <link rel="icon" href="../image/RAVE2D-fabicon.svg" type="image/svg+xml">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rave2d.com/challenger-lp/">
+    <meta property="og:title" content="RAVE 2D: CHALLENGER | DJ公募">
+    <meta property="og:description" content="PROVE YOUR SOUND. RAVE 2D: OSAKA2出演者を公募。2026.08.29 at MEMEME, OSAKA">
+    <meta property="og:image" content="https://rave2d.com/image/RAVE2D-WHITE.png">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RAVE 2D: CHALLENGER | DJ公募">
+    <meta name="twitter:description" content="PROVE YOUR SOUND. RAVE 2D: OSAKA2出演者公募 2026.08.29 MEMEME">
+    <meta name="twitter:image" content="https://rave2d.com/image/RAVE2D-WHITE.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+/* ─── VARS ─── */
+:root {
+    --bg:        #F5F5F5;
+    --bg-alt:    #EBEBEB;
+    --bg-card:   #FFFFFF;
+    --text:      #0A0A0A;
+    --text-muted: rgba(10,10,10,0.5);
+    --blue:      #0022FF;
+    --blue-glow: rgba(0,34,255,0.18);
+    --blue-dim:  rgba(0,34,255,0.08);
+    --line:      #D8D8D8;
+    --line-light:#EBEBEB;
+    --font-en:   'Unbounded', sans-serif;
+    --font-jp:   'Zen Kaku Gothic New', sans-serif;
+    --ease-expo: cubic-bezier(0.16,1,0.3,1);
+    --reveal-dur: 0.85s;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-en);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+/* ─── LOADER ─── */
+.loader {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center; gap: 2px;
+    z-index: 9999;
+    font-size: 1rem; color: var(--blue); font-weight: 700; letter-spacing: 0.18em;
+    transition: opacity 0.6s var(--ease-expo);
+    pointer-events: none;
+}
+.loader.is-hidden { opacity: 0; }
+.loader-dot { animation: loaderDot 0.8s ease-in-out infinite; }
+.loader-dot:nth-child(2) { animation-delay: 0.1s; }
+.loader-dot:nth-child(3) { animation-delay: 0.2s; }
+.loader-dot:nth-child(4) { animation-delay: 0.3s; }
+@keyframes loaderDot { 0%,80%,100% { opacity:.2; } 40% { opacity:1; } }
+
+/* ─── SCROLL REVEAL ─── */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--reveal-dur) var(--ease-expo), transform var(--reveal-dur) var(--ease-expo);
+}
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+[data-reveal][data-d="1"] { transition-delay: 0.08s; }
+[data-reveal][data-d="2"] { transition-delay: 0.16s; }
+[data-reveal][data-d="3"] { transition-delay: 0.24s; }
+[data-reveal][data-d="4"] { transition-delay: 0.32s; }
+
+/* ─── SECTION SHELL ─── */
+.lp-section { padding: 96px 0; border-bottom: 1px solid var(--line); }
+.lp-section--alt { background: var(--bg-alt); }
+.inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 48px;
+}
+.sec-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+.sec-title {
+    font-size: clamp(2rem, 5.5vw, 3.75rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+}
+.blue-stroke {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--blue);
+}
+.blue-fill { color: var(--blue); }
+
+/* ─── HERO ─── */
+.lp-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 100px 24px 80px;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    background: var(--bg);
+}
+.hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+        linear-gradient(var(--line-light) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line-light) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+}
+.hero-glow {
+    position: absolute;
+    bottom: -80px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(0,34,255,0.1) 0%, transparent 68%);
+    pointer-events: none;
+}
+.hero-inner {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
+}
+.hero-logo {
+    width: clamp(160px, 38vw, 260px);
+    height: auto;
+    filter: invert(1);
+    margin-bottom: 16px;
+    opacity: 0.9;
+}
+.hero-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--blue);
+    margin-bottom: 14px;
+}
+.hero-title {
+    font-size: clamp(3.5rem, 14vw, 10rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 24px;
+}
+.hero-copy {
+    font-size: clamp(1rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--blue);
+    letter-spacing: 0.12em;
+    margin-bottom: 36px;
+}
+.hero-desc {
+    font-family: var(--font-jp);
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    color: var(--text-muted);
+    line-height: 1.85;
+    margin-bottom: 44px;
+    max-width: 480px;
+}
+.btn-apply {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 17px 40px;
+    background: var(--blue);
+    color: #fff;
+    font-family: var(--font-en);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--blue);
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.3s var(--ease-expo);
+}
+.btn-apply:hover {
+    background: transparent;
+    color: var(--blue);
+    box-shadow: 0 0 28px var(--blue-glow);
+    transform: translateY(-3px);
+}
+.btn-apply:active { transform: translateY(0); }
+.btn-apply .arrow { transition: transform 0.2s; }
+.btn-apply:hover .arrow { transform: translateX(5px); }
+.btn-apply--lg { font-size: 1.1rem; padding: 20px 52px; }
+.btn-apply--xl { font-size: 1.2rem; padding: 24px 68px; }
+.hero-meta {
+    margin-top: 48px;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: center;
+    gap: 8px 20px;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+}
+.hero-meta .pip {
+    color: var(--blue);
+    opacity: 0.5;
+}
+.hero-scroll {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-size: 0.6rem; letter-spacing: 0.3em;
+    color: var(--text-muted);
+    animation: scrollBlink 2.4s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes scrollBlink { 0%,100%{opacity:.25;} 50%{opacity:.8;} }
+
+/* ─── OVERVIEW ─── */
+.overview-lead {
+    font-family: var(--font-jp);
+    font-size: 1.05rem; line-height: 1.85;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin-bottom: 52px;
+}
+.overview-lead strong { color: var(--text); font-weight: 900; }
+.prize-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.prize-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 36px 32px;
+    transition: border-color 0.3s, transform 0.4s var(--ease-expo), box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.prize-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--blue);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.35s var(--ease-expo);
+}
+.prize-card:hover { border-color: var(--blue); transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,34,255,0.1); }
+.prize-card:hover::before { transform: scaleY(1); }
+.prize-num {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em;
+    color: var(--blue); margin-bottom: 16px;
+}
+.prize-card h3 {
+    font-family: var(--font-jp);
+    font-size: 1.2rem; font-weight: 900;
+    margin-bottom: 12px; color: var(--text);
+}
+.prize-card p {
+    font-family: var(--font-jp);
+    font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;
+}
+
+/* ─── SCHEDULE ─── */
+.timeline-outer {
+    position: relative;
+    padding-top: 8px;
+}
+/* horizontal connector */
+.timeline-rail {
+    position: absolute;
+    top: 24px; /* center of 48px dot */
+    left: calc(100% / 8);
+    right: calc(100% / 8);
+    height: 1px;
+    background: linear-gradient(to right, var(--blue), rgba(0,34,255,0.4), var(--blue));
+    pointer-events: none;
+}
+.timeline-nodes {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    position: relative; z-index: 1;
+}
+.tnode { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.tnode-dot {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    background: var(--bg-card);
+    margin-bottom: 20px;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.3s;
+}
+.tnode-dot--on {
+    border-color: var(--blue);
+    background: var(--blue);
+    box-shadow: 0 0 0 6px rgba(0,34,255,0.1), 0 0 20px var(--blue-glow);
+    animation: nodePulse 2.8s ease-in-out infinite;
+}
+.tnode-dot--event {
+    border-color: var(--text);
+    background: var(--text);
+}
+@keyframes nodePulse {
+    0%,100% { box-shadow: 0 0 0 4px rgba(0,34,255,0.1), 0 0 16px var(--blue-glow); }
+    50%      { box-shadow: 0 0 0 10px rgba(0,34,255,0.06), 0 0 32px rgba(0,34,255,0.3); }
+}
+.tnode-phase {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em;
+    color: var(--blue); margin-bottom: 8px;
+}
+.tnode--event .tnode-phase { color: var(--text-muted); }
+.tnode-date {
+    font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+    font-weight: 900; line-height: 1; margin-bottom: 4px;
+}
+.tnode-day {
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    color: var(--text-muted); margin-bottom: 6px;
+}
+.tnode-time {
+    font-size: 0.9rem; font-weight: 700;
+    color: var(--blue); margin-bottom: 4px;
+}
+.tnode-label {
+    font-family: var(--font-jp);
+    font-size: 0.72rem; color: var(--text-muted);
+}
+/* duration badges between nodes */
+.timeline-dur {
+    display: flex; justify-content: space-around;
+    margin-top: 36px; padding: 0 calc(100% / 8);
+}
+.dur-badge {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--blue); background: var(--blue-dim);
+    padding: 4px 10px; border-radius: 20px;
+}
+
+/* ─── CONDITIONS ─── */
+.cond-list { list-style: none; }
+.cond-item {
+    display: flex; align-items: baseline; gap: 28px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+}
+.cond-item:last-child { border-bottom: 1px solid var(--line); }
+.cond-n {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--blue); flex-shrink: 0; width: 24px;
+}
+.cond-text {
+    font-family: var(--font-jp);
+    font-size: 1.05rem; line-height: 1.65;
+    color: var(--text);
+}
+.cond-text strong { font-weight: 900; }
+.cond-note {
+    font-size: 0.82rem; color: var(--text-muted);
+    margin-top: 4px; display: block;
+}
+
+/* ─── HOW TO APPLY ─── */
+.steps-wrap {
+    display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    align-items: start; gap: 0; margin-bottom: 64px;
+}
+.step-conn {
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 36px;
+    color: var(--blue); font-size: 1.2rem; font-weight: 900;
+}
+.step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 32px 28px;
+    height: 100%;
+    transition: border-color 0.28s;
+    position: relative;
+}
+.step-card:hover { border-color: var(--blue); }
+.step-n {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em;
+    color: var(--blue); margin-bottom: 14px;
+}
+.step-title {
+    font-size: 1.05rem; font-weight: 700;
+    margin-bottom: 14px; color: var(--text);
+}
+.step-body {
+    font-family: var(--font-jp);
+    font-size: 0.88rem; color: var(--text-muted); line-height: 1.8;
+    margin-bottom: 16px;
+}
+.step-tag {
+    display: inline-block;
+    font-family: monospace; font-size: 0.88em;
+    color: var(--blue);
+    background: var(--blue-dim);
+    border: 1px solid rgba(0,34,255,0.25);
+    padding: 2px 8px;
+}
+.step-platforms { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.step-pl {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border: 1px solid var(--line); color: var(--text-muted);
+}
+.step-fields { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.step-fields li {
+    font-family: var(--font-jp);
+    font-size: 0.88rem; color: var(--text-muted);
+    display: flex; align-items: center; gap: 8px;
+}
+.step-fields li::before {
+    content: '';
+    display: block; flex-shrink: 0;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+}
+.step-date-badge {
+    display: inline-block; margin-top: 12px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--blue); background: var(--blue-dim);
+    border: 1px solid rgba(0,34,255,0.2);
+    padding: 5px 12px;
+}
+.apply-cta-wrap {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.apply-limit {
+    font-size: 0.75rem; letter-spacing: 0.1em;
+    color: var(--text-muted); font-weight: 700;
+}
+
+/* ─── VENUE ─── */
+.venue-header { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+.venue-name-en {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 900; line-height: 1;
+    color: var(--text);
+}
+.venue-location {
+    font-family: var(--font-jp);
+    font-size: 0.95rem; color: var(--text-muted);
+}
+.venue-spec-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    background: var(--line); gap: 1px;
+    border: 1px solid var(--line);
+    margin-bottom: 36px;
+}
+.venue-spec-cell {
+    background: var(--bg-card);
+    padding: 28px 24px;
+}
+.spec-l {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--blue); margin-bottom: 10px;
+}
+.spec-v {
+    font-family: var(--font-jp);
+    font-size: 0.95rem; font-weight: 700;
+    color: var(--text); line-height: 1.45;
+}
+.venue-desc {
+    font-family: var(--font-jp);
+    font-size: 0.92rem; color: var(--text-muted); line-height: 1.85;
+    max-width: 600px;
+}
+
+/* ─── FINAL CTA ─── */
+.lp-final {
+    padding: 120px 0;
+    background: var(--bg);
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    position: relative; overflow: hidden;
+}
+.final-glow {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px; height: 380px;
+    background: radial-gradient(ellipse, rgba(0,34,255,0.09) 0%, transparent 65%);
+    pointer-events: none;
+}
+.final-inner {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.final-logo {
+    width: clamp(140px, 32vw, 220px);
+    height: auto; filter: invert(1);
+    opacity: 0.85; margin-bottom: 20px;
+}
+.final-copy {
+    font-size: clamp(0.9rem, 2.5vw, 1.5rem);
+    font-weight: 700; letter-spacing: 0.18em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--blue);
+    margin-bottom: 48px;
+}
+.final-limit {
+    margin-top: 18px;
+    font-size: 0.72rem; letter-spacing: 0.12em;
+    color: var(--text-muted); font-weight: 700;
+}
+.final-limit strong { color: var(--text); }
+
+/* ─── FOOTER ─── */
+.lp-footer {
+    padding: 40px 48px;
+    display: flex; flex-wrap: wrap;
+    align-items: center; justify-content: space-between;
+    gap: 16px;
+    background: var(--bg);
+}
+.footer-back {
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.08em; color: var(--text-muted);
+    transition: color 0.2s;
+}
+.footer-back:hover { color: var(--text); }
+.footer-socials { display: flex; gap: 24px; }
+.footer-socials a {
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.1em; color: var(--text-muted);
+    transition: color 0.2s;
+}
+.footer-socials a:hover { color: var(--blue); }
+.footer-copy {
+    font-size: 0.65rem; color: var(--text-muted);
+    letter-spacing: 0.08em; width: 100%;
+    text-align: center; opacity: 0.6;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+    .inner { padding: 0 28px; }
+    .prize-grid { grid-template-columns: 1fr; gap: 12px; }
+    .steps-wrap {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .step-conn {
+        padding-top: 0;
+        transform: rotate(90deg);
+        height: 40px;
+    }
+    .venue-spec-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .lp-section { padding: 68px 0; }
+    .sec-title { margin-bottom: 32px; }
+    /* timeline: vertical on mobile */
+    .timeline-rail { display: none; }
+    .timeline-nodes {
+        grid-template-columns: 1fr;
+        border-left: 2px solid rgba(0,34,255,0.25);
+        padding-left: 28px;
+        margin-left: 24px;
+        gap: 0;
+    }
+    .tnode {
+        flex-direction: row; align-items: center;
+        text-align: left; gap: 20px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--line-light);
+    }
+    .tnode:first-child { border-top: 1px solid var(--line-light); }
+    .tnode-dot { margin-bottom: 0; flex-shrink: 0; width: 36px; height: 36px; }
+    .tnode-content { flex: 1; }
+    .tnode-date { font-size: 1.75rem; }
+    .timeline-dur { display: none; }
+
+    .hero-copy { -webkit-text-stroke-width: 1px; }
+    .lp-footer { padding: 28px 20px; }
+}
+
+@media (max-width: 480px) {
+    .inner { padding: 0 16px; }
+    .lp-section { padding: 52px 0; }
+    .hero-meta { font-size: 0.6rem; gap: 6px 12px; }
+    .cond-text { font-size: 0.95rem; }
+    .lp-footer { flex-direction: column; align-items: flex-start; }
+}
+    </style>
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+    <span class="loader-text">SYSTEM LOADING</span>
+    <span class="loader-dot">.</span><span class="loader-dot">.</span><span class="loader-dot">.</span>
+</div>
+
+<!-- ① HERO -->
+<section class="lp-hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-inner">
+        <img class="hero-logo" src="../image/RAVE2D-WORD.png" alt="RAVE 2D" width="1080" height="1080">
+        <p class="hero-eyebrow">DJ CHALLENGE 2026</p>
+        <h1 class="hero-title">CHALLENGER</h1>
+        <p class="hero-copy">PROVE YOUR SOUND.</p>
+        <p class="hero-desc">
+            RAVE 2D: OSAKA2 の出演枠1つを、公募で決定します。<br>
+            選ばれたあなたのミックスを、クラブと YouTube で世界へ。
+        </p>
+        <a href="https://forms.gle/krnh4GGxiWA87z9S8" class="btn-apply" target="_blank" rel="noopener">
+            応募する <span class="arrow">→</span>
+        </a>
+        <div class="hero-meta">
+            <span>RAVE 2D: OSAKA2</span>
+            <span class="pip">|</span>
+            <span>2026.08.29 SAT</span>
+            <span class="pip">|</span>
+            <span>大阪 MEMEME</span>
+            <span class="pip">|</span>
+            <span>23:00 START</span>
+        </div>
+    </div>
+    <span class="hero-scroll" aria-hidden="true">SCROLL ↓</span>
+</section>
+
+<!-- ② OVERVIEW -->
+<section class="lp-section" id="overview">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>OVERVIEW</div>
+        <h2 class="sec-title" data-reveal>WHAT IS<br><span class="blue-stroke">CHALLENGER?</span></h2>
+        <p class="overview-lead" data-reveal>
+            RAVE 2D は、東京を拠点にサブカルチャーなDJたちのミックスをアーカイブするチャンネル。今回、<strong>RAVE 2D: OSAKA2</strong> の出演枠1つを<strong>公募</strong>で決定します。選ばれたDJには以下のふたつが贈られます。
+        </p>
+        <div class="prize-grid">
+            <div class="prize-card" data-reveal data-d="1">
+                <div class="prize-num">PRIZE 01</div>
+                <h3>OSAKA2 に出演</h3>
+                <p>2026年8月29日（土）23:00〜 大阪梅田 MEMEME にて開催される RAVE 2D: OSAKA2 の出演枠を獲得</p>
+            </div>
+            <div class="prize-card" data-reveal data-d="2">
+                <div class="prize-num">PRIZE 02</div>
+                <h3>YouTube に公開</h3>
+                <p>ミックスを RAVE 2D チャンネルに収録・公開。インターネットの海に、あなたの音を放つ</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ③ SCHEDULE -->
+<section class="lp-section lp-section--alt" id="schedule">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>SCHEDULE</div>
+        <h2 class="sec-title" data-reveal>TIMELINE</h2>
+        <div class="timeline-outer" data-reveal>
+            <div class="timeline-rail" aria-hidden="true"></div>
+            <div class="timeline-nodes">
+
+                <div class="tnode">
+                    <div class="tnode-dot tnode-dot--on"></div>
+                    <div class="tnode-content">
+                        <div class="tnode-phase">ENTRY OPEN</div>
+                        <div class="tnode-date">06.20</div>
+                        <div class="tnode-day">SAT 2026</div>
+                        <div class="tnode-label">応募開始</div>
+                    </div>
+                </div>
+
+                <div class="tnode">
+                    <div class="tnode-dot"></div>
+                    <div class="tnode-content">
+                        <div class="tnode-phase">DEADLINE</div>
+                        <div class="tnode-date">07.18</div>
+                        <div class="tnode-day">FRI 2026</div>
+                        <div class="tnode-label">応募締切</div>
+                    </div>
+                </div>
+
+                <div class="tnode">
+                    <div class="tnode-dot"></div>
+                    <div class="tnode-content">
+                        <div class="tnode-phase">RESULT</div>
+                        <div class="tnode-date">08.01</div>
+                        <div class="tnode-day">SAT 2026</div>
+                        <div class="tnode-label">結果発表</div>
+                    </div>
+                </div>
+
+                <div class="tnode tnode--event">
+                    <div class="tnode-dot tnode-dot--event"></div>
+                    <div class="tnode-content">
+                        <div class="tnode-phase">EVENT</div>
+                        <div class="tnode-date">08.29</div>
+                        <div class="tnode-day">SAT 2026</div>
+                        <div class="tnode-time">23:00~</div>
+                        <div class="tnode-label">OSAKA2 当日</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="timeline-dur" aria-hidden="true">
+                <span class="dur-badge">+ 4 WEEKS</span>
+                <span class="dur-badge">+ 2 WEEKS</span>
+                <span class="dur-badge">+ 4 WEEKS</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ④ CONDITIONS -->
+<section class="lp-section" id="conditions">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>CONDITIONS</div>
+        <h2 class="sec-title" data-reveal>応募条件</h2>
+        <ul class="cond-list">
+            <li class="cond-item" data-reveal data-d="1">
+                <span class="cond-n">01</span>
+                <div class="cond-text">
+                    <strong>日本在住者</strong>であること
+                </div>
+            </li>
+            <li class="cond-item" data-reveal data-d="2">
+                <span class="cond-n">02</span>
+                <div class="cond-text">
+                    <strong>SoundCloud または Mixcloud</strong> にミックスを公開できること
+                </div>
+            </li>
+            <li class="cond-item" data-reveal data-d="3">
+                <span class="cond-n">03</span>
+                <div class="cond-text">
+                    ミックスの尺は <strong>40分以上</strong>
+                </div>
+            </li>
+            <li class="cond-item" data-reveal data-d="4">
+                <span class="cond-n">04</span>
+                <div class="cond-text">
+                    <strong>ジャンル不問</strong>
+                    <span class="cond-note">サブカルチャー系の音楽全般歓迎</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ⑤ HOW TO APPLY -->
+<section class="lp-section lp-section--alt" id="how-to-apply">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>HOW TO APPLY</div>
+        <h2 class="sec-title" data-reveal>応募方法</h2>
+        <div class="steps-wrap" data-reveal>
+
+            <div class="step-card">
+                <div class="step-n">STEP 01</div>
+                <h3 class="step-title">MIX をアップロード</h3>
+                <p class="step-body">
+                    <span class="step-tag">#RAVE2DChallenge</span>
+                    <br><br>
+                    上記のタグをつけて、40分以上のミックスを以下のいずれかにアップロード
+                </p>
+                <div class="step-platforms">
+                    <span class="step-pl">SoundCloud</span>
+                    <span class="step-pl">Mixcloud</span>
+                </div>
+            </div>
+
+            <div class="step-conn" aria-hidden="true">→</div>
+
+            <div class="step-card">
+                <div class="step-n">STEP 02</div>
+                <h3 class="step-title">フォームを記入</h3>
+                <p class="step-body">Google Form に以下を入力して送信</p>
+                <ul class="step-fields">
+                    <li>ミックスの URL</li>
+                    <li>X（Twitter）アカウント</li>
+                    <li>Instagram アカウント</li>
+                </ul>
+            </div>
+
+            <div class="step-conn" aria-hidden="true">→</div>
+
+            <div class="step-card">
+                <div class="step-n">STEP 03</div>
+                <h3 class="step-title">結果を待つ</h3>
+                <p class="step-body">
+                    選考結果は、応募時のSNSアカウント宛にご連絡します
+                </p>
+                <span class="step-date-badge">RESULT: 2026.08.01 SAT</span>
+            </div>
+
+        </div>
+        <div class="apply-cta-wrap" data-reveal>
+            <a href="https://forms.gle/krnh4GGxiWA87z9S8" class="btn-apply btn-apply--lg" target="_blank" rel="noopener">
+                今すぐ応募する <span class="arrow">→</span>
+            </a>
+            <p class="apply-limit">応募締切: 2026.07.18（FRI）</p>
+        </div>
+    </div>
+</section>
+
+<!-- ⑥ VENUE -->
+<section class="lp-section" id="venue">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>VENUE</div>
+        <div class="venue-header" data-reveal>
+            <h2 class="venue-name-en">MEMEME</h2>
+            <span class="venue-location">大阪・梅田 お初天神商店街</span>
+        </div>
+        <div class="venue-spec-grid" data-reveal>
+            <div class="venue-spec-cell">
+                <div class="spec-l">SOUND</div>
+                <div class="spec-v">天井吊りスピーカー<br>× 9台</div>
+            </div>
+            <div class="venue-spec-cell">
+                <div class="spec-l">VISUAL</div>
+                <div class="spec-v">150インチプロジェクター<br>× 4台</div>
+            </div>
+            <div class="venue-spec-cell">
+                <div class="spec-l">CAPACITY</div>
+                <div class="spec-v">100名収容</div>
+            </div>
+        </div>
+        <p class="venue-desc" data-reveal>
+            カルチャー特化型の自由な空間。個性的な「Me」が集まり、表現と交流が生まれる場所。平日はミュージックバー、週末は全国から人が集うイベントスペースとして機能する関西カルチャームーブメントの発信地。
+        </p>
+    </div>
+</section>
+
+<!-- ⑦ FINAL CTA -->
+<section class="lp-final">
+    <div class="final-glow" aria-hidden="true"></div>
+    <div class="inner final-inner">
+        <img class="final-logo" src="../image/RAVE2D-WORD.png" alt="RAVE 2D" data-reveal width="1080" height="1080">
+        <p class="final-copy" data-reveal>PROVE YOUR SOUND.</p>
+        <div data-reveal>
+            <a href="https://forms.gle/krnh4GGxiWA87z9S8" class="btn-apply btn-apply--xl" target="_blank" rel="noopener">
+                応募する <span class="arrow">→</span>
+            </a>
+        </div>
+        <p class="final-limit" data-reveal>応募締切: <strong>2026.07.18 FRI</strong></p>
+    </div>
+</section>
+
+<!-- ⑧ FOOTER -->
+<footer class="lp-footer">
+    <a href="../" class="footer-back">← BACK TO RAVE 2D</a>
+    <div class="footer-socials">
+        <a href="https://x.com/rave_2d" target="_blank" rel="noopener">X(TWITTER)</a>
+        <a href="https://www.instagram.com/rave_2d/" target="_blank" rel="noopener">INSTAGRAM</a>
+    </div>
+    <div class="footer-copy">© RAVE 2D ALL RIGHTS RESERVED.</div>
+</footer>
+
+<script>
+(function () {
+    var loader = document.querySelector('.loader');
+
+    function hideLoader() {
+        if (!loader) return;
+        loader.classList.add('is-hidden');
+        setTimeout(function () {
+            loader.style.display = 'none';
+            revealHero();
+            startObserver();
+        }, 600);
+    }
+
+    if (document.readyState === 'complete') {
+        setTimeout(hideLoader, 900);
+    } else {
+        window.addEventListener('load', function () { setTimeout(hideLoader, 900); });
+    }
+
+    function revealHero() {
+        document.querySelectorAll('.lp-hero .hero-inner > *').forEach(function (el) {
+            el.classList.add('is-visible');
+        });
+    }
+
+    function startObserver() {
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '0px 0px -64px 0px', threshold: 0.04 });
+
+        document.querySelectorAll('[data-reveal]').forEach(function (el) {
+            if (!el.closest('.lp-hero')) {
+                obs.observe(el);
+            }
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
