@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>RAVE 2D: CHALLENGER | DJ公募</title>
-    <meta name="description" content="PROVE YOUR SOUND. RAVE 2D: OSAKA2 の出演枠1つを公募で決定。2026.08.29 at MEMEME, 大阪梅田">
+    <meta name="description" content="PROVE YOUR MIX RAVE 2D: OSAKA2 の出演枠1つを公募で決定。2026.08.29 at MEMEME, 大阪梅田">
     <link rel="icon" href="../image/RAVE2D-fabicon.svg" type="image/svg+xml">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rave2d.com/challenger-lp/">
     <meta property="og:title" content="RAVE 2D: CHALLENGER | DJ公募">
-    <meta property="og:description" content="PROVE YOUR SOUND. RAVE 2D: OSAKA2出演者を公募。2026.08.29 at MEMEME, OSAKA">
+    <meta property="og:description" content="PROVE YOUR MIX RAVE 2D: OSAKA2出演者を公募。2026.08.29 at MEMEME, OSAKA">
     <meta property="og:image" content="https://rave2d.com/image/RAVE2D-WHITE.png">
     <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RAVE 2D: CHALLENGER | DJ公募">
-    <meta name="twitter:description" content="PROVE YOUR SOUND. RAVE 2D: OSAKA2出演者公募 2026.08.29 MEMEME">
+    <meta name="twitter:description" content="PROVE YOUR MIX RAVE 2D: OSAKA2出演者公募 2026.08.29 MEMEME">
     <meta name="twitter:image" content="https://rave2d.com/image/RAVE2D-WHITE.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,8 +107,8 @@ a { text-decoration: none; color: inherit; }
     margin-bottom: 48px;
 }
 .blue-stroke {
-    color: transparent;
-    -webkit-text-stroke: 2px var(--blue);
+    color: var(--blue);
+    -webkit-text-stroke: 0;
 }
 .blue-fill { color: var(--blue); }
 
@@ -169,8 +169,8 @@ a { text-decoration: none; color: inherit; }
 .hero-copy {
     font-size: clamp(1rem, 3vw, 1.75rem);
     font-weight: 700;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--blue);
+    color: var(--blue);
+    -webkit-text-stroke: 0;
     letter-spacing: 0.12em;
     margin-bottom: 36px;
 }
@@ -509,8 +509,8 @@ a { text-decoration: none; color: inherit; }
 .final-copy {
     font-size: clamp(0.9rem, 2.5vw, 1.5rem);
     font-weight: 700; letter-spacing: 0.18em;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--blue);
+    color: var(--blue);
+    -webkit-text-stroke: 0;
     margin-bottom: 48px;
 }
 .final-limit {
@@ -587,13 +587,14 @@ a { text-decoration: none; color: inherit; }
     .tnode-date { font-size: 1.75rem; }
     .timeline-dur { display: none; }
 
-    .hero-copy { -webkit-text-stroke-width: 1px; }
     .lp-footer { padding: 28px 20px; }
 }
 
 @media (max-width: 480px) {
     .inner { padding: 0 16px; }
     .lp-section { padding: 52px 0; }
+    .hero-inner { width: 100%; }
+    .hero-title { font-size: clamp(1.5rem, 8vw, 3.5rem); padding: 0 16px; }
     .hero-meta { font-size: 0.6rem; gap: 6px 12px; }
     .cond-text { font-size: 0.95rem; }
     .lp-footer { flex-direction: column; align-items: flex-start; }
@@ -615,7 +616,7 @@ a { text-decoration: none; color: inherit; }
         <img class="hero-logo" src="../image/RAVE2D-WORD.png" alt="RAVE 2D" width="1080" height="1080">
         <p class="hero-eyebrow">DJ CHALLENGE 2026</p>
         <h1 class="hero-title">CHALLENGER</h1>
-        <p class="hero-copy">PROVE YOUR SOUND.</p>
+        <p class="hero-copy">PROVE YOUR MIX</p>
         <p class="hero-desc">
             RAVE 2D: OSAKA2 の出演枠1つを、公募で決定します。<br>
             選ばれたあなたのミックスを、クラブと YouTube で世界へ。
@@ -653,7 +654,7 @@ a { text-decoration: none; color: inherit; }
             <div class="prize-card" data-reveal data-d="2">
                 <div class="prize-num">PRIZE 02</div>
                 <h3>YouTube に公開</h3>
-                <p>ミックスを RAVE 2D チャンネルに収録・公開。インターネットの海に、あなたの音を放つ</p>
+                <p>ミックスを RAVE 2D チャンネルに収録・公開。</p>
             </div>
         </div>
     </div>
@@ -792,7 +793,7 @@ a { text-decoration: none; color: inherit; }
 
             <div class="step-card">
                 <div class="step-n">STEP 03</div>
-                <h3 class="step-title">結果を待つ</h3>
+                <h3 class="step-title">選考結果を通知</h3>
                 <p class="step-body">
                     選考結果は、応募時のSNSアカウント宛にご連絡します
                 </p>
@@ -817,20 +818,6 @@ a { text-decoration: none; color: inherit; }
             <h2 class="venue-name-en">MEMEME</h2>
             <span class="venue-location">大阪・梅田 お初天神商店街</span>
         </div>
-        <div class="venue-spec-grid" data-reveal>
-            <div class="venue-spec-cell">
-                <div class="spec-l">SOUND</div>
-                <div class="spec-v">天井吊りスピーカー<br>× 9台</div>
-            </div>
-            <div class="venue-spec-cell">
-                <div class="spec-l">VISUAL</div>
-                <div class="spec-v">150インチプロジェクター<br>× 4台</div>
-            </div>
-            <div class="venue-spec-cell">
-                <div class="spec-l">CAPACITY</div>
-                <div class="spec-v">100名収容</div>
-            </div>
-        </div>
         <p class="venue-desc" data-reveal>
             カルチャー特化型の自由な空間。個性的な「Me」が集まり、表現と交流が生まれる場所。平日はミュージックバー、週末は全国から人が集うイベントスペースとして機能する関西カルチャームーブメントの発信地。
         </p>
@@ -842,7 +829,7 @@ a { text-decoration: none; color: inherit; }
     <div class="final-glow" aria-hidden="true"></div>
     <div class="inner final-inner">
         <img class="final-logo" src="../image/RAVE2D-WORD.png" alt="RAVE 2D" data-reveal width="1080" height="1080">
-        <p class="final-copy" data-reveal>PROVE YOUR SOUND.</p>
+        <p class="final-copy" data-reveal>PROVE YOUR MIX</p>
         <div data-reveal>
             <a href="https://forms.gle/krnh4GGxiWA87z9S8" class="btn-apply btn-apply--xl" target="_blank" rel="noopener">
                 応募する <span class="arrow">→</span>
