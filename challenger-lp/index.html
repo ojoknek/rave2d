@@ -273,6 +273,33 @@ a { text-decoration: none; color: inherit; }
     font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;
 }
 
+/* ─── THEME ─── */
+.theme-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 40px 40px;
+    position: relative;
+    overflow: hidden;
+}
+.theme-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--blue);
+}
+.theme-sub {
+    font-family: var(--font-jp);
+    font-size: clamp(1.2rem, 3vw, 1.75rem);
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 20px;
+}
+.theme-body {
+    font-family: var(--font-jp);
+    font-size: 1.05rem; line-height: 1.85;
+    color: var(--text-muted);
+}
+
 /* ─── SCHEDULE ─── */
 .timeline-outer {
     position: relative;
@@ -349,6 +376,18 @@ a { text-decoration: none; color: inherit; }
     padding: 4px 10px; border-radius: 20px;
 }
 
+/* ─── PERIOD ─── */
+.period-text {
+    font-family: var(--font-jp);
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.7;
+}
+.period-text span {
+    color: var(--blue);
+}
+
 /* ─── CONDITIONS ─── */
 .cond-list { list-style: none; }
 .cond-item {
@@ -374,7 +413,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ─── HOW TO APPLY ─── */
 .steps-wrap {
-    display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr;
+    display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr 40px 1fr;
     align-items: start; gap: 0; margin-bottom: 64px;
 }
 .step-conn {
@@ -403,6 +442,11 @@ a { text-decoration: none; color: inherit; }
     font-family: var(--font-jp);
     font-size: 0.88rem; color: var(--text-muted); line-height: 1.8;
     margin-bottom: 16px;
+}
+.step-note {
+    font-family: var(--font-jp);
+    font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;
+    margin-top: 8px;
 }
 .step-tag {
     display: inline-block;
@@ -446,6 +490,15 @@ a { text-decoration: none; color: inherit; }
     color: var(--text-muted); font-weight: 700;
 }
 
+/* ─── RESULT / TRAVEL ─── */
+.info-body {
+    font-family: var(--font-jp);
+    font-size: 1.05rem; line-height: 1.85;
+    color: var(--text-muted);
+    max-width: 640px;
+}
+.info-body strong { color: var(--text); font-weight: 900; }
+
 /* ─── VENUE ─── */
 .venue-header { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
 .venue-name-en {
@@ -462,6 +515,9 @@ a { text-decoration: none; color: inherit; }
     background: var(--line); gap: 1px;
     border: 1px solid var(--line);
     margin-bottom: 36px;
+}
+.venue-spec-grid--4col {
+    grid-template-columns: repeat(4, 1fr);
 }
 .venue-spec-cell {
     background: var(--bg-card);
@@ -480,6 +536,12 @@ a { text-decoration: none; color: inherit; }
     font-family: var(--font-jp);
     font-size: 0.92rem; color: var(--text-muted); line-height: 1.85;
     max-width: 600px;
+    margin-bottom: 48px;
+}
+.venue-sub-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em;
+    color: var(--blue); margin-bottom: 20px;
+    display: block;
 }
 
 /* ─── FINAL CTA ─── */
@@ -560,7 +622,8 @@ a { text-decoration: none; color: inherit; }
         transform: rotate(90deg);
         height: 40px;
     }
-    .venue-spec-grid { grid-template-columns: 1fr; }
+    .venue-spec-grid { grid-template-columns: 1fr 1fr; }
+    .venue-spec-grid--4col { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -590,6 +653,8 @@ a { text-decoration: none; color: inherit; }
     .hero-inner { width: 100%; }
     .hero-title { font-size: clamp(2rem, 8vw, 4rem); width: 100%; box-sizing: border-box; padding: 0 24px; }
     .lp-footer { padding: 28px 20px; }
+    .venue-spec-grid { grid-template-columns: 1fr; }
+    .venue-spec-grid--4col { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 480px) {
@@ -599,6 +664,7 @@ a { text-decoration: none; color: inherit; }
     .hero-meta { font-size: 0.6rem; gap: 6px 12px; }
     .cond-text { font-size: 0.95rem; }
     .lp-footer { flex-direction: column; align-items: flex-start; }
+    .venue-spec-grid--4col { grid-template-columns: 1fr; }
 }
     </style>
 </head>
@@ -649,20 +715,32 @@ a { text-decoration: none; color: inherit; }
         <div class="prize-grid">
             <div class="prize-card" data-reveal data-d="1">
                 <div class="prize-num">PRIZE 01</div>
-                <h3>OSAKA2 に出演</h3>
+                <h3>OSAKA2 出演</h3>
                 <p>2026年8月29日（土）23:00〜 大阪梅田 MEMEME にて開催される RAVE 2D: OSAKA2 の出演枠を獲得</p>
             </div>
             <div class="prize-card" data-reveal data-d="2">
                 <div class="prize-num">PRIZE 02</div>
-                <h3>YouTube に公開</h3>
-                <p>ミックスを RAVE 2D チャンネルに収録・公開。</p>
+                <h3>YouTube 公開</h3>
+                <p>当日の収録ミックスを RAVE 2D チャンネルに公開。</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ③ SCHEDULE -->
-<section class="lp-section lp-section--alt" id="schedule">
+<!-- ③ THEME -->
+<section class="lp-section lp-section--alt" id="theme">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>THEME</div>
+        <h2 class="sec-title" data-reveal>公募テーマ</h2>
+        <div class="theme-card" data-reveal>
+            <p class="theme-sub">『あなたのRAVE 2D』</p>
+            <p class="theme-body">イベント当日のDJプレイがイメージできるような40分程度のミックスをお願いします。</p>
+        </div>
+    </div>
+</section>
+
+<!-- ④ SCHEDULE -->
+<section class="lp-section" id="schedule">
     <div class="inner">
         <div class="sec-tag" data-reveal>SCHEDULE</div>
         <h2 class="sec-title" data-reveal>TIMELINE</h2>
@@ -674,8 +752,8 @@ a { text-decoration: none; color: inherit; }
                     <div class="tnode-dot tnode-dot--on"></div>
                     <div class="tnode-content">
                         <div class="tnode-phase">ENTRY OPEN</div>
-                        <div class="tnode-date">06.20</div>
-                        <div class="tnode-day">SAT 2026</div>
+                        <div class="tnode-date">06.26</div>
+                        <div class="tnode-day">FRI 2026</div>
                         <div class="tnode-label">応募開始</div>
                     </div>
                 </div>
@@ -684,8 +762,8 @@ a { text-decoration: none; color: inherit; }
                     <div class="tnode-dot"></div>
                     <div class="tnode-content">
                         <div class="tnode-phase">DEADLINE</div>
-                        <div class="tnode-date">07.18</div>
-                        <div class="tnode-day">FRI 2026</div>
+                        <div class="tnode-date">07.25</div>
+                        <div class="tnode-day">SAT 2026</div>
                         <div class="tnode-label">応募締切</div>
                     </div>
                 </div>
@@ -714,14 +792,25 @@ a { text-decoration: none; color: inherit; }
             </div>
             <div class="timeline-dur" aria-hidden="true">
                 <span class="dur-badge">+ 4 WEEKS</span>
-                <span class="dur-badge">+ 2 WEEKS</span>
+                <span class="dur-badge">+ 1 WEEK</span>
                 <span class="dur-badge">+ 4 WEEKS</span>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ④ CONDITIONS -->
+<!-- ⑤ PERIOD -->
+<section class="lp-section lp-section--alt" id="period">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>PERIOD</div>
+        <h2 class="sec-title" data-reveal>応募期間</h2>
+        <p class="period-text" data-reveal>
+            <span>2026/6/26（金）18:30</span> から <span>7/25（土）23:59</span> まで。
+        </p>
+    </div>
+</section>
+
+<!-- ⑥ CONDITIONS -->
 <section class="lp-section" id="conditions">
     <div class="inner">
         <div class="sec-tag" data-reveal>CONDITIONS</div>
@@ -730,33 +819,38 @@ a { text-decoration: none; color: inherit; }
             <li class="cond-item" data-reveal data-d="1">
                 <span class="cond-n">01</span>
                 <div class="cond-text">
-                    <strong>日本在住者</strong>であること
+                    <strong>18歳以上</strong>
                 </div>
             </li>
             <li class="cond-item" data-reveal data-d="2">
                 <span class="cond-n">02</span>
                 <div class="cond-text">
-                    <strong>SoundCloud または Mixcloud</strong> にミックスを公開できること
+                    <strong>8/29（土）23:00〜5:00</strong> イベント当日に出演可能なこと
                 </div>
             </li>
             <li class="cond-item" data-reveal data-d="3">
                 <span class="cond-n">03</span>
                 <div class="cond-text">
-                    ミックスの尺は <strong>40分以上</strong>
+                    <strong>日本在住者</strong>であること
                 </div>
             </li>
             <li class="cond-item" data-reveal data-d="4">
                 <span class="cond-n">04</span>
                 <div class="cond-text">
-                    <strong>ジャンル不問</strong>
-                    <span class="cond-note">サブカルチャー系の音楽全般歓迎</span>
+                    <strong>SoundCloud または Mixcloud</strong> にミックスを公開できること
+                </div>
+            </li>
+            <li class="cond-item" data-reveal data-d="4">
+                <span class="cond-n">05</span>
+                <div class="cond-text">
+                    ジャンル不問
                 </div>
             </li>
         </ul>
     </div>
 </section>
 
-<!-- ⑤ HOW TO APPLY -->
+<!-- ⑦ HOW TO APPLY -->
 <section class="lp-section lp-section--alt" id="how-to-apply">
     <div class="inner">
         <div class="sec-tag" data-reveal>HOW TO APPLY</div>
@@ -765,40 +859,36 @@ a { text-decoration: none; color: inherit; }
 
             <div class="step-card">
                 <div class="step-n">STEP 01</div>
-                <h3 class="step-title">MIX をアップロード</h3>
-                <p class="step-body">
-                    <span class="step-tag">#RAVE2DChallenge</span>
-                    <br><br>
-                    上記のタグをつけて、40分以上のミックスを以下のいずれかにアップロード
-                </p>
-                <div class="step-platforms">
-                    <span class="step-pl">SoundCloud</span>
-                    <span class="step-pl">Mixcloud</span>
-                </div>
+                <h3 class="step-title">MIX 音源を作成</h3>
+                <p class="step-body">35〜45分のMIX音源を作成してください。</p>
             </div>
 
             <div class="step-conn" aria-hidden="true">→</div>
 
             <div class="step-card">
                 <div class="step-n">STEP 02</div>
-                <h3 class="step-title">フォームを記入</h3>
-                <p class="step-body">Google Form に以下を入力して送信</p>
-                <ul class="step-fields">
-                    <li>ミックスの URL</li>
-                    <li>X（Twitter）アカウント</li>
-                    <li>Instagram アカウント</li>
-                </ul>
+                <h3 class="step-title">アップロード</h3>
+                <p class="step-body">
+                    タイトルに <span class="step-tag">#RAVE2DChallenger</span> を含めたミックスを SoundCloud または Mixcloud にアップロードしてください。
+                </p>
+                <p class="step-note">※非公開設定や限定公開設定ではなく、公開設定にしてください。</p>
             </div>
 
             <div class="step-conn" aria-hidden="true">→</div>
 
             <div class="step-card">
                 <div class="step-n">STEP 03</div>
-                <h3 class="step-title">選考結果を通知</h3>
-                <p class="step-body">
-                    選考結果は、応募時のSNSアカウント宛にご連絡します
-                </p>
-                <span class="step-date-badge">RESULT: 2026.08.01 SAT</span>
+                <h3 class="step-title">フォームを記入</h3>
+                <p class="step-body">フォームに必要事項を入力してください。</p>
+            </div>
+
+            <div class="step-conn" aria-hidden="true">→</div>
+
+            <div class="step-card">
+                <div class="step-n">STEP 04</div>
+                <h3 class="step-title">応募完了</h3>
+                <p class="step-body">送信ボタン押下で応募完了となります。</p>
+                <span class="step-date-badge">DEADLINE: 2026.07.25 SAT</span>
             </div>
 
         </div>
@@ -806,12 +896,34 @@ a { text-decoration: none; color: inherit; }
             <a href="https://forms.gle/krnh4GGxiWA87z9S8" class="btn-apply btn-apply--lg" target="_blank" rel="noopener">
                 今すぐ応募する <span class="arrow">→</span>
             </a>
-            <p class="apply-limit">応募締切: 2026.07.18（FRI）</p>
+            <p class="apply-limit">応募締切: 2026.07.25（SAT）</p>
         </div>
     </div>
 </section>
 
-<!-- ⑥ VENUE -->
+<!-- ⑧ RESULT -->
+<section class="lp-section" id="result">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>RESULT</div>
+        <h2 class="sec-title" data-reveal>結果発表</h2>
+        <p class="info-body" data-reveal>
+            選考結果は、<strong>8/1（土）</strong>に応募時のSNSアカウント宛にご連絡、及び後日SNSにて発表させていただきます。
+        </p>
+    </div>
+</section>
+
+<!-- ⑨ TRAVEL -->
+<section class="lp-section lp-section--alt" id="travel">
+    <div class="inner">
+        <div class="sec-tag" data-reveal>TRAVEL</div>
+        <h2 class="sec-title" data-reveal>交通費</h2>
+        <p class="info-body" data-reveal>
+            一定額お支払いいたします。公募通過後に改めてご相談させていただきます。
+        </p>
+    </div>
+</section>
+
+<!-- ⑩ VENUE -->
 <section class="lp-section" id="venue">
     <div class="inner">
         <div class="sec-tag" data-reveal>VENUE</div>
@@ -822,10 +934,29 @@ a { text-decoration: none; color: inherit; }
         <p class="venue-desc" data-reveal>
             カルチャー特化型の自由な空間。個性的な「Me」が集まり、表現と交流が生まれる場所。平日はミュージックバー、週末は全国から人が集うイベントスペースとして機能する関西カルチャームーブメントの発信地。
         </p>
+        <span class="venue-sub-label" data-reveal>EQUIPMENT</span>
+        <div class="venue-spec-grid venue-spec-grid--4col" data-reveal>
+            <div class="venue-spec-cell">
+                <div class="spec-l">CDJ</div>
+                <div class="spec-v">CDJ 3000X × 2<br>XDJ-700</div>
+            </div>
+            <div class="venue-spec-cell">
+                <div class="spec-l">MIXER</div>
+                <div class="spec-v">DJM-A9</div>
+            </div>
+            <div class="venue-spec-cell">
+                <div class="spec-l">TURNTABLE</div>
+                <div class="spec-v">SL-3000</div>
+            </div>
+            <div class="venue-spec-cell">
+                <div class="spec-l">BOOTH MONITOR</div>
+                <div class="spec-v">GENELEC 8020</div>
+            </div>
+        </div>
     </div>
 </section>
 
-<!-- ⑦ FINAL CTA -->
+<!-- ⑪ FINAL CTA -->
 <section class="lp-final">
     <div class="final-glow" aria-hidden="true"></div>
     <div class="inner final-inner">
@@ -836,11 +967,11 @@ a { text-decoration: none; color: inherit; }
                 応募する <span class="arrow">→</span>
             </a>
         </div>
-        <p class="final-limit" data-reveal>応募締切: <strong>2026.07.18 FRI</strong></p>
+        <p class="final-limit" data-reveal>応募締切: <strong>2026.07.25 SAT</strong></p>
     </div>
 </section>
 
-<!-- ⑧ FOOTER -->
+<!-- ⑫ FOOTER -->
 <footer class="lp-footer">
     <a href="../" class="footer-back">← BACK TO RAVE 2D</a>
     <div class="footer-socials">
