@@ -76,12 +76,46 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     grid-column: 1 / -1;
     grid-row: 1 / 2;
     border-bottom: 1px solid var(--line);
-    padding: 16px 24px;
+    padding: 18px 24px 16px;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 16px;
+    align-items: flex-start;
+    justify-content: flex-start;
     position: relative;
+}
+
+/* ヘッダーブランド（スクエアロゴ＋タグライン） */
+.header .logo-link.header-brand {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+}
+.header-logo-img {
+    width: auto;
+    max-width: 148px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* ロゴリンク（イベントページ等） */
+.header .logo-link:not(.header-brand) {
+    display: block;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+/* ロゴ画像（イベントページ等・従来） */
+.logo-img {
+    width: auto;
+    max-width: 72px;
+    height: auto;
+    display: block;
+    object-fit: contain;
 }
 
 /* マーキー内ナビ（常時表示） */
@@ -130,30 +164,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .marquee-nav-link.is-active {
     background: var(--blue);
     color: #fff;
-}
-
-/* ロゴリンク（トップへ戻る） */
-.header .logo-link {
-    display: block;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-/* ロゴ画像 */
-.logo-img {
-    width: auto;
-    max-width: 72px;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-.sub-text {
-    font-family: var(--font-jp);
-    font-size: 0.75rem;
-    font-weight: 700;
-    line-height: 1.35;
-    color: rgba(255, 255, 255, 0.75);
 }
 
 /* --- MARQUEE (Nav Bar) — 青系・ゆっくり色変化 --- */
@@ -329,6 +339,20 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     width: 100%;
 }
 
+.hero-wordmark {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 0 22px;
+}
+.hero-wordmark-img {
+    width: auto;
+    max-width: min(112px, 24vw);
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
 .hero-title {
     width: 100%;
     font-size: 5rem;
@@ -341,48 +365,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .blue-txt {
     color: transparent;
     -webkit-text-stroke: 2px var(--blue);
-}
-
-.hero-news {
-    margin-bottom: 40px;
-}
-.hero-news-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    transition: opacity 0.3s;
-}
-.hero-news-link:hover {
-    opacity: 0.9;
-}
-.hero-news-link:hover .hero-news-label {
-    background: var(--blue);
-    color: #fff;
-}
-.hero-news-link:hover .hero-news-text {
-    color: #fff;
-}
-.hero-news-link:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: 4px;
-}
-.hero-news-label {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 6px 12px;
-    border-radius: 4px;
-    margin-bottom: 12px;
-}
-.hero-news-text {
-    font-family: var(--font-jp);
-    font-weight: 700;
-    font-size: 1rem;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.95);
 }
 
 /* Block Studio風 装飾テキスト（背景） */
@@ -494,7 +476,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: none;
 }
 
-/* 最新動画（ヒーロー内・NEWS直下）：サムネ cover・クリックで YouTube。幅は clamp でレスポンシブ */
+/* 最新動画（ヒーロー内・ABOUT直下） */
 .latest-video-section {
     padding-bottom: 28px;
     margin-bottom: 0;
@@ -503,7 +485,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     max-width: min(100%, clamp(260px, 85vw, 420px));
 }
 .hero .latest-video-section {
-    margin-top: 4px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .latest-video-label {
     font-size: 0.9rem;
@@ -811,12 +795,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     text-transform: uppercase;
 }
 
-/* RAVE WEAR ゾーンのサムネイルは他カードと同様に中央・カバーで統一 */
-#ravewear .card-img {
-    background-size: cover;
-    background-position: center;
-}
-
 .card-info {
     padding: 15px;
     transition: color 0.2s;
@@ -1112,7 +1090,10 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* --- RESPONSIVE: タブレット --- */
 @media (max-width: 1024px) {
-    .header { padding: 14px 20px; }
+    .header { padding: 16px 20px 14px; }
+    .header-logo-img { max-width: 132px; }
+    .hero-wordmark-img { max-width: min(100px, 22vw); }
+    .hero-wordmark { margin-bottom: 18px; }
     .logo-img { max-width: 64px; }
     .hero { padding: 36px 40px 48px; }
     .hero-title { font-size: 3.5rem; }
@@ -1146,14 +1127,19 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         border-right: none;
     }
     .header {
-        padding: 14px 16px;
-        gap: 12px;
+        padding: 14px 16px 12px;
+    }
+    .header-logo-img {
+        max-width: 120px;
+    }
+    .hero-wordmark-img {
+        max-width: min(92px, 26vw);
+    }
+    .hero-wordmark {
+        margin-bottom: 16px;
     }
     .logo-img {
         max-width: 52px;
-    }
-    .sub-text {
-        font-size: 0.65rem;
     }
     .marquee-section {
         min-height: 44px;
@@ -1177,12 +1163,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .blue-txt {
         -webkit-text-stroke: 1.5px var(--blue);
     }
-    .hero-news {
-        margin-bottom: 28px;
-    }
-    .hero-news-text {
-        font-size: 0.9rem;
-    }
     .btn {
         margin-right: 0;
         padding: 14px 24px;
@@ -1190,6 +1170,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .main-content { padding: 20px 16px 0; }
     .about-section { margin-top: 28px; padding-top: 24px; }
+    .hero .latest-video-section { margin-top: 28px; padding-top: 24px; }
     .grid-container.is-tab-active .main-content {
         padding: 24px 20px 0;
     }
@@ -1239,11 +1220,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     body.page-event {
         padding-bottom: env(safe-area-inset-bottom);
     }
-    .header { padding: 12px; gap: 10px; }
+    .header { padding: 12px 12px 10px; }
+    .header-logo-img {
+        max-width: 108px;
+    }
+    .hero-wordmark-img { max-width: min(84px, 28vw); }
+    .hero-wordmark { margin-bottom: 14px; }
     .logo-img {
         max-width: 44px;
     }
-    .sub-text { font-size: 0.6rem; }
     .hero { padding: 20px 12px; }
     .hero-title { font-size: 1.6rem; }
     .main-content { padding: 16px 12px 0; }
