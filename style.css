@@ -63,125 +63,65 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 /* --- GRID LAYOUT --- */
 .grid-container {
     display: grid;
-    grid-template-columns: 260px 1fr; /* サイドバー / メイン */
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr auto;
     min-height: 100vh;
     border: 1px solid var(--line);
     max-width: 1600px;
     margin: 0 auto;
 }
 
-/* --- HEADER (Top Left) --- */
+/* --- HEADER (Top) --- */
 .header {
-    grid-column: 1 / 2;
-    grid-row: 1 / 3;
-    border-right: 1px solid var(--line);
+    grid-column: 1 / -1;
+    grid-row: 1 / 2;
     border-bottom: 1px solid var(--line);
-    padding: 30px;
+    padding: 16px 24px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
     position: relative;
 }
 
-/* ハンバーガーボタン（マーキー＝青い横バー内に配置） */
-.marquee-menu-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.hamburger-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: #fff;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: background 0.2s;
-}
-.hamburger-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-}
-.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(2) {
-    opacity: 0;
-}
-.hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-}
-.hamburger-line {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: currentColor;
-    transition: transform 0.25s, opacity 0.2s;
-}
-
-/* マーキー内インラインメニュー（青い横バー内に表示） */
+/* マーキー内ナビ（常時表示） */
 .marquee-bar-row {
     position: absolute;
     inset: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
+    justify-content: flex-start;
     z-index: 2;
-    padding: 0 8px 0 12px;
+    padding: 0 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.marquee-bar-row::-webkit-scrollbar {
+    display: none;
 }
 .marquee-nav {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px 16px;
-    flex-wrap: wrap;
-    max-width: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-width 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease-out;
-}
-.marquee-section.is-menu-open .marquee-nav {
-    max-width: 100%;
-    opacity: 1;
-    overflow: visible;
+    gap: 4px;
+    flex-wrap: nowrap;
+    min-width: min-content;
 }
 .marquee-nav-link {
     font-family: var(--font-en);
     font-size: 0.85rem;
     font-weight: 700;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
     padding: 8px 14px;
     border: none;
     white-space: nowrap;
     flex-shrink: 0;
-    opacity: 0;
-    transform: translateX(18px);
-    transition: background 0.2s, color 0.2s,
-                opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.marquee-section.is-menu-open .marquee-nav-link {
-    opacity: 1;
-    transform: translateX(0);
-}
-/* 開くときのスタッガー（順番にふわっと出現） */
-.marquee-section.is-menu-open .marquee-nav-link:nth-child(1) { transition-delay: 0.08s; }
-.marquee-section.is-menu-open .marquee-nav-link:nth-child(2) { transition-delay: 0.16s; }
-.marquee-section.is-menu-open .marquee-nav-link:nth-child(3) { transition-delay: 0.24s; }
-.marquee-section.is-menu-open .marquee-nav-link:nth-child(4) { transition-delay: 0.32s; }
-.marquee-nav-link {
-    transition-delay: 0s;
+    border-radius: 4px;
+    transition: background 0.2s, color 0.2s;
 }
 .marquee-nav-link:hover {
     background: rgba(255, 255, 255, 0.12);
@@ -192,21 +132,17 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     color: #fff;
 }
 
-/* ヒーロー内のボタン群はハンバーガーに移したため非表示 */
-.btn-group--hidden {
-    display: none !important;
-}
-
 /* ロゴリンク（トップへ戻る） */
 .header .logo-link {
     display: block;
     text-decoration: none;
+    flex-shrink: 0;
 }
 
-/* ロゴ画像（ソース: 3240×3240px）、サイドバー内に収まる表示サイズ */
+/* ロゴ画像 */
 .logo-img {
-    width: 100%;
-    max-width: 200px;
+    width: auto;
+    max-width: 72px;
     height: auto;
     display: block;
     object-fit: contain;
@@ -214,34 +150,23 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 .sub-text {
     font-family: var(--font-jp);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-top: 10px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.75);
 }
 
-/* --- MARQUEE (Top Right) — 青系・ゆっくり色変化 --- */
+/* --- MARQUEE (Nav Bar) — 青系・ゆっくり色変化 --- */
 .marquee-section {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
     border-bottom: 1px solid var(--line);
     background: #001a66;
     overflow: hidden;
     padding: 0;
     user-select: none;
     position: relative;
-    min-height: 44px;
-}
-
-/* スマホ：メニュー開時はマーキー高さを内容に合わせる（2行になっても収まる） */
-@media (max-width: 768px) {
-    .marquee-section.is-menu-open {
-        min-height: auto;
-    }
-    .marquee-section.is-menu-open .marquee-bar-row {
-        position: relative;
-        padding: 10px 8px 10px 12px;
-        min-height: 44px;
-    }
+    min-height: 48px;
 }
 
 /* 青系グラデーションのゆっくりした色変化 */
@@ -386,12 +311,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* --- HERO (Main Visual) --- */
 .hero {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-    padding: 60px;
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
+    padding: 48px 60px 60px;
     border-bottom: 1px solid var(--line);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
     background-size: 40px 40px;
@@ -401,13 +326,16 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .hero-inner {
     position: relative;
     z-index: 1;
+    width: 100%;
 }
 
 .hero-title {
+    width: 100%;
     font-size: 5rem;
     line-height: 0.9;
     margin: 0 0 30px 0;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .blue-txt {
@@ -532,44 +460,50 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     position: relative;
 }
 
-/* --- SIDEBAR INFO --- */
-.info-bar {
-    grid-column: 1 / 2;
-    grid-row: 3 / 5;
-    border-right: 1px solid var(--line);
-    padding: 30px;
-    font-size: 0.8rem;
-    color: #888;
-}
-.info-bar ul { list-style: none; padding: 0; }
-.info-bar li { margin-bottom: 15px; }
-
-.blink { animation: blinker 1s linear infinite; color: var(--blue); }
-@keyframes blinker { 50% { opacity: 0; } }
-
 /* --- MAIN CONTENT (複数セクション) --- */
 .main-content {
-    grid-column: 2 / 3;
-    grid-row: 3 / 4;
+    grid-column: 1 / -1;
+    grid-row: 4 / 5;
     overflow: auto;
     display: flex;
     flex-direction: column;
     padding: 40px 40px 0;
+    min-height: 0;
+}
+.main-content:not(:has(.tab-panel.is-active)) {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* タブ選択時: ヒーロー（タイトル〜ABOUT）を非表示し、パネルをメイン領域に表示 */
+.grid-container.is-tab-active .hero {
+    display: none;
+}
+.grid-container.is-tab-active .main-content {
+    grid-row: 3 / 4;
+    padding: 48px 60px 0;
+    border-bottom: 1px solid var(--line);
+    background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.blink { animation: blinker 1s linear infinite; color: var(--blue); }
+@keyframes blinker { 50% { opacity: 0; } }
+
+.info-bar {
+    display: none;
 }
 
 /* 最新動画（ヒーロー内・NEWS直下）：サムネ cover・クリックで YouTube。幅は clamp でレスポンシブ */
 .latest-video-section {
     padding-bottom: 28px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 0;
+    border-bottom: none;
     width: 100%;
     max-width: min(100%, clamp(260px, 85vw, 420px));
 }
 .hero .latest-video-section {
     margin-top: 4px;
-}
-.latest-video-section.is-hidden {
-    display: none;
 }
 .latest-video-label {
     font-size: 0.9rem;
@@ -711,19 +645,32 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     border-color: var(--blue);
 }
 
-/* --- ABOUT パネル（コンセプト＋YouTube） --- */
-.about-panel {
-    padding: 0 0 40px;
+/* --- ABOUT（ヒーロー内・常時表示） --- */
+.about-section {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+}
+.about-section .section-label {
+    margin-left: 0;
+    margin-right: auto;
 }
 .about-inner {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 0;
+    width: 100%;
+    max-width: min(100%, 80ch);
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 .about-story {
+    width: 100%;
     min-width: 0;
-    max-width: 56ch;
+    text-align: center;
 }
 .about-lead {
     font-size: 1.05rem;
@@ -754,12 +701,16 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     width: 100%;
     margin-top: 2.5em;
     margin-bottom: 0;
+    display: flex;
+    justify-content: center;
 }
 .about-youtube-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: auto;
+    min-width: 200px;
+    max-width: 320px;
     box-sizing: border-box;
     padding: 16px 24px;
     font-size: 0.95rem;
@@ -916,8 +867,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* --- FOOTER --- */
 .footer {
-    grid-column: 2 / 3;
-    grid-row: 4 / 5;
+    grid-column: 1 / -1;
+    grid-row: 5 / 6;
     border-top: 1px solid var(--line);
     padding: 40px;
     text-align: center;
@@ -1161,12 +1112,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* --- RESPONSIVE: タブレット --- */
 @media (max-width: 1024px) {
-    .grid-container {
-        grid-template-columns: 200px 1fr;
-    }
-    .header { padding: 20px; }
-    .logo-img { max-width: 160px; }
-    .hero { padding: 40px; }
+    .header { padding: 14px 20px; }
+    .logo-img { max-width: 64px; }
+    .hero { padding: 36px 40px 48px; }
     .hero-title { font-size: 3.5rem; }
     .main-content { padding: 24px 24px 0; }
     .catalog { padding: 0 0 24px; }
@@ -1178,6 +1126,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .page-event .event-main {
         padding: 32px 24px 40px;
     }
+    .grid-container.is-tab-active .main-content {
+        padding: 36px 40px 0;
+    }
 }
 
 /* --- RESPONSIVE: スマホ（縦） --- */
@@ -1188,34 +1139,34 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         border-left: none;
         border-right: none;
     }
-    .header, .marquee-section, .hero, .info-bar, .main-content, .footer,
+    .header, .marquee-section, .hero, .main-content, .footer,
     .page-event .event-main, .page-event .event-footer {
-        grid-column: 1 / 2;
+        grid-column: 1 / -1;
         grid-row: auto;
         border-right: none;
     }
     .header {
-        padding: 20px 16px;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 16px;
-        border-bottom: 1px solid var(--line);
+        padding: 14px 16px;
+        gap: 12px;
     }
     .logo-img {
-        max-width: 120px;
-        width: 120px;
+        max-width: 52px;
     }
     .sub-text {
-        font-size: 0.75rem;
-        margin-top: 0;
+        font-size: 0.65rem;
     }
     .marquee-section {
-        padding: 8px 0;
+        min-height: 44px;
+    }
+    .marquee-bar-row {
+        padding: 0 8px;
+    }
+    .marquee-nav-link {
         font-size: 0.8rem;
+        padding: 8px 12px;
     }
     .hero {
-        padding: 24px 20px;
+        padding: 24px 20px 32px;
         min-height: auto;
     }
     .hero-title {
@@ -1237,8 +1188,11 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         padding: 14px 24px;
         font-size: 0.9rem;
     }
-    .info-bar { display: none; }
     .main-content { padding: 20px 16px 0; }
+    .about-section { margin-top: 28px; padding-top: 24px; }
+    .grid-container.is-tab-active .main-content {
+        padding: 24px 20px 0;
+    }
     .latest-video-section { padding-bottom: 24px; margin-bottom: 4px; max-width: min(100%, clamp(240px, 92vw, 400px)); }
     .latest-video-label { font-size: 0.8rem; margin-bottom: 12px; }
     .latest-video-play-icon {
@@ -1285,15 +1239,17 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     body.page-event {
         padding-bottom: env(safe-area-inset-bottom);
     }
-    .header { padding: 16px 12px; gap: 12px; }
+    .header { padding: 12px; gap: 10px; }
     .logo-img {
-        max-width: 90px;
-        width: 90px;
+        max-width: 44px;
     }
-    .sub-text { font-size: 0.7rem; }
+    .sub-text { font-size: 0.6rem; }
     .hero { padding: 20px 12px; }
     .hero-title { font-size: 1.6rem; }
     .main-content { padding: 16px 12px 0; }
+    .grid-container.is-tab-active .main-content {
+        padding: 20px 12px 0;
+    }
     .latest-video-section { padding-bottom: 20px; }
     .latest-video-label { font-size: 0.75rem; padding: 4px 12px; margin-bottom: 10px; }
     .catalog { padding: 16px 12px 40px; }
@@ -1382,15 +1338,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* ========== EVENT PAGE (events/highway/index.html) ========== */
 .page-event .event-main {
-    grid-column: 2 / 3;
-    grid-row: 2 / 4;
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
     padding: 40px 60px 48px;
     overflow: auto;
     border-bottom: 1px solid var(--line);
 }
 
 .page-event .event-footer {
-    grid-column: 2 / 3;
+    grid-column: 1 / -1;
     grid-row: 4 / 5;
 }
 
@@ -1587,10 +1543,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* Event page responsive: スマホ・タブレット（ベースの grid 指定より後に置き、確実に上書き） */
 @media (max-width: 768px) {
-    /* フッターを左サイドではなくメイン縦並びの下端に表示（index.html 同様） */
     .page-event .event-main,
     .page-event .event-footer {
-        grid-column: 1 / 2;
+        grid-column: 1 / -1;
         grid-row: auto;
         border-right: none;
     }
