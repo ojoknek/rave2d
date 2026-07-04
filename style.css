@@ -118,6 +118,44 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     object-fit: contain;
 }
 
+/* トップページ: ロゴ＋ナビを青バー1行に統合 */
+.page-home.grid-container {
+    grid-template-rows: auto auto 1fr auto;
+}
+.page-home .marquee-section {
+    grid-row: 1 / 2;
+}
+.page-home .hero {
+    grid-row: 2 / 3;
+}
+.page-home .main-content {
+    grid-row: 3 / 4;
+}
+.page-home .footer {
+    grid-row: 4 / 5;
+}
+.page-home.grid-container.is-tab-active .main-content {
+    grid-row: 2 / 3;
+}
+
+.marquee-brand {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 6px 8px 6px 0;
+    margin-right: 4px;
+}
+.marquee-logo-img {
+    height: 32px;
+    width: auto;
+    max-width: 148px;
+    object-fit: contain;
+    display: block;
+    transform: translateY(-1px);
+}
+
 /* マーキー内ナビ（常時表示） */
 .marquee-bar-row {
     position: absolute;
@@ -176,7 +214,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     padding: 0;
     user-select: none;
     position: relative;
-    min-height: 48px;
+    min-height: 52px;
 }
 
 /* 青系グラデーションのゆっくりした色変化 */
@@ -1092,6 +1130,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 @media (max-width: 1024px) {
     .header { padding: 16px 20px 14px; }
     .header-logo-img { max-width: 132px; }
+    .marquee-logo-img { height: 28px; max-width: 132px; }
     .hero-wordmark-img { max-width: min(100px, 22vw); }
     .hero-wordmark { margin-bottom: 18px; }
     .logo-img { max-width: 64px; }
@@ -1132,8 +1171,16 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .header-logo-img {
         max-width: 120px;
     }
+    .marquee-logo-img {
+        height: 26px;
+        max-width: 120px;
+    }
+    .marquee-brand {
+        padding-right: 6px;
+        margin-right: 2px;
+    }
     .hero-wordmark-img {
-        max-width: min(92px, 26vw);
+        max-width: min(101px, 28.6vw);
     }
     .hero-wordmark {
         margin-bottom: 16px;
@@ -1142,7 +1189,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         max-width: 52px;
     }
     .marquee-section {
-        min-height: 44px;
+        min-height: 48px;
     }
     .marquee-bar-row {
         padding: 0 8px;
@@ -1156,7 +1203,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         min-height: auto;
     }
     .hero-title {
-        font-size: clamp(1.75rem, 8vw, 2.5rem);
+        font-size: clamp(1.925rem, 8.8vw, 2.75rem);
         line-height: 1.1;
         margin-bottom: 20px;
     }
@@ -1170,6 +1217,15 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .main-content { padding: 20px 16px 0; }
     .about-section { margin-top: 28px; padding-top: 24px; }
+    .about-lead {
+        font-size: 0.84rem;
+    }
+    .about-story p {
+        font-size: 0.76rem;
+    }
+    .about-story .about-en {
+        font-size: 0.704rem;
+    }
     .hero .latest-video-section { margin-top: 28px; padding-top: 24px; }
     .grid-container.is-tab-active .main-content {
         padding: 24px 20px 0;
@@ -1224,13 +1280,17 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .header-logo-img {
         max-width: 108px;
     }
-    .hero-wordmark-img { max-width: min(84px, 28vw); }
+    .marquee-logo-img {
+        height: 24px;
+        max-width: 108px;
+    }
+    .hero-wordmark-img { max-width: min(92px, 30.8vw); }
     .hero-wordmark { margin-bottom: 14px; }
     .logo-img {
         max-width: 44px;
     }
     .hero { padding: 20px 12px; }
-    .hero-title { font-size: 1.6rem; }
+    .hero-title { font-size: 1.76rem; }
     .main-content { padding: 16px 12px 0; }
     .grid-container.is-tab-active .main-content {
         padding: 20px 12px 0;

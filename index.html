@@ -32,14 +32,8 @@
         <span class="loader-dot">.</span><span class="loader-dot">.</span><span class="loader-dot">.</span>
     </div>
 
-    <div class="grid-container">
+    <div class="grid-container page-home">
         
-        <header class="header" data-reveal>
-            <a href="./" class="logo-link header-brand">
-                <img src="image/RAVE2D-WORD-SQUARE.png" alt="RAVE 2D" class="header-logo-img">
-            </a>
-        </header>
-
         <div class="marquee-section marquee-glitch" id="marquee-glitch" aria-hidden="true">
             <div class="glitch-bg"></div>
             <div class="glitch-slice glitch-slice--1"></div>
@@ -52,6 +46,9 @@
             </div>
             <div class="glitch-slices-js" id="glitch-slices-js"></div>
             <div class="marquee-bar-row">
+                <a href="./" class="marquee-brand logo-link" aria-label="RAVE 2D トップへ">
+                    <img src="image/RAVE2D-WORD-SQUARE.png" alt="RAVE 2D" class="marquee-logo-img">
+                </a>
                 <nav id="nav-menu" class="marquee-nav" role="tablist" aria-label="サイトセクション">
                     <a href="#mix-catalog" class="marquee-nav-link tab-btn" data-hover role="tab" aria-selected="false">CATALOG</a>
                     <a href="#events" class="marquee-nav-link tab-btn" data-hover role="tab" aria-selected="false">EVENT</a>
@@ -486,7 +483,7 @@
 
     /* --- 初回表示: ヒーロー・ヘッダーの data-reveal / data-split --- */
     function revealOnLoad() {
-        document.querySelectorAll('.header[data-reveal], .header [data-reveal], .hero [data-reveal], .hero [data-split]').forEach(function (el) {
+        document.querySelectorAll('.hero [data-reveal], .hero [data-split]').forEach(function (el) {
             el.classList.add('is-visible');
         });
         /* メインコンテンツ以降はスクロールで表示 */
@@ -717,7 +714,7 @@
         });
     });
 
-    var logoLink = document.querySelector('.header .logo-link');
+    var logoLink = document.querySelector('.marquee-brand.logo-link');
     if (logoLink) {
         logoLink.addEventListener('click', function (e) {
             var path = window.location.pathname || '';
