@@ -71,54 +71,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     margin: 0 auto;
 }
 
-/* --- HEADER (Top) --- */
-.header {
-    grid-column: 1 / -1;
-    grid-row: 1 / 2;
-    border-bottom: 1px solid var(--line);
-    padding: 18px 24px 16px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: relative;
-}
-
-/* ヘッダーブランド（スクエアロゴ＋タグライン） */
-.header .logo-link.header-brand {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    color: inherit;
-    flex-shrink: 0;
-}
-.header-logo-img {
-    width: auto;
-    max-width: 148px;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-/* ロゴリンク（イベントページ等） */
-.header .logo-link:not(.header-brand) {
-    display: block;
-    text-decoration: none;
-    flex-shrink: 0;
-}
-
-/* ロゴ画像（イベントページ等・従来） */
-.logo-img {
-    width: auto;
-    max-width: 72px;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-/* トップページ: ロゴ＋ナビを青バー1行に統合 */
+/* トップページ・イベントページ共通: ロゴ＋ナビを青バー1行に統合 */
 .page-home.grid-container {
     grid-template-rows: auto auto 1fr auto;
 }
@@ -136,6 +89,14 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 .page-home.grid-container.is-tab-active .main-content {
     grid-row: 2 / 3;
+}
+
+/* イベントページ: ヘッダー行を廃止し、マーキー行のみで構成 */
+.page-event.grid-container {
+    grid-template-rows: auto 1fr auto;
+}
+.page-event .marquee-section {
+    grid-row: 1 / 2;
 }
 
 .marquee-brand {
@@ -1140,12 +1101,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 /* --- RESPONSIVE: タブレット --- */
 @media (max-width: 1024px) {
-    .header { padding: 16px 20px 14px; }
-    .header-logo-img { max-width: 132px; }
     .marquee-logo-img { height: 28px; max-width: 132px; }
     .hero-wordmark-img { max-width: min(100px, 22vw); }
     .hero-wordmark { margin-bottom: 18px; }
-    .logo-img { max-width: 64px; }
     .hero { padding: 36px 40px 48px; }
     .hero-title { font-size: 3.5rem; }
     .main-content { padding: 24px 24px 0; }
@@ -1171,17 +1129,11 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         border-left: none;
         border-right: none;
     }
-    .header, .marquee-section, .hero, .main-content, .footer,
+    .marquee-section, .hero, .main-content, .footer,
     .page-event .event-main, .page-event .event-footer {
         grid-column: 1 / -1;
         grid-row: auto;
         border-right: none;
-    }
-    .header {
-        padding: 14px 16px 12px;
-    }
-    .header-logo-img {
-        max-width: 120px;
     }
     .marquee-logo-img {
         height: 26px;
@@ -1196,9 +1148,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     }
     .hero-wordmark {
         margin-bottom: 16px;
-    }
-    .logo-img {
-        max-width: 52px;
     }
     .marquee-section {
         min-height: 48px;
@@ -1288,19 +1237,12 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     body.page-event {
         padding-bottom: env(safe-area-inset-bottom);
     }
-    .header { padding: 12px 12px 10px; }
-    .header-logo-img {
-        max-width: 108px;
-    }
     .marquee-logo-img {
         height: 24px;
         max-width: 108px;
     }
     .hero-wordmark-img { max-width: min(92px, 30.8vw); }
     .hero-wordmark { margin-bottom: 14px; }
-    .logo-img {
-        max-width: 44px;
-    }
     .hero { padding: 20px 12px; }
     .hero-title { font-size: 1.76rem; }
     .main-content { padding: 16px 12px 0; }
@@ -1396,7 +1338,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 /* ========== EVENT PAGE (events/highway/index.html) ========== */
 .page-event .event-main {
     grid-column: 1 / -1;
-    grid-row: 3 / 4;
+    grid-row: 2 / 3;
     padding: 40px 60px 48px;
     overflow: auto;
     border-bottom: 1px solid var(--line);
@@ -1404,11 +1346,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 .page-event .event-footer {
     grid-column: 1 / -1;
-    grid-row: 4 / 5;
-}
-
-.page-event .header .logo-link {
-    display: block;
+    grid-row: 3 / 4;
 }
 
 .event-title {

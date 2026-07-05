@@ -31,13 +31,7 @@
     </div>
 
     <div class="grid-container">
-        <header class="header">
-            <a href="../../" class="logo-link">
-                <img src="../../image/RAVE2D-WHITE.png" alt="RAVE 2D" class="logo-img">
-            </a>
-        </header>
-
-        <div class="marquee-section marquee-glitch" aria-hidden="true">
+        <div class="marquee-section marquee-glitch" id="marquee-glitch" aria-hidden="true">
             <div class="glitch-bg"></div>
             <div class="glitch-slice glitch-slice--1"></div>
             <div class="glitch-slice glitch-slice--2"></div>
@@ -45,6 +39,17 @@
             <div class="glitch-burst" aria-hidden="true">
                 <div class="glitch-burst-layer glitch-burst--blue-dark"></div>
                 <div class="glitch-burst-layer glitch-burst--blue-light"></div>
+            </div>
+            <div class="glitch-slices-js" id="glitch-slices-js"></div>
+            <div class="marquee-bar-row">
+                <a href="../../" class="marquee-brand logo-link" aria-label="RAVE 2D トップへ">
+                    <img src="../../image/RAVE2D-WORD-SQUARE.png" alt="RAVE 2D" class="marquee-logo-img">
+                </a>
+                <nav class="marquee-nav" aria-label="サイトセクション">
+                    <a href="../../#mix-catalog" class="marquee-nav-link" data-hover>CATALOG</a>
+                    <a href="../../#events" class="marquee-nav-link" data-hover>EVENT</a>
+                    <a href="../../rave-wear/" class="marquee-nav-link" data-hover>WEAR</a>
+                </nav>
             </div>
         </div>
 
@@ -235,6 +240,20 @@
         }
     });
 })();
+
+    /* --- Marquee: 点滅は廃止、色変化はCSSアニメーションで実施 --- */
+    (function () {
+        var slicesContainer = document.getElementById('glitch-slices-js');
+        if (!slicesContainer) return;
+        var sliceCount = 8;
+        var i;
+        for (i = 0; i < sliceCount; i++) {
+            var slice = document.createElement('div');
+            slice.className = 'glitch-slice-js';
+            slice.style.top = (i / sliceCount * 100) + '%';
+            slicesContainer.appendChild(slice);
+        }
+    })();
     </script>
 </body>
 </html>
