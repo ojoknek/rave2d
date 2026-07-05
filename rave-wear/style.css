@@ -318,6 +318,40 @@ button { cursor: pointer; }
     z-index: 2;
 }
 
+/* SOLD OUTタグ（貼り付けたステッカー風） */
+.product-soldout {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-6deg);
+    font-family: var(--font-en);
+    font-size: clamp(0.65rem, 1.4vw, 0.75rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    padding: 6px 16px;
+    background: var(--blue);
+    color: #fff;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* SOLD OUT中のカード：リンク無効・画像トーンダウン */
+.product-card.is-soldout .product-card-link {
+    cursor: default;
+}
+.product-card.is-soldout .product-img {
+    opacity: 0.45;
+    filter: grayscale(0.6);
+}
+.product-card.is-soldout:hover .product-img,
+.product-card.is-soldout .product-card-link:hover .product-img {
+    transform: none;
+}
+.product-card.is-soldout .product-info {
+    opacity: 0.55;
+}
+
 /* カード全体を Stripe へ（画像＋商品情報） */
 .product-card-link {
     display: flex;
