@@ -814,6 +814,10 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 #events .card-img {
     background-position: center top;
 }
+/* HARD: フライヤー上部の余白が大きいため、見せ場（タイトル〜ラインナップ）が入るよう少し下にずらす */
+#events .card-img.card-img--hard {
+    background-position: center 30%;
+}
 
 /* EVENTS カードの UPCOMING タグ（HIGHWAY のみ） */
 .card-tag {
@@ -879,6 +883,14 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .card-link:focus-visible {
     outline: 2px solid var(--blue);
     outline-offset: 2px;
+}
+.card-link[aria-disabled="true"] {
+    cursor: default;
+    color: #888;
+}
+.card:hover .card-link[aria-disabled="true"] {
+    background: var(--line);
+    color: #888;
 }
 
 /* --- FOOTER --- */
