@@ -191,7 +191,7 @@ python3 -m http.server 8000
 ## リンク
 
 - [YouTube チャンネル](https://www.youtube.com/@RAVE2D)
-- [Twitter(X)](https://x.com/rave_2d)
+- [Twitter(X)](https://x.com/rave2d)
 - [Instagram](https://www.instagram.com/rave_2d/)
 - [TikTok](https://www.tiktok.com/@rave2d)
 
