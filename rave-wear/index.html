@@ -326,8 +326,11 @@
     var lastProductTrigger = null;
 
     function flyRect(fromRect, toRect) {
-        var scaleX = fromRect.width / toRect.width;
-        var scaleY = fromRect.height / toRect.height;
+        // On narrow (single-column) layouts the grid thumbnail is already nearly as
+        // large as the fullscreen image, so a literal size ratio barely animates.
+        // Cap the "from" scale so the zoom always reads as a visible grow-in.
+        var scaleX = Math.min(fromRect.width / toRect.width, 0.82);
+        var scaleY = Math.min(fromRect.height / toRect.height, 0.82);
         var translateX = (fromRect.left + fromRect.width / 2) - (toRect.left + toRect.width / 2);
         var translateY = (fromRect.top + fromRect.height / 2) - (toRect.top + toRect.height / 2);
         return 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scaleX + ',' + scaleY + ')';

@@ -798,6 +798,6 @@ button { cursor: pointer; }
 
     .wear-footer-inner { padding: 28px 16px 24px; }
 
-    .wear-product-modal-panel { padding: 72px 20px 48px; }
+    .wear-product-modal-panel { padding: 72px 12px 48px; }
     .wear-product-modal-close { top: 14px; left: 16px; }
 }
