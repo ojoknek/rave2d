@@ -194,6 +194,7 @@ button { cursor: pointer; }
     font-weight: 600;
     letter-spacing: 0.12em;
     color: var(--text);
+    background: var(--bg);
     border: 1px solid var(--line);
     padding: 6px 14px;
     border-radius: 2px;
@@ -594,7 +595,6 @@ button { cursor: pointer; }
         height: 56px;
     }
     .wear-header-title { font-size: 0.85rem; }
-    .wear-back-label { display: none; }
     .wear-social-link { display: none; }
 
     .wear-hero {
