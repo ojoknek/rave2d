@@ -147,12 +147,6 @@ button { cursor: pointer; }
     letter-spacing: 0.12em;
     line-height: 1;
 }
-.wear-header-by {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: var(--text-subtle);
-    letter-spacing: 0.1em;
-}
 
 .wear-header-right {
     display: flex;
@@ -222,16 +216,6 @@ button { cursor: pointer; }
     color: transparent;
     -webkit-text-stroke: 3px var(--blue);
 }
-.wear-hero-desc {
-    font-family: var(--font-en);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin: 0;
-    line-height: 1.6;
-    letter-spacing: 0.12em;
-}
-
 /* ============================================================
    COLLECTION BAR
    ============================================================ */
@@ -659,7 +643,6 @@ button { cursor: pointer; }
     .wear-hero { padding: 32px 16px 48px; }
     .wear-hero-tag { font-size: 0.7rem; margin-bottom: 20px; }
     .wear-hero-title { font-size: clamp(2rem, 11vw, 2.8rem); }
-    .wear-hero-desc { font-size: 0.9rem; }
 
     .wear-collection-bar { padding: 18px 16px 12px; }
     .wear-collection-label { font-size: 0.65rem; }
