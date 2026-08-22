@@ -59,29 +59,27 @@
 
         <!-- コレクションヘッダー -->
         <div class="wear-collection-bar" data-wear-reveal>
-            <span class="wear-collection-label">ALL ITEMS</span>
-            <span class="wear-collection-count">3 ITEMS</span>
+            <span class="wear-collection-count">4 ITEMS</span>
         </div>
 
         <!-- プロダクトグリッド -->
         <section class="wear-products" aria-label="商品一覧">
 
             <article class="product-card" data-wear-reveal data-wear-stagger="0">
-                <a href="https://buy.stripe.com/fZu6oI9dP6Pe5MbcBt4Rq00" class="product-card-link" target="_blank" rel="noopener" aria-label="MIXTAPE TEE — Stripe で購入">
+                <div class="product-card-trigger" role="button" tabindex="0" data-product-buy="https://buy.stripe.com/fZu6oI9dP6Pe5MbcBt4Rq00" aria-label="MIXTAPE TEE を拡大表示">
                     <div class="product-img-wrap">
                         <div class="product-img" style="background-image: url('../image/TEE-MIXTAPE.png');"></div>
-                        <span class="product-badge">NEW</span>
                     </div>
                     <div class="product-info">
                         <h2 class="product-name">MIXTAPE TEE</h2>
                         <p class="product-meta">BLACK &nbsp;/&nbsp; UNISEX</p>
                         <p class="product-price">¥ 6,000 <span class="product-tax">税込</span></p>
                     </div>
-                </a>
+                </div>
             </article>
 
             <article class="product-card" data-wear-reveal data-wear-stagger="1">
-                <a href="https://buy.stripe.com/14AbJ275H3D2a2r8ld4Rq01" class="product-card-link" aria-label="LOGO TEE">
+                <div class="product-card-trigger" role="button" tabindex="0" data-product-buy="https://buy.stripe.com/14AbJ275H3D2a2r8ld4Rq01" aria-label="LOGO TEE を拡大表示">
                     <div class="product-img-wrap">
                         <div class="product-img" style="background-image: url('../image/TEE-LOGO.png');"></div>
                     </div>
@@ -90,11 +88,11 @@
                         <p class="product-meta">BLACK &nbsp;/&nbsp; UNISEX</p>
                         <p class="product-price">¥ 6,000 <span class="product-tax">税込</span></p>
                     </div>
-                </a>
+                </div>
             </article>
 
             <article class="product-card" data-wear-reveal data-wear-stagger="2">
-                <a href="https://buy.stripe.com/14A6oIgGh5LacazeJB4Rq02" class="product-card-link" aria-label="MIXTAPE TEE">
+                <div class="product-card-trigger" role="button" tabindex="0" data-product-buy="https://buy.stripe.com/14A6oIgGh5LacazeJB4Rq02" aria-label="MIXTAPE TEE を拡大表示">
                     <div class="product-img-wrap">
                         <div class="product-img" style="background-image: url('../image/TEE-MIXTAPE-GRAY.png');"></div>
                     </div>
@@ -103,7 +101,20 @@
                         <p class="product-meta">GRAY &nbsp;/&nbsp; UNISEX</p>
                         <p class="product-price">¥ 6,000 <span class="product-tax">税込</span></p>
                     </div>
-                </a>
+                </div>
+            </article>
+
+            <article class="product-card" data-wear-reveal data-wear-stagger="3">
+                <div class="product-card-trigger" role="button" tabindex="0" data-product-buy="https://buy.stripe.com/fZu9AU4Xz7Ti2zZbxp4Rq03" aria-label="LIGHTER を拡大表示">
+                    <div class="product-img-wrap">
+                        <div class="product-img" style="background-image: url('../image/LIGHTER.png');"></div>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-name">LIGHTER</h2>
+                        <p class="product-meta">MAT BLUE</p>
+                        <p class="product-price">¥ 600 <span class="product-tax">税込</span></p>
+                    </div>
+                </div>
             </article>
 
         </section>
@@ -208,6 +219,26 @@
         <p class="policy-note">※ RAVE WEARはRAVE 2Dのアパレル形態を意味します。</p>
     </template>
 
+    <!-- 商品ズームモーダル -->
+    <div id="wear-product-modal" class="wear-product-modal" aria-hidden="true">
+        <div class="wear-product-modal-backdrop"></div>
+        <div class="wear-product-modal-panel">
+            <button type="button" class="wear-product-modal-close" aria-label="一覧に戻る">
+                <span class="wear-product-modal-close-arrow">←</span>
+            </button>
+            <div class="wear-product-modal-stage" id="wear-product-modal-stage">
+                <span class="wear-product-modal-badge" id="wear-product-modal-badge"></span>
+                <div class="wear-product-modal-img" id="wear-product-modal-img"></div>
+            </div>
+            <div class="wear-product-modal-info">
+                <h2 class="wear-product-modal-name" id="wear-product-modal-name"></h2>
+                <p class="wear-product-modal-meta" id="wear-product-modal-meta"></p>
+                <p class="wear-product-modal-price" id="wear-product-modal-price"></p>
+                <a href="#" class="wear-product-modal-buy" id="wear-product-modal-buy" target="_blank" rel="noopener">BUY</a>
+            </div>
+        </div>
+    </div>
+
     <script>
 (function () {
     /* --- Loader --- */
@@ -283,8 +314,120 @@
     var closeBtn = document.querySelector('.wear-popup-close');
     if (closeBtn) closeBtn.addEventListener('click', closePolicy);
 
+    /* --- Product zoom modal --- */
+    var productModal = document.getElementById('wear-product-modal');
+    var productModalStage = document.getElementById('wear-product-modal-stage');
+    var productModalImg = document.getElementById('wear-product-modal-img');
+    var productModalBadge = document.getElementById('wear-product-modal-badge');
+    var productModalName = document.getElementById('wear-product-modal-name');
+    var productModalMeta = document.getElementById('wear-product-modal-meta');
+    var productModalPrice = document.getElementById('wear-product-modal-price');
+    var productModalBuy = document.getElementById('wear-product-modal-buy');
+    var lastProductTrigger = null;
+
+    function flyRect(fromRect, toRect) {
+        var scaleX = fromRect.width / toRect.width;
+        var scaleY = fromRect.height / toRect.height;
+        var translateX = (fromRect.left + fromRect.width / 2) - (toRect.left + toRect.width / 2);
+        var translateY = (fromRect.top + fromRect.height / 2) - (toRect.top + toRect.height / 2);
+        return 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scaleX + ',' + scaleY + ')';
+    }
+
+    function thumbRectOf(trigger) {
+        var thumb = trigger.querySelector('.product-img-wrap') || trigger;
+        return thumb.getBoundingClientRect();
+    }
+
+    function openProductModal(trigger) {
+        if (!productModal || productModal.classList.contains('is-open')) return;
+        var imgEl = trigger.querySelector('.product-img');
+        var nameEl = trigger.querySelector('.product-name');
+        var metaEl = trigger.querySelector('.product-meta');
+        var priceEl = trigger.querySelector('.product-price');
+        var badgeEl = trigger.querySelector('.product-badge');
+        var card = trigger.closest('.product-card');
+        var isSoldout = !!(card && card.classList.contains('is-soldout'));
+        var buyUrl = trigger.getAttribute('data-product-buy');
+
+        lastProductTrigger = trigger;
+        var thumbRect = thumbRectOf(trigger);
+
+        productModalImg.style.backgroundImage = imgEl ? imgEl.style.backgroundImage : '';
+        productModalName.textContent = nameEl ? nameEl.textContent.trim() : '';
+        productModalMeta.textContent = metaEl ? metaEl.textContent.replace(/\s+/g, ' ').trim() : '';
+        productModalPrice.innerHTML = priceEl ? priceEl.innerHTML : '';
+        productModalBadge.textContent = badgeEl ? badgeEl.textContent.trim() : '';
+
+        if (isSoldout || !buyUrl) {
+            productModalBuy.textContent = 'SOLD OUT';
+            productModalBuy.removeAttribute('href');
+            productModalBuy.classList.add('is-disabled');
+        } else {
+            productModalBuy.textContent = 'BUY';
+            productModalBuy.setAttribute('href', buyUrl);
+            productModalBuy.classList.remove('is-disabled');
+        }
+
+        productModal.classList.add('is-open', 'is-flying');
+        productModal.scrollTop = 0;
+        productModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        // FLIP: place the image at the thumbnail's rect/size, then release it to its natural layout.
+        var finalRect = productModalStage.getBoundingClientRect();
+        productModalStage.style.transition = 'none';
+        productModalStage.style.transform = flyRect(thumbRect, finalRect);
+
+        void productModalStage.offsetWidth; // force reflow
+
+        requestAnimationFrame(function () {
+            productModalStage.style.transition = 'transform 0.55s var(--ease-out-expo)';
+            productModalStage.style.transform = 'none';
+            productModal.classList.remove('is-flying');
+        });
+    }
+
+    function closeProductModal() {
+        if (!productModal || !productModal.classList.contains('is-open')) return;
+
+        if (lastProductTrigger && lastProductTrigger.isConnected) {
+            var thumbRect = thumbRectOf(lastProductTrigger);
+            var currentRect = productModalStage.getBoundingClientRect();
+            productModalStage.style.transition = 'transform 0.45s var(--ease-out-expo)';
+            productModalStage.style.transform = flyRect(thumbRect, currentRect);
+        }
+
+        productModal.classList.remove('is-open');
+        productModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+
+        window.setTimeout(function () {
+            productModalStage.style.transition = '';
+            productModalStage.style.transform = '';
+        }, 450);
+    }
+
+    document.querySelectorAll('.product-card-trigger').forEach(function (el) {
+        el.addEventListener('click', function () { openProductModal(el); });
+        el.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                openProductModal(el);
+            }
+        });
+    });
+
+    var productModalBackdrop = document.querySelector('.wear-product-modal-backdrop');
+    if (productModalBackdrop) productModalBackdrop.addEventListener('click', closeProductModal);
+
+    var productModalClose = document.querySelector('.wear-product-modal-close');
+    if (productModalClose) productModalClose.addEventListener('click', closeProductModal);
+
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closePolicy();
+        if (e.key === 'Escape') {
+            closePolicy();
+            closeProductModal();
+        }
     });
 
 })();
