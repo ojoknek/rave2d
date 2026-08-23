@@ -643,7 +643,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
     width: 100%;
     max-width: min(100%, 80ch);
     margin-left: auto;
@@ -654,69 +653,16 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     width: 100%;
     min-width: 0;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.9em;
 }
 .about-lead {
     font-size: 1.05rem;
     line-height: 1.7;
     color: var(--blue);
-    margin: 0 0 1.2em;
+    margin: 0;
     font-weight: 700;
-}
-.about-story p {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    margin: 0 0 1em;
-    color: rgba(255, 255, 255, 0.9);
-}
-.about-story p:last-child {
-    margin-bottom: 0;
-}
-.about-story .about-en {
-    font-size: 0.88rem;
-    color: rgba(255, 255, 255, 0.65);
-    margin-top: 0.25em;
-    margin-bottom: 1.2em;
-}
-.about-story .about-en:last-child {
-    margin-bottom: 0;
-}
-.about-actions {
-    width: 100%;
-    margin-top: 2.5em;
-    margin-bottom: 0;
-    display: flex;
-    justify-content: center;
-}
-.about-youtube-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    min-height: 0;
-    padding: 0;
-    margin-right: 0;
-    box-sizing: border-box;
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    background: transparent;
-    color: #FF0000; /* YouTube Red */
-    text-decoration: none;
-    transition: background 0.3s, color 0.2s, border-color 0.3s, transform 0.25s var(--ease-out-expo);
-}
-.about-youtube-btn svg {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
-}
-.about-youtube-btn:hover {
-    background: var(--blue);
-    color: #fff;
-    border-color: var(--blue);
-}
-.about-youtube-btn:focus-visible {
-    outline: 2px solid var(--blue);
-    outline-offset: 2px;
 }
 
 /* --- ABOUT / TODAY'S MIX side-by-side on wide (PC) viewports only --- */
@@ -727,7 +673,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .about-video-row {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        align-items: start;
+        align-items: stretch;
         gap: 64px;
         margin-top: 40px;
         padding-top: 32px;
@@ -739,18 +685,20 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         padding-top: 0;
         border-top: none;
     }
+    .about-video-row .about-section {
+        display: flex;
+        flex-direction: column;
+    }
     .about-video-row .about-inner {
         align-items: flex-start;
         text-align: left;
         max-width: 100%;
+        flex: 1;
+        justify-content: center;
     }
     .about-video-row .about-story,
-    .about-video-row .about-lead,
-    .about-video-row .about-story p {
+    .about-video-row .about-lead {
         text-align: left;
-    }
-    .about-video-row .about-actions {
-        justify-content: flex-start;
     }
     .about-video-row .latest-video-section {
         max-width: 100%;
@@ -1300,11 +1248,8 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     .about-lead {
         font-size: 0.84rem;
     }
-    .about-story p {
-        font-size: 0.76rem;
-    }
-    .about-story .about-en {
-        font-size: 0.704rem;
+    .about-story {
+        gap: 1.5em;
     }
     .hero .latest-video-section { margin-top: 28px; padding-top: 24px; }
     .grid-container.is-tab-active .main-content {
