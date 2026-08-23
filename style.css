@@ -100,6 +100,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 .page-event .marquee-section {
     grid-row: 1 / 2;
+    position: sticky;
+    top: 0;
+    z-index: 500;
 }
 
 .marquee-brand {
@@ -197,11 +200,13 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     animation: marquee-color-shift 12s ease-in-out infinite;
 }
 
-/* トップページのヘッダーのみ黒ベースに（イベントページは従来の青のまま） */
-.page-home .marquee-section {
+/* トップページ・イベントページ共通: ヘッダーを黒ベースに */
+.page-home .marquee-section,
+.page-event .marquee-section {
     background: #030303;
 }
-.page-home .marquee-glitch .glitch-bg {
+.page-home .marquee-glitch .glitch-bg,
+.page-event .marquee-glitch .glitch-bg {
     background: linear-gradient(
         120deg,
         #030303 0%,
