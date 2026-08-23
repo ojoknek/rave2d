@@ -910,16 +910,21 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 
 .footer-links a {
     margin: 0 15px;
-    font-size: 1.5rem;
-    font-weight: 900;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
+    color: var(--text);
     transition: color 0.25s, transform 0.2s;
 }
 .footer-links a:hover {
     color: var(--blue);
     transform: translateY(-2px);
+}
+.footer-links a svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    flex-shrink: 0;
 }
 
 .copy { margin-top: 30px; font-size: 0.7rem; color: #555; }
@@ -1296,7 +1301,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
         min-width: 180px;
     }
     .footer-links { gap: 8px; }
-    .footer-links a { font-size: 1rem; }
     /* イベントページ: 小型スマホ */
     .page-event .event-main {
         padding: 20px 12px 28px;

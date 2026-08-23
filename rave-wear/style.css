@@ -412,9 +412,6 @@ button { cursor: pointer; }
     justify-self: end;
 }
 .wear-footer-socials a {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
     color: var(--text-muted);
     transition: color 0.2s;
     min-height: 44px;
@@ -422,6 +419,12 @@ button { cursor: pointer; }
     align-items: center;
 }
 .wear-footer-socials a:hover { color: var(--text); }
+.wear-footer-socials a svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
 
 .wear-footer-policy {
     display: flex;
