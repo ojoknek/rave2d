@@ -674,7 +674,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 1.9em;
+    gap: 3.4em;
 }
 .about-lead {
     font-size: 1.05rem;
