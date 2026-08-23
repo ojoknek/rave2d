@@ -48,29 +48,19 @@ button { cursor: pointer; }
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
-    font-family: var(--font-en);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    color: var(--text);
     transition: opacity 0.5s var(--ease-in-out);
 }
 .wear-loader.is-hidden { opacity: 0; pointer-events: none; }
 
-.wear-loader-text {
-    color: var(--text);
+.wear-loader-mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    animation: loader-mark-pulse 1.6s var(--ease-in-out) infinite;
 }
-.wear-loader-dot {
-    color: var(--text-subtle);
-    animation: loader-blink 1s linear infinite;
-}
-.wear-loader-dot:nth-child(2) { animation-delay: 0.2s; }
-.wear-loader-dot:nth-child(3) { animation-delay: 0.4s; }
-.wear-loader-dot:nth-child(4) { animation-delay: 0.6s; }
-@keyframes loader-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+@keyframes loader-mark-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.94); opacity: 0.85; }
 }
 
 /* --- REVEAL ANIMATION --- */
