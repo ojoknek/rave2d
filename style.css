@@ -715,6 +715,44 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     outline-offset: 2px;
 }
 
+/* --- ABOUT / TODAY'S MIX side-by-side on wide (PC) viewports only --- */
+.about-video-row {
+    display: contents;
+}
+@media (min-width: 1025px) {
+    .about-video-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: start;
+        gap: 64px;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .about-video-row .about-section,
+    .hero .about-video-row .latest-video-section {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+    }
+    .about-video-row .about-inner {
+        align-items: flex-start;
+        text-align: left;
+        max-width: 100%;
+    }
+    .about-video-row .about-story,
+    .about-video-row .about-lead,
+    .about-video-row .about-story p {
+        text-align: left;
+    }
+    .about-video-row .about-actions {
+        justify-content: flex-start;
+    }
+    .about-video-row .latest-video-section {
+        max-width: 100%;
+    }
+}
+
 .section-label {
     grid-column: 1 / -1;
     font-size: 0.9rem;
