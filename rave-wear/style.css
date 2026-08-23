@@ -401,11 +401,6 @@ button { cursor: pointer; }
     opacity: 0.9;
     filter: brightness(0);
 }
-.wear-footer-brand-name {
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-}
 .wear-footer-socials {
     display: flex;
     gap: 24px;
