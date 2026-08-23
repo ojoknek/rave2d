@@ -688,22 +688,26 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     justify-content: center;
 }
 .about-youtube-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: auto;
-    min-width: 200px;
-    max-width: 320px;
+    width: 52px;
+    height: 52px;
+    min-height: 0;
+    padding: 0;
+    margin-right: 0;
     box-sizing: border-box;
-    padding: 16px 24px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
     border: 1px solid var(--line);
+    border-radius: 50%;
     background: transparent;
     color: #FF0000; /* YouTube Red */
     text-decoration: none;
-    transition: background 0.3s, color 0.2s, border-color 0.3s;
+    transition: background 0.3s, color 0.2s, border-color 0.3s, transform 0.25s var(--ease-out-expo);
+}
+.about-youtube-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 .about-youtube-btn:hover {
     background: var(--blue);
