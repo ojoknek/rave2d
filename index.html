@@ -398,13 +398,22 @@
             </section>
         </div>
 
-        <!-- サムネイルポップアップ -->
-        <div id="thumbnail-popup" class="popup-overlay" aria-hidden="true">
-            <div class="popup-backdrop"></div>
-            <div class="popup-content">
-                <button type="button" class="popup-close" aria-label="閉じる">&times;</button>
-                <img class="popup-img" src="" alt="YouTube サムネイル">
-                <a href="#" class="popup-link btn" target="_blank" rel="noopener">Watch on YouTube</a>
+        <!-- 動画ズームモーダル -->
+        <div id="thumbnail-popup" class="video-modal" aria-hidden="true">
+            <div class="video-modal-backdrop popup-backdrop"></div>
+            <div class="video-modal-panel">
+                <button type="button" class="video-modal-close popup-close" aria-label="一覧に戻る">
+                    <span class="video-modal-close-arrow">←</span>
+                    <span>BACK</span>
+                </button>
+                <div class="video-modal-stage" id="video-modal-stage">
+                    <img class="video-modal-img popup-img" src="" alt="YouTube サムネイル">
+                </div>
+                <div class="video-modal-info">
+                    <h2 class="video-modal-name" id="video-modal-name"></h2>
+                    <p class="video-modal-meta" id="video-modal-meta"></p>
+                    <a href="#" class="video-modal-watch popup-link" target="_blank" rel="noopener">Watch on YouTube</a>
+                </div>
             </div>
         </div>
 
@@ -648,10 +657,25 @@
     })();
 
     var popup = document.getElementById('thumbnail-popup');
+    var popupStage = document.getElementById('video-modal-stage');
     var popupImg = popup && popup.querySelector('.popup-img');
+    var popupName = document.getElementById('video-modal-name');
+    var popupMeta = document.getElementById('video-modal-meta');
     var popupLink = popup && popup.querySelector('.popup-link');
     var popupClose = popup && popup.querySelector('.popup-close');
     var popupBackdrop = popup && popup.querySelector('.popup-backdrop');
+    var lastVideoTrigger = null;
+
+    function flyRect(fromRect, toRect) {
+        // On narrow (single-column) layouts the grid thumbnail is already nearly as
+        // large as the fullscreen image, so a literal size ratio barely animates.
+        // Cap the "from" scale so the zoom always reads as a visible grow-in.
+        var scaleX = Math.min(fromRect.width / toRect.width, 0.82);
+        var scaleY = Math.min(fromRect.height / toRect.height, 0.82);
+        var translateX = (fromRect.left + fromRect.width / 2) - (toRect.left + toRect.width / 2);
+        var translateY = (fromRect.top + fromRect.height / 2) - (toRect.top + toRect.height / 2);
+        return 'translate(' + translateX + 'px,' + translateY + 'px) scale(' + scaleX + ',' + scaleY + ')';
+    }
 
     document.querySelectorAll('.catalog .card-link').forEach(function (link) {
         var id = getYoutubeId(link.href);
@@ -670,13 +694,36 @@
         }
         link.addEventListener('click', function (e) {
             e.preventDefault();
-            if (!popup || !popupImg || !popupLink) return;
+            if (!popup || !popupImg || !popupLink || !popupStage || popup.classList.contains('is-open')) return;
+
+            var nameEl = card.querySelector('h3');
+            var metaEl = card.querySelector('p');
+            lastVideoTrigger = thumbEl;
+            var thumbRect = thumbEl.getBoundingClientRect();
+
             popupImg.src = thumbnailUrlFallback(id);
-            popupImg.onerror = function () { this.src = thumbnailUrlFallback(id); };
+            popupImg.onerror = function () { this.onerror = null; this.src = thumbnailUrlFallback(id); };
             popupImg.src = thumbnailUrl(id);
             popupLink.href = link.href;
+            if (popupName) popupName.textContent = nameEl ? nameEl.textContent.trim() : '';
+            if (popupMeta) popupMeta.textContent = metaEl ? metaEl.textContent.trim() : '';
+
+            popup.classList.add('is-open', 'is-flying');
+            popup.scrollTop = 0;
             popup.setAttribute('aria-hidden', 'false');
-            popup.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+
+            var finalRect = popupStage.getBoundingClientRect();
+            popupStage.style.transition = 'none';
+            popupStage.style.transform = flyRect(thumbRect, finalRect);
+
+            void popupStage.offsetWidth; // force reflow
+
+            requestAnimationFrame(function () {
+                popupStage.style.transition = 'transform 0.55s var(--ease-out-expo)';
+                popupStage.style.transform = 'none';
+                popup.classList.remove('is-flying');
+            });
         });
     });
 
@@ -690,9 +737,24 @@
     });
 
     function closePopup() {
-        if (!popup) return;
-        popup.setAttribute('aria-hidden', 'true');
+        if (!popup || !popup.classList.contains('is-open')) return;
+
+        if (popupStage && lastVideoTrigger && lastVideoTrigger.isConnected) {
+            var thumbRect = lastVideoTrigger.getBoundingClientRect();
+            var currentRect = popupStage.getBoundingClientRect();
+            popupStage.style.transition = 'transform 0.45s var(--ease-out-expo)';
+            popupStage.style.transform = flyRect(thumbRect, currentRect);
+        }
+
         popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+
+        window.setTimeout(function () {
+            if (!popupStage) return;
+            popupStage.style.transition = '';
+            popupStage.style.transform = '';
+        }, 450);
     }
     if (popupClose) popupClose.addEventListener('click', closePopup);
     if (popupBackdrop) popupBackdrop.addEventListener('click', closePopup);

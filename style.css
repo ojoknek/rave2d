@@ -1083,67 +1083,139 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 
 /* --- サムネイルポップアップ --- */
-.popup-overlay {
+/* --- CATALOG 動画ズームモーダル（RAVE WEAR の商品モーダルと同じ FLIP ズーム方式） --- */
+.video-modal {
     position: fixed;
     inset: 0;
     z-index: 10000;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
+    overflow-y: auto;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s, visibility 0.25s;
+    transition: opacity 0.4s var(--ease-out-expo), visibility 0.4s;
 }
-.popup-overlay.is-open {
+.video-modal.is-open {
     opacity: 1;
     visibility: visible;
 }
-.popup-backdrop {
-    position: absolute;
+/* 開閉アニメーション中はクリックでの割り込みを防ぐ */
+.video-modal.is-flying .video-modal-backdrop,
+.video-modal.is-flying .video-modal-close,
+.video-modal.is-flying .video-modal-watch {
+    pointer-events: none;
+}
+.video-modal-backdrop {
+    position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--bg);
     cursor: pointer;
 }
-.popup-content {
+.video-modal-panel {
     position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
+    z-index: 1;
+    width: 100%;
+    max-width: 720px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 88px 24px 64px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    box-sizing: border-box;
 }
-.popup-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--text);
-    background: transparent;
-    color: var(--text);
-    font-size: 1.5rem;
-    line-height: 1;
+.video-modal-close {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.1em;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    transition: color 0.2s;
+    min-height: 44px;
 }
-.popup-close:hover {
+.video-modal-close:hover { color: var(--text); }
+.video-modal-close-arrow {
+    font-size: 1rem;
+    transition: transform 0.2s var(--ease-out-expo);
+}
+.video-modal-close:hover .video-modal-close-arrow { transform: translateX(-4px); }
+
+.video-modal-stage {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+    transform-origin: center center;
+    box-shadow: 0 0 40px rgba(0, 34, 255, 0.25);
+}
+.video-modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #111;
+}
+
+.video-modal-info {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 28px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s var(--ease-out-expo) 0.2s, transform 0.4s var(--ease-out-expo) 0.2s;
+}
+.video-modal.is-open .video-modal-info {
+    opacity: 1;
+    transform: translateY(0);
+}
+.video-modal-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+    letter-spacing: 0.04em;
+}
+.video-modal-meta {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 24px;
+    letter-spacing: 0.06em;
+}
+.video-modal-watch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    min-height: 48px;
+    padding: 15px 30px;
+    box-sizing: border-box;
+    border: 1px solid var(--text);
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s var(--ease-out-expo);
+}
+.video-modal-watch:hover {
     background: var(--blue);
     border-color: var(--blue);
+    transform: translateY(-2px);
 }
-.popup-img {
-    max-width: 100%;
-    max-height: 70vh;
-    width: auto;
-    height: auto;
-    display: block;
-    border: 1px solid var(--line);
-    box-shadow: 0 0 30px rgba(0, 34, 255, 0.3);
-}
-.popup-content .popup-link {
-    flex-shrink: 0;
+@media (max-width: 640px) {
+    .video-modal-panel { padding: 72px 12px 48px; }
+    .video-modal-close { top: 14px; left: 16px; }
 }
 
 /* --- RESPONSIVE: タブレット --- */
@@ -1353,8 +1425,10 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 18px;
     z-index: 9999;
     transition: opacity 0.6s var(--ease-out-expo);
     pointer-events: none;
@@ -1371,6 +1445,24 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 @keyframes loader-mark-pulse {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(0.94); opacity: 0.85; }
+}
+.loader-text {
+    margin: 0;
+    font-family: var(--font-en);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.5);
+}
+.loader-dot {
+    display: inline-block;
+    animation: loader-dot-blink 1.4s var(--ease-in-out) infinite;
+}
+.loader-dot:nth-child(2) { animation-delay: 0.2s; }
+.loader-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes loader-dot-blink {
+    0%, 80%, 100% { opacity: 0.2; }
+    40% { opacity: 1; }
 }
 @keyframes loaderFadeOut {
     to { opacity: 0; }
