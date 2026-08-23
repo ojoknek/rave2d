@@ -139,26 +139,6 @@ button { cursor: pointer; }
     line-height: 1;
 }
 
-.wear-header-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 16px;
-}
-.wear-social-link {
-    color: var(--text-muted);
-    transition: color 0.2s;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-}
-.wear-social-link:hover { color: var(--text); }
-.wear-social-link svg {
-    width: 17px;
-    height: 17px;
-    fill: currentColor;
-    flex-shrink: 0;
-}
 
 /* ============================================================
    HERO
@@ -728,7 +708,6 @@ button { cursor: pointer; }
         height: 56px;
     }
     .wear-header-title { font-size: 0.85rem; }
-    .wear-social-link { display: none; }
 
     .wear-hero {
         padding: 40px 20px 60px;

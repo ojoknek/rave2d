@@ -77,6 +77,9 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 }
 .page-home .marquee-section {
     grid-row: 1 / 2;
+    position: sticky;
+    top: 0;
+    z-index: 500;
 }
 .page-home .hero {
     grid-row: 2 / 3;
@@ -192,6 +195,22 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     );
     background-size: 400% 400%;
     animation: marquee-color-shift 12s ease-in-out infinite;
+}
+
+/* トップページのヘッダーのみ黒ベースに（イベントページは従来の青のまま） */
+.page-home .marquee-section {
+    background: #030303;
+}
+.page-home .marquee-glitch .glitch-bg {
+    background: linear-gradient(
+        120deg,
+        #030303 0%,
+        #060614 25%,
+        #030308 50%,
+        #08081a 75%,
+        #030303 100%
+    );
+    background-size: 400% 400%;
 }
 @keyframes marquee-color-shift {
     0%, 100% { background-position: 0% 50%; }
@@ -1390,24 +1409,6 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 @keyframes loader-mark-pulse {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(0.94); opacity: 0.85; }
-}
-.loader-text {
-    margin: 0;
-    font-family: var(--font-en);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: rgba(255, 255, 255, 0.5);
-}
-.loader-dot {
-    display: inline-block;
-    animation: loader-dot-blink 1.4s var(--ease-in-out) infinite;
-}
-.loader-dot:nth-child(2) { animation-delay: 0.2s; }
-.loader-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes loader-dot-blink {
-    0%, 80%, 100% { opacity: 0.2; }
-    40% { opacity: 1; }
 }
 @keyframes loaderFadeOut {
     to { opacity: 0; }
