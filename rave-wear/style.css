@@ -146,9 +146,6 @@ button { cursor: pointer; }
     gap: 16px;
 }
 .wear-social-link {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
     color: var(--text-muted);
     transition: color 0.2s;
     min-height: 44px;
@@ -156,6 +153,12 @@ button { cursor: pointer; }
     align-items: center;
 }
 .wear-social-link:hover { color: var(--text); }
+.wear-social-link svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
 
 /* ============================================================
    HERO
