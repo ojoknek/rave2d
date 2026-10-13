@@ -1082,6 +1082,7 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     inset: 0;
     background: var(--bg);
     cursor: pointer;
+    transition: background 0.5s var(--ease-out-expo);
 }
 .video-modal-panel {
     position: relative;
@@ -1095,6 +1096,16 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
+    transition: max-width 0.5s var(--ease-out-expo);
+}
+/* 3Dモデル表示中はモーダル全体を正真正銘の全画面(白背景)にして、モデルを画面いっぱいに見せる */
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-backdrop {
+    background: #ffffff;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-panel {
+    max-width: none;
+    min-height: 0;
+    padding: 0;
 }
 .video-modal-close {
     position: fixed;
@@ -1125,11 +1136,26 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
 .video-modal-stage {
     position: relative;
     width: 100%;
-    max-width: 640px;
-    aspect-ratio: 16 / 9;
+    max-width: 560px;
+    aspect-ratio: 1 / 1;
     margin: 0 auto;
     transform-origin: center center;
     box-shadow: 0 0 40px rgba(0, 34, 255, 0.25);
+    background: transparent;
+    transition: background 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo), max-width 0.5s var(--ease-out-expo);
+}
+/* 3Dモデル表示中は背景を白にし、ビューポート全体を使ってモデルを大きく見せる */
+.video-modal-stage:has(.video-modal-canvas.is-ready) {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 46%, #ffffff 0%, #f3f3f5 55%, #e6e6ea 100%);
+    box-shadow: none;
 }
 .video-modal-img {
     width: 100%;
@@ -1137,8 +1163,110 @@ a { text-decoration: none; color: inherit; cursor: pointer; }
     object-fit: cover;
     display: block;
     background: #111;
+    transition: opacity 0.4s var(--ease-out-expo);
 }
-
+/* --- 3D CDケース（Three.js）: 準備でき次第サムネ画像の上にフェードイン --- */
+.video-modal-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-expo);
+    touch-action: none;
+    cursor: grab;
+}
+.video-modal-canvas.is-ready {
+    opacity: 1;
+}
+.video-modal-canvas:active {
+    cursor: grabbing;
+}
+.video-modal-stage:has(.video-modal-canvas.is-ready) .video-modal-img {
+    opacity: 0;
+}
+.video-modal-case-hint {
+    position: absolute;
+    left: 50%;
+    bottom: -30px;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-expo) 0.2s;
+    pointer-events: none;
+}
+.video-modal-canvas.is-ready ~ .video-modal-case-hint {
+    opacity: 1;
+}
+/* 白背景の全画面表示中は、暗色テキストに切り替えて視認性を保つ。各要素はビューポート基準のオーバーレイとして配置 */
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-close {
+    color: rgba(0, 0, 0, 0.55);
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 8px 14px;
+    border-radius: 22px;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-close:hover {
+    color: #000;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-case-hint {
+    color: rgba(0, 0, 0, 0.4);
+    bottom: 28px;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-name {
+    color: #111;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-meta {
+    color: rgba(0, 0, 0, 0.55);
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-watch {
+    border-color: #111;
+    color: #111;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-watch:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-info {
+    position: fixed;
+    z-index: 2;
+    margin: 0;
+    left: 32px;
+    bottom: 32px;
+    width: auto;
+    max-width: 320px;
+    text-align: left;
+}
+.video-modal:has(.video-modal-canvas.is-ready) .video-modal-watch {
+    min-height: 40px;
+    padding: 10px 26px;
+}
+@media (max-aspect-ratio: 3/2) {
+    .video-modal:has(.video-modal-canvas.is-ready) .video-modal-info {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: none;
+        text-align: center;
+        padding: 40px 20px 24px;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.97) 55%, rgba(255, 255, 255, 0));
+        pointer-events: none;
+    }
+    .video-modal:has(.video-modal-canvas.is-ready) .video-modal-info > * {
+        pointer-events: auto;
+    }
+    .video-modal:has(.video-modal-canvas.is-ready) .video-modal-case-hint {
+        bottom: auto;
+        top: 76px;
+    }
+}
 .video-modal-info {
     width: 100%;
     max-width: 480px;

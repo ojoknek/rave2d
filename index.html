@@ -428,6 +428,8 @@
                 </button>
                 <div class="video-modal-stage" id="video-modal-stage">
                     <img class="video-modal-img popup-img" src="" alt="YouTube サムネイル">
+                    <canvas class="video-modal-canvas" id="video-modal-canvas" aria-hidden="true"></canvas>
+                    <p class="video-modal-case-hint" id="video-modal-case-hint">タップで再生 ・ ドラッグで回転</p>
                 </div>
                 <div class="video-modal-info">
                     <h2 class="video-modal-name" id="video-modal-name"></h2>
@@ -729,6 +731,16 @@
             if (popupName) popupName.textContent = nameEl ? nameEl.textContent.trim() : '';
             if (popupMeta) popupMeta.textContent = metaEl ? metaEl.textContent.trim() : '';
 
+            if (window.RaveMixCase) {
+                window.RaveMixCase.open({
+                    videoId: id,
+                    title: nameEl ? nameEl.textContent.trim() : '',
+                    meta: metaEl ? metaEl.textContent.trim() : '',
+                    thumbHi: thumbnailUrl(id),
+                    thumbLo: thumbnailUrlFallback(id)
+                });
+            }
+
             popup.hidden = false;
             popup.classList.add('is-open', 'is-flying');
             popup.scrollTop = 0;
@@ -760,6 +772,8 @@
 
     function closePopup() {
         if (!popup || !popup.classList.contains('is-open')) return;
+
+        if (window.RaveMixCase) window.RaveMixCase.close();
 
         if (popupStage && lastVideoTrigger && lastVideoTrigger.isConnected) {
             var thumbRect = lastVideoTrigger.getBoundingClientRect();
@@ -897,5 +911,13 @@
         }
     })();
     </script>
+
+    <script type="importmap">
+    { "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    } }
+    </script>
+    <script type="module" src="js/mix-case-3d.js?dev=33"></script>
 </body>
 </html>
