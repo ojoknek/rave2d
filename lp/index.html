@@ -65,6 +65,34 @@
             height: auto;
         }
 
+        /* CD HERO */
+        .cd-hero-wrap {
+            position: relative;
+            width: 100%;
+            height: clamp(230px, 78vw, 320px);
+            margin-bottom: 40px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        .cd-hero-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .cd-hero-canvas.is-ready {
+            opacity: 1;
+        }
+
+        .cd-hero-wrap.is-unsupported {
+            display: none;
+        }
+
         /* SNS LINKS */
         .sns-grid {
             display: flex;
@@ -318,6 +346,11 @@
         </a>
     </div>
 
+    <!-- CD HERO -->
+    <div class="cd-hero-wrap">
+        <canvas id="cd-hero-canvas" class="cd-hero-canvas" aria-hidden="true"></canvas>
+    </div>
+
     <!-- SNS BUTTONS -->
     <div class="sns-grid">
         <!-- X -->
@@ -444,5 +477,11 @@
         });
     });
 </script>
+<script type="importmap">
+{ "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+} }
+</script>
+<script type="module" src="../js/lp-cd-hero.js?dev=4"></script>
 </body>
 </html>
