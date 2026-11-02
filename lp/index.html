@@ -83,9 +83,6 @@
         }
         .topbar { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
         .brand img { width: 108px; height: auto; display: block; }
-        .coord { font-size: 8px; letter-spacing: .22em; color: var(--dim); display: flex; align-items: center; gap: 8px; }
-        .coord i { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 10px var(--blue); animation: blink 1.6s steps(2) infinite; }
-        @keyframes blink { 50% { opacity: .15; } }
 
         .logo-stage {
             position: absolute; z-index: 0; left: 50%; top: 50%; width: min(90vw, 1000px);
@@ -119,27 +116,11 @@
         .content { position: relative; z-index: 3; background: linear-gradient(transparent, rgba(5,5,5,.78) 240px); }
         .sec { padding: 96px var(--pad) 0; max-width: 1040px; margin: 0 auto; }
 
-        /* MARQUEE */
-        .marquee {
-            overflow: hidden; background: var(--blue); color: #000; padding: 13px 0;
-            transform: rotate(-2deg) scale(1.06); margin: 10px 0 0;
-            box-shadow: 0 0 60px var(--blue-glow);
-        }
-        .marquee-track { display: flex; width: max-content; animation: scroll 26s linear infinite; }
-        .marquee-track span { font-size: 13px; font-weight: 900; letter-spacing: .22em; white-space: pre; padding-right: 0; color: #fff; }
-        @keyframes scroll { to { transform: translateX(-50%); } }
-
         /* MANIFESTO */
         .eyebrow { font-size: 9px; letter-spacing: .3em; color: var(--blue-soft); margin-bottom: 28px; }
         .statement { font-size: clamp(24px, 7.4vw, 56px); font-weight: 900; line-height: 1.12; letter-spacing: -.01em; }
         .statement span { display: block; margin-top: .5em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.6); }
         .statement u { text-decoration: none; color: var(--blue); -webkit-text-stroke: 0; text-shadow: 0 0 40px var(--blue-glow); }
-        .spec { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; border-top: 1px solid var(--line); }
-        .spec div { padding: 16px 0 0; border-right: 1px solid var(--line); padding-left: 14px; }
-        .spec div:first-child { padding-left: 0; }
-        .spec div:last-child { border-right: 0; }
-        .spec dt { font-size: 8px; letter-spacing: .25em; color: var(--dim); margin-bottom: 8px; }
-        .spec dd { font-size: clamp(11px, 3.2vw, 16px); font-weight: 900; letter-spacing: .06em; }
 
         .section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
         .section-label span { font-size: 9px; font-weight: 700; letter-spacing: .3em; color: var(--blue-soft); white-space: nowrap; }
@@ -194,7 +175,6 @@
 
         /* FOOT */
         .foot { padding: 110px var(--pad) 40px; text-align: center; overflow: hidden; }
-        .foot-mark { font-size: 19.5vw; font-weight: 900; line-height: .9; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.22); letter-spacing: -.03em; }
         .footer-link { display: inline-block; margin-top: 44px; font-size: 10px; letter-spacing: .25em; color: #888; transition: color .2s; }
         .footer-link:hover { color: #fff; }
         .footer-link span { margin-right: 6px; color: var(--blue-soft); }
@@ -210,12 +190,11 @@
 
         @media (min-width: 900px) {
             .brand img { width: 140px; }
-            .coord, .hint { font-size: 10px; }
-            .mix-list { gap: 96px; }
+                .mix-list { gap: 96px; }
             .sec { padding-top: 140px; }
         }
         @media (prefers-reduced-motion: reduce) {
-            .marquee-track, .logo-stage, .logo-stage img, .coord i, .hint-scroll i, .yt-subscribe::before { animation: none; }
+            .logo-stage, .logo-stage img, .hint-scroll i, .yt-subscribe::before { animation: none; }
             html { scroll-behavior: auto; }
             .will { opacity: 1; transform: none; transition: none; }
         }
@@ -230,7 +209,6 @@
 <header id="hero" class="hero">
     <div class="topbar">
         <a href="https://rave2d.com/" class="brand"><img src="/image/RAVE2D-WORD.png" alt="RAVE 2D"></a>
-        <span class="coord">TOKYO <i></i> 35.68°N 139.69°E</span>
     </div>
 
     <h1 class="logo-stage"><img src="/image/RAVE2D-WORD-TRIM.png" alt="RAVE 2D" width="1674" height="192" fetchpriority="high"></h1>
@@ -242,14 +220,6 @@
 </header>
 
 <main class="content">
-    <!-- MARQUEE -->
-    <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-            <span>RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ </span>
-            <span>RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ </span>
-        </div>
-    </div>
-
     <!-- MANIFESTO -->
     <section class="sec manifesto">
         <p class="eyebrow reveal">( 00 — ABOUT )</p>
@@ -257,11 +227,6 @@
             TOKYO-BASED<br>DJ MIX BRAND.<br>
             <span>THE CLUB, <u>REBUILT</u><br>FOR THE SCREEN.</span>
         </p>
-        <dl class="spec reveal">
-            <div><dt>FORMAT</dt><dd>DJ MIX</dd></div>
-            <div><dt>BASE</dt><dd>TOKYO</dd></div>
-            <div><dt>CHANNEL</dt><dd>YOUTUBE</dd></div>
-        </dl>
     </section>
 
     <!-- MIXES -->
@@ -332,7 +297,6 @@
     </section>
 
     <footer class="foot">
-        <div class="foot-mark" aria-hidden="true">RAVE 2D</div>
         <a class="footer-link" href="https://rave2d.com/"><span>→</span>RAVE2D.COM</a>
         <p class="copy">© RAVE 2D — TOKYO</p>
     </footer>
