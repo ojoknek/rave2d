@@ -105,9 +105,7 @@
         }
 
         .hero-foot { position: relative; z-index: 5; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; pointer-events: none; }
-        .tagline { font-size: clamp(9px, 2.6vw, 13px); font-weight: 700; letter-spacing: .2em; line-height: 1.9; }
-        .tagline em { font-style: normal; color: var(--blue-soft); }
-        .hint { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-size: 8px; letter-spacing: .25em; color: var(--dim); }
+        .hint { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-size: 8px; letter-spacing: .25em; color: var(--dim); }
         .hint-scroll i { display: block; width: 1px; height: 34px; margin: 8px 0 0 auto; background: linear-gradient(var(--text), transparent); animation: drip 1.8s ease-in-out infinite; transform-origin: top; }
         @keyframes drip { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
         .hero.has-dragged .hint-drag { opacity: 0; transition: opacity .4s; }
@@ -214,7 +212,6 @@
     <h1 class="logo-stage"><img src="/image/RAVE2D-WORD-TRIM.png" alt="RAVE 2D" width="1674" height="192" fetchpriority="high"></h1>
 
     <div class="hero-foot">
-        <p class="tagline">INTERSECTION OF<br>INTERNET <em>AND</em> CLUB.</p>
         <div class="hint"><span class="hint-drag">DRAG TO SPIN</span><span class="hint-scroll">SCROLL<i></i></span></div>
     </div>
 </header>
