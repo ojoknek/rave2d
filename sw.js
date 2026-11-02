@@ -1,16 +1,30 @@
 // RAVE 2D service worker: network-first for pages, cache-first for static assets.
-const VERSION = 'rave2d-v1';
+const VERSION = 'rave2d-v2';
 const PRECACHE = [
   '/',
   '/style.css',
   '/image/RAVE2D-fabicon.svg',
   '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/offline.html'
+  '/icons/icon-512.png'
 ];
+const OFFLINE_URL = '/offline.html';
+
+// Cloudflare Pages redirects /offline.html -> /offline (308). Chrome refuses to
+// serve a redirected response for a navigation, so store a clean copy instead.
+async function cacheOffline(cache) {
+  const res = await fetch(OFFLINE_URL);
+  if (!res.ok) return;
+  const body = await res.blob();
+  await cache.put(OFFLINE_URL, new Response(body, {
+    status: 200,
+    headers: { 'Content-Type': 'text/html; charset=utf-8' }
+  }));
+}
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION)
+      .then((c) => Promise.all([c.addAll(PRECACHE), cacheOffline(c)]))
+      .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -31,11 +45,14 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(VERSION).then((c) => c.put(req, copy));
+          // don't cache redirected responses (they can't be served to navigations)
+          if (res.ok && !res.redirected) {
+            const copy = res.clone();
+            caches.open(VERSION).then((c) => c.put(req, copy));
+          }
           return res;
         })
-        .catch(() => caches.match(req).then((r) => r || caches.match('/offline.html')))
+        .catch(() => caches.match(req).then((r) => r || caches.match(OFFLINE_URL)))
     );
     return;
   }
