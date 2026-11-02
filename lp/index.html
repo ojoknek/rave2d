@@ -30,435 +30,319 @@
             --bg: #050505;
             --text: #ffffff;
             --blue: #0022FF;
-            --blue-glow: rgba(0, 34, 255, 0.35);
-            --line: #222222;
-            --card-bg: #0d0d0d;
+            --blue-soft: #5577ff;
+            --blue-glow: rgba(0, 34, 255, 0.45);
+            --line: #1f1f24;
+            --dim: #6a6a74;
             --font: 'Unbounded', sans-serif;
+            --pad: clamp(18px, 5vw, 56px);
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
+        html { scroll-behavior: smooth; background: var(--bg); }
         body {
             background: var(--bg);
             color: var(--text);
             font-family: var(--font);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 48px 20px 64px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
+        a { color: inherit; text-decoration: none; }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-        }
-
-        /* HEADER */
-        .logo-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 40px;
-        }
-
-        .logo-img {
-            width: 240px;
-            height: auto;
-        }
-
-        /* CD HERO */
-        .cd-hero-wrap {
-            position: relative;
-            width: 100%;
-            height: clamp(230px, 78vw, 320px);
-            margin-bottom: 40px;
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            overflow: hidden;
-            background: #050505;
-        }
-
+        /* fixed 3D stage behind everything */
         .cd-hero-canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100lvh;
+            z-index: 1; pointer-events: none; opacity: 0;
+        }
+        .grain {
+            position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .07; mix-blend-mode: screen;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        }
+        .grain::after {
+            content: ''; position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,.35) 0 1px, transparent 1px 3px); opacity: .35;
         }
 
-        .cd-hero-canvas.is-ready {
-            opacity: 1;
+        /* HERO */
+        .hero {
+            position: relative; height: 100vh; height: 100svh; min-height: 560px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 22px var(--pad) 28px; overflow: hidden;
+            touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+        }
+        body::before { /* backdrop glow, under the giant type and the 3D */
+            content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                radial-gradient(60% 45% at 50% 46%, rgba(0,34,255,.28), transparent 70%),
+                radial-gradient(120% 80% at 50% 120%, rgba(0,34,255,.16), transparent 60%);
+        }
+        .hero.is-dragging { cursor: grabbing; }
+        .hero::after { /* fade into content */
+            content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 22%;
+            background: linear-gradient(transparent, var(--bg)); pointer-events: none; z-index: 2;
+        }
+        .topbar { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .brand img { width: 108px; height: auto; display: block; }
+        .coord { font-size: 8px; letter-spacing: .22em; color: var(--dim); display: flex; align-items: center; gap: 8px; }
+        .coord i { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 10px var(--blue); animation: blink 1.6s steps(2) infinite; }
+        @keyframes blink { 50% { opacity: .15; } }
+
+        .giant {
+            position: absolute; z-index: 0; left: 0; right: 0; top: 50%; transform: translateY(-52%);
+            display: flex; flex-direction: column; align-items: center; line-height: .82;
+            font-weight: 900; text-transform: uppercase; pointer-events: none;
+            font-size: min(27vw, 34vh);
+        }
+        .g-line { display: block; position: relative; letter-spacing: -.02em; }
+        .g-outline { color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.5); }
+        .g-solid {
+            color: var(--blue); margin-top: .02em; text-shadow: 0 0 60px var(--blue-glow);
+            animation: glitch 6s infinite steps(1);
+        }
+        .g-outline::before, .g-solid::before {
+            content: attr(data-text); position: absolute; inset: 0; opacity: 0; pointer-events: none;
+        }
+        @keyframes glitch {
+            0%, 92%, 100% { transform: none; text-shadow: 0 0 60px var(--blue-glow); }
+            93% { transform: translate(-.02em, 0); text-shadow: .03em 0 #ff2bd6, -.03em 0 #00e5ff; }
+            95% { transform: translate(.025em, .01em); text-shadow: -.03em 0 #ff2bd6, .03em 0 #00e5ff; }
+            97% { transform: translate(0, -.01em); text-shadow: .02em 0 #00e5ff, -.02em 0 #ff2bd6; }
         }
 
-        .cd-hero-wrap.is-unsupported {
-            display: none;
-        }
+        .hero-foot { position: relative; z-index: 5; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; pointer-events: none; }
+        .tagline { font-size: clamp(9px, 2.6vw, 13px); font-weight: 700; letter-spacing: .2em; line-height: 1.9; }
+        .tagline em { font-style: normal; color: var(--blue-soft); }
+        .hint { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; font-size: 8px; letter-spacing: .25em; color: var(--dim); }
+        .hint-scroll i { display: block; width: 1px; height: 34px; margin: 8px 0 0 auto; background: linear-gradient(var(--text), transparent); animation: drip 1.8s ease-in-out infinite; transform-origin: top; }
+        @keyframes drip { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+        .hero.has-dragged .hint-drag { opacity: 0; transition: opacity .4s; }
 
-        /* SNS LINKS */
-        .sns-grid {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-            margin-bottom: 16px;
-        }
+        /* everything below sits over the ghosted 3D */
+        .content { position: relative; z-index: 3; background: linear-gradient(transparent, rgba(5,5,5,.78) 240px); }
+        .sec { padding: 96px var(--pad) 0; max-width: 1040px; margin: 0 auto; }
 
-        .sns-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            height: 48px;
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            color: var(--text);
-            text-decoration: none;
-            background: var(--card-bg);
-            transition: border-color 0.2s, background 0.2s;
+        /* MARQUEE */
+        .marquee {
+            overflow: hidden; background: var(--blue); color: #000; padding: 13px 0;
+            transform: rotate(-2deg) scale(1.06); margin: 10px 0 0;
+            box-shadow: 0 0 60px var(--blue-glow);
         }
+        .marquee-track { display: flex; width: max-content; animation: scroll 26s linear infinite; }
+        .marquee-track span { font-size: 13px; font-weight: 900; letter-spacing: .22em; white-space: pre; padding-right: 0; color: #fff; }
+        @keyframes scroll { to { transform: translateX(-50%); } }
 
-        .sns-btn:hover {
-            border-color: #444;
-            background: #141414;
-        }
+        /* MANIFESTO */
+        .eyebrow { font-size: 9px; letter-spacing: .3em; color: var(--blue-soft); margin-bottom: 28px; }
+        .statement { font-size: clamp(24px, 7.4vw, 56px); font-weight: 900; line-height: 1.12; letter-spacing: -.01em; }
+        .statement span { display: block; margin-top: .5em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.6); }
+        .statement u { text-decoration: none; color: var(--blue); -webkit-text-stroke: 0; text-shadow: 0 0 40px var(--blue-glow); }
+        .spec { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; border-top: 1px solid var(--line); }
+        .spec div { padding: 16px 0 0; border-right: 1px solid var(--line); padding-left: 14px; }
+        .spec div:first-child { padding-left: 0; }
+        .spec div:last-child { border-right: 0; }
+        .spec dt { font-size: 8px; letter-spacing: .25em; color: var(--dim); margin-bottom: 8px; }
+        .spec dd { font-size: clamp(11px, 3.2vw, 16px); font-weight: 900; letter-spacing: .06em; }
 
-        .sns-btn svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-            fill: currentColor;
-        }
+        .section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
+        .section-label span { font-size: 9px; font-weight: 700; letter-spacing: .3em; color: var(--blue-soft); white-space: nowrap; }
+        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 
-        /* YOUTUBE SUBSCRIBE */
+        /* MIXES */
+        .mix-list { display: flex; flex-direction: column; gap: 72px; }
+        .mix-head { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 16px; }
+        .mix-n { font-size: clamp(44px, 14vw, 96px); font-weight: 900; line-height: .8; color: transparent; -webkit-text-stroke: 1px var(--blue-soft); }
+        .mix-title { font-size: clamp(14px, 4.2vw, 26px); font-weight: 900; letter-spacing: .08em; line-height: 1.1; padding-bottom: 4px; }
+        .video-card { position: relative; background: #0a0a0d; border: 1px solid var(--line); }
+        .video-thumb-wrap { position: relative; aspect-ratio: 16 / 9; cursor: pointer; overflow: hidden; background: #111; }
+        .video-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.85) contrast(1.05); transition: transform .6s cubic-bezier(.16,1,.3,1), filter .4s; }
+        .video-thumb-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,34,255,.35), transparent 55%); mix-blend-mode: screen; pointer-events: none; transition: opacity .3s; }
+        .video-thumb-wrap:hover img { transform: scale(1.05); filter: saturate(1.1) contrast(1.1); }
+        .video-thumb-wrap:hover::after { opacity: .3; }
+        .play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; background: rgba(0,0,0,.25); }
+        .play-ring { position: relative; width: 64px; height: 64px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.85); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px); background: rgba(0,34,255,.35); transition: transform .3s, background .3s; }
+        .video-thumb-wrap:hover .play-ring { transform: scale(1.12); background: var(--blue); }
+        .play-icon { width: 0; height: 0; border-style: solid; border-width: 9px 0 9px 16px; border-color: transparent transparent transparent #fff; margin-left: 4px; }
+        .corner { position: absolute; width: 14px; height: 14px; z-index: 3; border: 0 solid #fff; opacity: .8; }
+        .corner.tl { top: 10px; left: 10px; border-top-width: 1.5px; border-left-width: 1.5px; }
+        .corner.tr { top: 10px; right: 10px; border-top-width: 1.5px; border-right-width: 1.5px; }
+        .corner.bl { bottom: 10px; left: 10px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+        .corner.br { bottom: 10px; right: 10px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+        .video-embed { display: none; aspect-ratio: 16 / 9; }
+        .video-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+        .video-embed.is-active { display: block; }
+        .video-thumb-wrap.is-hidden { display: none; }
+        .video-watch { display: flex; justify-content: space-between; margin-top: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 9px; font-weight: 700; letter-spacing: .22em; color: #9a9aa6; transition: color .2s, padding .3s; }
+        .video-watch b { font-weight: 400; }
+        .video-watch:hover { color: #fff; padding-left: 8px; }
+
+        /* CONNECT */
         .yt-subscribe {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            height: 56px;
-            background: var(--blue);
-            border-radius: 4px;
-            font-family: var(--font);
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 0.18em;
-            color: var(--text);
-            text-decoration: none;
-            margin-bottom: 48px;
-            box-shadow: 0 0 24px var(--blue-glow);
-            transition: box-shadow 0.2s, opacity 0.2s;
+            display: block; position: relative; overflow: hidden; background: var(--blue); padding: 26px 22px 24px;
+            box-shadow: 0 0 60px var(--blue-glow); transition: transform .3s, box-shadow .3s;
         }
+        .yt-subscribe::before { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); transform: translateX(-120%); animation: sheen 3.6s ease-in-out infinite; }
+        @keyframes sheen { 60%, 100% { transform: translateX(120%); } }
+        .yt-subscribe:hover { transform: translateY(-3px); box-shadow: 0 10px 90px var(--blue-glow); }
+        .sub-top { display: flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 700; letter-spacing: .25em; }
+        .sub-top svg { width: 20px; height: 20px; fill: currentColor; }
+        .sub-main { display: flex; justify-content: space-between; align-items: baseline; margin-top: 18px; font-size: clamp(22px, 7vw, 40px); font-weight: 900; line-height: 1; }
+        .sns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .sns-btn { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 34px; min-height: 108px; padding: 16px; border: 1px solid var(--line); background: rgba(10,10,13,.85); transition: border-color .25s, background .25s, transform .3s; }
+        .sns-btn svg { width: 22px; height: 22px; fill: currentColor; }
+        .sns-btn span { font-size: 10px; font-weight: 900; letter-spacing: .2em; }
+        .sns-btn b { position: absolute; right: 14px; top: 12px; font-weight: 400; color: var(--dim); transition: color .2s, transform .3s; }
+        .sns-btn:hover { border-color: var(--blue-soft); background: rgba(0,34,255,.2); transform: translateY(-3px); }
+        .sns-btn:hover b { color: #fff; transform: translate(3px, -3px); }
 
-        .yt-subscribe:hover {
-            opacity: 0.88;
-            box-shadow: 0 0 40px var(--blue-glow);
+        /* FOOT */
+        .foot { padding: 110px var(--pad) 40px; text-align: center; overflow: hidden; }
+        .foot-mark { font-size: 19.5vw; font-weight: 900; line-height: .9; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.22); letter-spacing: -.03em; }
+        .footer-link { display: inline-block; margin-top: 44px; font-size: 10px; letter-spacing: .25em; color: #888; transition: color .2s; }
+        .footer-link:hover { color: #fff; }
+        .footer-link span { margin-right: 6px; color: var(--blue-soft); }
+        .copy { margin-top: 18px; font-size: 8px; letter-spacing: .25em; color: #444; }
+
+        /* reveal */
+        .will { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1); }
+        .will.in { opacity: 1; transform: none; }
+
+        /* fallbacks */
+        .no-gl body::before { background: radial-gradient(60% 45% at 50% 46%, rgba(0,34,255,.45), transparent 70%); }
+        .no-gl .cd-hero-canvas { display: none; }
+
+        @media (min-width: 900px) {
+            .brand img { width: 140px; }
+            .coord, .hint { font-size: 10px; }
+            .giant { flex-direction: row; justify-content: center; gap: .12em; font-size: min(17vw, 36vh); transform: translateY(-50%); }
+            .mix-list { gap: 96px; }
+            .sec { padding-top: 140px; }
         }
-
-        .yt-subscribe svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-
-        /* SECTION LABEL */
-        .section-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            margin-bottom: 24px;
-        }
-
-        .section-label span {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.25em;
-            color: #555;
-            white-space: nowrap;
-        }
-
-        .section-label::before,
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--line);
-        }
-
-        /* VIDEO CARDS */
-        .video-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-        }
-
-        .video-card {
-            width: 100%;
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            overflow: hidden;
-            background: var(--card-bg);
-        }
-
-        .video-thumb-wrap {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            cursor: pointer;
-            overflow: hidden;
-            background: #111;
-        }
-
-        .video-thumb-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .video-thumb-wrap:hover img {
-            transform: scale(1.03);
-        }
-
-        .play-btn {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.3);
-            transition: background 0.2s;
-        }
-
-        .video-thumb-wrap:hover .play-btn {
-            background: rgba(0,0,0,0.15);
-        }
-
-        .play-btn::after {
-            content: '';
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.7);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .play-icon {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 9px 0 9px 18px;
-            border-color: transparent transparent transparent #ffffff;
-            margin-left: 4px;
-        }
-
-        .video-embed {
-            display: none;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-        }
-
-        .video-embed iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-
-        .video-embed.is-active {
-            display: block;
-        }
-
-        .video-thumb-wrap.is-hidden {
-            display: none;
-        }
-
-        .video-info {
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .video-title {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            color: var(--text);
-        }
-
-        .video-watch {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: var(--font);
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            color: #888;
-            text-decoration: none;
-            border: 1px solid var(--line);
-            border-radius: 3px;
-            padding: 6px 10px;
-            white-space: nowrap;
-            transition: color 0.2s, border-color 0.2s;
-        }
-
-        .video-watch:hover {
-            color: var(--text);
-            border-color: #444;
-        }
-
-        /* FOOTER */
-        .footer-link {
-            margin-top: 52px;
-            font-size: 9px;
-            letter-spacing: 0.2em;
-            color: #444;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-link:hover {
-            color: #888;
-        }
-
-        .footer-link span {
-            margin-right: 4px;
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track, .g-solid, .coord i, .hint-scroll i, .yt-subscribe::before { animation: none; }
+            html { scroll-behavior: auto; }
+            .will { opacity: 1; transform: none; transition: none; }
         }
     </style>
 </head>
+
 <body>
-<div class="container">
+<div class="grain" aria-hidden="true"></div>
+<canvas id="cd-hero-canvas" class="cd-hero-canvas" aria-hidden="true"></canvas>
 
-    <!-- LOGO -->
-    <div class="logo-wrap">
-        <a href="https://rave2d.com/">
-            <img class="logo-img" src="/image/RAVE2D-WORD.png" alt="RAVE 2D">
-        </a>
+<!-- HERO -->
+<header id="hero" class="hero">
+    <div class="topbar">
+        <a href="https://rave2d.com/" class="brand"><img src="/image/RAVE2D-WORD.png" alt="RAVE 2D"></a>
+        <span class="coord">TOKYO <i></i> 35.68°N 139.69°E</span>
     </div>
 
-    <!-- CD HERO -->
-    <div class="cd-hero-wrap">
-        <canvas id="cd-hero-canvas" class="cd-hero-canvas" aria-hidden="true"></canvas>
+    <h1 class="giant" aria-label="RAVE 2D">
+        <span class="g-line g-outline" data-text="RAVE">RAVE</span>
+        <span class="g-line g-solid" data-text="2D">2D</span>
+    </h1>
+
+    <div class="hero-foot">
+        <p class="tagline">INTERSECTION OF<br>INTERNET <em>AND</em> CLUB.</p>
+        <div class="hint"><span class="hint-drag">DRAG TO SPIN</span><span class="hint-scroll">SCROLL<i></i></span></div>
     </div>
+</header>
 
-    <!-- SNS BUTTONS -->
-    <div class="sns-grid">
-        <!-- X -->
-        <a class="sns-btn" href="https://x.com/rave2d" target="_blank" rel="noopener" aria-label="X">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.261 5.635 5.903-5.635zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-        </a>
-        <!-- Instagram -->
-        <a class="sns-btn" href="https://www.instagram.com/rave_2d/" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-            </svg>
-        </a>
-        <!-- TikTok -->
-        <a class="sns-btn" href="https://www.tiktok.com/@rave2d" target="_blank" rel="noopener" aria-label="TikTok">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.91a8.18 8.18 0 004.78 1.52V7a4.85 4.85 0 01-1.01-.31z"/>
-            </svg>
-        </a>
-        <!-- YouTube channel -->
-        <a class="sns-btn" href="https://www.youtube.com/@RAVE2D" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-        </a>
-    </div>
-
-    <!-- YOUTUBE SUBSCRIBE CTA -->
-    <a class="yt-subscribe" href="https://www.youtube.com/@RAVE2D?sub_confirmation=1" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-        </svg>
-        SUBSCRIBE TO YOUTUBE
-    </a>
-
-    <!-- RECOMMENDED MIX -->
-    <div class="section-label">
-        <span>RECOMMENDED MIX</span>
-    </div>
-
-    <div class="video-list">
-
-        <!-- SIGRIA -->
-        <div class="video-card">
-            <div class="video-thumb-wrap" data-video-id="kGBW0bLSxM8" role="button" tabindex="0" aria-label="SIGRIA を再生">
-                <img src="https://img.youtube.com/vi/kGBW0bLSxM8/maxresdefault.jpg" alt="SIGRIA" loading="lazy">
-                <div class="play-btn">
-                    <div class="play-icon"></div>
-                </div>
-            </div>
-            <div class="video-embed" data-embed-id="kGBW0bLSxM8"></div>
-            <div class="video-info">
-                <span class="video-title">SIGRIA</span>
-                <a class="video-watch" href="https://www.youtube.com/watch?v=kGBW0bLSxM8" target="_blank" rel="noopener">
-                    WATCH ↗
-                </a>
-            </div>
+<main class="content">
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ </span>
+            <span>RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ RAVE 2D ✦ DJ MIX ✦ TOKYO ✦ INTERNET × CLUB ✦ UNDERGROUND ✦ </span>
         </div>
-
-        <!-- 神と和解せよ -->
-        <div class="video-card">
-            <div class="video-thumb-wrap" data-video-id="YNJcDYcDas8" role="button" tabindex="0" aria-label="KAMI-TO-WAKAI-SEYO を再生">
-                <img src="https://img.youtube.com/vi/YNJcDYcDas8/maxresdefault.jpg" alt="KAMI-TO-WAKAI-SEYO" loading="lazy">
-                <div class="play-btn">
-                    <div class="play-icon"></div>
-                </div>
-            </div>
-            <div class="video-embed" data-embed-id="YNJcDYcDas8"></div>
-            <div class="video-info">
-                <span class="video-title">神と和解せよ</span>
-                <a class="video-watch" href="https://www.youtube.com/watch?v=YNJcDYcDas8" target="_blank" rel="noopener">
-                    WATCH ↗
-                </a>
-            </div>
-        </div>
-
-        <!-- MAEZAWA -->
-        <div class="video-card">
-            <div class="video-thumb-wrap" data-video-id="Zucuy7bJBHI" role="button" tabindex="0" aria-label="MAEZAWA を再生">
-                <img src="https://img.youtube.com/vi/Zucuy7bJBHI/maxresdefault.jpg" alt="MAEZAWA" loading="lazy">
-                <div class="play-btn">
-                    <div class="play-icon"></div>
-                </div>
-            </div>
-            <div class="video-embed" data-embed-id="Zucuy7bJBHI"></div>
-            <div class="video-info">
-                <span class="video-title">MAEZAWA</span>
-                <a class="video-watch" href="https://www.youtube.com/watch?v=Zucuy7bJBHI" target="_blank" rel="noopener">
-                    WATCH ↗
-                </a>
-            </div>
-        </div>
-
     </div>
 
-    <a class="footer-link" href="https://rave2d.com/">
-        <span>→</span>RAVE2D.COM
-    </a>
+    <!-- MANIFESTO -->
+    <section class="sec manifesto">
+        <p class="eyebrow reveal">( 00 — ABOUT )</p>
+        <p class="statement reveal">
+            TOKYO-BASED<br>DJ MIX BRAND.<br>
+            <span>THE CLUB, <u>REBUILT</u><br>FOR THE SCREEN.</span>
+        </p>
+        <dl class="spec reveal">
+            <div><dt>FORMAT</dt><dd>DJ MIX</dd></div>
+            <div><dt>BASE</dt><dd>TOKYO</dd></div>
+            <div><dt>CHANNEL</dt><dd>YOUTUBE</dd></div>
+        </dl>
+    </section>
 
-</div>
+    <!-- MIXES -->
+    <section class="sec mixes">
+        <div class="section-label reveal"><span>( 01 — RECOMMENDED MIX )</span></div>
+        <div class="mix-list">
+        <article class="mix" data-n="01">
+            <div class="mix-head">
+                <span class="mix-n">01</span>
+                <h3 class="mix-title">SIGRIA</h3>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb-wrap" data-video-id="kGBW0bLSxM8" role="button" tabindex="0" aria-label="SIGRIA を再生">
+                    <img src="https://img.youtube.com/vi/kGBW0bLSxM8/maxresdefault.jpg" alt="SIGRIA" loading="lazy">
+                    <div class="play-btn"><span class="play-ring"><i class="play-icon"></i></span></div>
+                    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+                </div>
+                <div class="video-embed" data-embed-id="kGBW0bLSxM8"></div>
+            </div>
+            <a class="video-watch" href="https://www.youtube.com/watch?v=kGBW0bLSxM8" target="_blank" rel="noopener">WATCH ON YOUTUBE <b>↗</b></a>
+        </article>
+        <article class="mix" data-n="02">
+            <div class="mix-head">
+                <span class="mix-n">02</span>
+                <h3 class="mix-title">神と和解せよ</h3>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb-wrap" data-video-id="YNJcDYcDas8" role="button" tabindex="0" aria-label="KAMI-TO-WAKAI-SEYO を再生">
+                    <img src="https://img.youtube.com/vi/YNJcDYcDas8/maxresdefault.jpg" alt="KAMI-TO-WAKAI-SEYO" loading="lazy">
+                    <div class="play-btn"><span class="play-ring"><i class="play-icon"></i></span></div>
+                    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+                </div>
+                <div class="video-embed" data-embed-id="YNJcDYcDas8"></div>
+            </div>
+            <a class="video-watch" href="https://www.youtube.com/watch?v=YNJcDYcDas8" target="_blank" rel="noopener">WATCH ON YOUTUBE <b>↗</b></a>
+        </article>
+        <article class="mix" data-n="03">
+            <div class="mix-head">
+                <span class="mix-n">03</span>
+                <h3 class="mix-title">MAEZAWA</h3>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb-wrap" data-video-id="Zucuy7bJBHI" role="button" tabindex="0" aria-label="MAEZAWA を再生">
+                    <img src="https://img.youtube.com/vi/Zucuy7bJBHI/maxresdefault.jpg" alt="MAEZAWA" loading="lazy">
+                    <div class="play-btn"><span class="play-ring"><i class="play-icon"></i></span></div>
+                    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+                </div>
+                <div class="video-embed" data-embed-id="Zucuy7bJBHI"></div>
+            </div>
+            <a class="video-watch" href="https://www.youtube.com/watch?v=Zucuy7bJBHI" target="_blank" rel="noopener">WATCH ON YOUTUBE <b>↗</b></a>
+        </article>
+        </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section class="sec connect">
+        <div class="section-label reveal"><span>( 02 — CONNECT )</span></div>
+        <a class="yt-subscribe reveal" href="https://www.youtube.com/@RAVE2D?sub_confirmation=1" target="_blank" rel="noopener">
+            <span class="sub-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> SUBSCRIBE</span>
+            <span class="sub-main">TO YOUTUBE <b>→</b></span>
+        </a>
+        <div class="sns-grid reveal">
+            <a class="sns-btn" href="https://x.com/rave2d" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.261 5.635 5.903-5.635zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>X</span><b>↗</b></a>
+            <a class="sns-btn" href="https://www.instagram.com/rave_2d/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg><span>INSTAGRAM</span><b>↗</b></a>
+            <a class="sns-btn" href="https://www.tiktok.com/@rave2d" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.91a8.18 8.18 0 004.78 1.52V7a4.85 4.85 0 01-1.01-.31z"/></svg><span>TIKTOK</span><b>↗</b></a>
+            <a class="sns-btn" href="https://www.youtube.com/@RAVE2D" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span>YOUTUBE</span><b>↗</b></a>
+        </div>
+    </section>
+
+    <footer class="foot">
+        <div class="foot-mark" aria-hidden="true">RAVE 2D</div>
+        <a class="footer-link" href="https://rave2d.com/"><span>→</span>RAVE2D.COM</a>
+        <p class="copy">© RAVE 2D — TOKYO</p>
+    </footer>
+</main>
 
 <script>
     document.querySelectorAll('.video-thumb-wrap').forEach(function(thumb) {
@@ -474,22 +358,26 @@
             embedWrap.classList.add('is-active');
             thumb.classList.add('is-hidden');
         }
-
         thumb.addEventListener('click', activate);
         thumb.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                activate();
-            }
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
         });
     });
+
+    var rv = document.querySelectorAll('.reveal, .mix');
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(es) {
+            es.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        rv.forEach(function(el) { el.classList.add('will'); io.observe(el); });
+    }
 </script>
 <script type="importmap">
 { "imports": {
     "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
 } }
 </script>
-<script type="module" src="../js/lp-cd-hero.js?dev=4"></script>
-    <script src="/js/pwa.js" defer></script>
+<script type="module" src="../js/lp-cd-hero.js?dev=5"></script>
+<script src="/js/pwa.js" defer></script>
 </body>
 </html>
