@@ -69,38 +69,6 @@ function buildBrandDiscTexture() {
     return tex;
 }
 
-function buildBackdropTexture() {
-    /* a lit backdrop near the page's own near-black so the transmissive case has
-       something to refract, while still reading as part of the dark page */
-    var c = document.createElement('canvas');
-    c.width = c.height = 512;
-    var ctx = c.getContext('2d');
-    var g = ctx.createRadialGradient(256, 210, 0, 256, 210, 420);
-    g.addColorStop(0, '#242a5c');
-    g.addColorStop(0.55, '#121226');
-    g.addColorStop(1, '#050505');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 512, 512);
-    var tex = new THREE.CanvasTexture(c);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    return tex;
-}
-
-function buildShadowTexture() {
-    var c = document.createElement('canvas');
-    c.width = c.height = 256;
-    var ctx = c.getContext('2d');
-    var g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
-    g.addColorStop(0, 'rgba(0,0,0,0.5)');
-    g.addColorStop(0.6, 'rgba(0,0,0,0.22)');
-    g.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 256, 256);
-    var tex = new THREE.CanvasTexture(c);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    return tex;
-}
-
 function buildEnvironment(renderer) {
     var pmrem = new THREE.PMREMGenerator(renderer);
     var envScene = new THREE.Scene();
@@ -142,7 +110,7 @@ function buildCaseModel() {
         clearcoat: 0.7, clearcoatRoughness: 0.08, envMapIntensity: 1.2, side: THREE.DoubleSide
     });
     var lidMat = new THREE.MeshPhysicalMaterial({
-        color: 0xeef3fa, transparent: true, opacity: 0.32, depthWrite: false,
+        color: 0x9fb0ff, transparent: true, opacity: 0.13, depthWrite: false,
         metalness: 0, roughness: 0.05, clearcoat: 0.7, clearcoatRoughness: 0.08,
         envMapIntensity: 1.2, side: THREE.DoubleSide
     });
@@ -189,107 +157,210 @@ function buildCaseModel() {
     return root;
 }
 
+function dotTexture() {
+    var c = document.createElement('canvas');
+    c.width = c.height = 64;
+    var ctx = c.getContext('2d');
+    var g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.35, 'rgba(255,255,255,0.5)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(c);
+}
+
 function init() {
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hero = document.getElementById('hero');
+    var isSmall = Math.min(window.innerWidth, window.innerHeight) < 700;
 
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, logarithmicDepthBuffer: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, logarithmicDepthBuffer: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isSmall ? 1.75 : 2));
+    renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.4;
+    renderer.toneMappingExposure = 1.1;
 
     var scene = new THREE.Scene();
     scene.environment = buildEnvironment(renderer);
-    scene.background = buildBackdropTexture();
 
-    var camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-    var camDir = new THREE.Vector3(0, 2.35, 2.15).normalize();
+    var camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+    var camDir = new THREE.Vector3(0, 1.7, 2.4).normalize();
 
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x3a3a40, 1.1));
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x20203a, 0.9));
     var key = new THREE.DirectionalLight(0xffffff, 2.6);
     key.position.set(2.2, 4.2, 2.0);
     scene.add(key);
-    var fill = new THREE.DirectionalLight(0xffffff, 1.2);
+    var fill = new THREE.DirectionalLight(0xffffff, 1.0);
     fill.position.set(-2.2, 2.4, -1.4);
     scene.add(fill);
-    var rim = new THREE.DirectionalLight(0x3355ff, 1.3);
-    rim.position.set(-2.6, 1.8, 2.6);
+    var rim = new THREE.PointLight(0x0022ff, 40, 0, 1.6);
+    rim.position.set(-2.4, 1.2, 1.6);
     scene.add(rim);
+    var rim2 = new THREE.PointLight(0x5577ff, 22, 0, 1.6);
+    rim2.position.set(2.6, -0.4, -1.8);
+    scene.add(rim2);
 
-    var shadowMesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(4.2, 4.2),
-        new THREE.MeshBasicMaterial({ map: buildShadowTexture(), transparent: true, depthWrite: false })
-    );
-    shadowMesh.rotation.x = -Math.PI / 2;
-    shadowMesh.position.y = -0.12;
-    scene.add(shadowMesh);
-
+    /* stage = what scroll moves/scales; rig = what drag/idle spin rotates */
+    var stage = new THREE.Group();
+    scene.add(stage);
     var rig = new THREE.Group();
-    rig.rotation.y = -0.4;
-    rig.rotation.x = 0.08;
-    scene.add(rig);
+    rig.rotation.x = 0.1;
+    stage.add(rig);
 
     var caseModel = buildCaseModel();
     rig.add(caseModel);
 
-    /* the open lid swings back/up off the tray's local origin, so spinning the
-       rig around Y would otherwise orbit the whole case through the frame
-       instead of turning in place -- recenter on the model's own footprint
-       (X/Z only; Y is left alone so it still sits on the floor shadow) */
+    /* recenter on the model's own footprint so the open lid doesn't orbit the frame */
     caseModel.updateMatrixWorld(true);
     var modelBox = new THREE.Box3().setFromObject(caseModel);
     var modelCenter = modelBox.getCenter(new THREE.Vector3());
     caseModel.position.x -= modelCenter.x;
     caseModel.position.z -= modelCenter.z;
+    caseModel.position.y -= modelCenter.y;
     caseModel.updateMatrixWorld(true);
     modelBox.setFromObject(caseModel);
     var modelSphere = modelBox.getBoundingSphere(new THREE.Sphere());
+    var R = modelSphere.radius;
+
+    /* orbit rings -- thin blue halos tilted around the case */
+    var rings = [];
+    [[1.25, 0.006, 1.2, 0.3], [1.55, 0.004, 0.6, -0.9], [1.9, 0.003, 1.45, 0.5]].forEach(function (d) {
+        var ring = new THREE.Mesh(
+            new THREE.TorusGeometry(R * d[0], R * d[1], 8, 160),
+            new THREE.MeshBasicMaterial({ color: 0x2244ff, transparent: true, opacity: 0.55, depthWrite: false })
+        );
+        ring.rotation.x = d[2];
+        ring.rotation.y = d[3];
+        stage.add(ring);
+        rings.push(ring);
+    });
+
+    /* dust */
+    var N = isSmall ? 260 : 480;
+    var pos = new Float32Array(N * 3);
+    for (var i = 0; i < N; i++) {
+        var rr = R * (1.3 + Math.random() * 2.6);
+        var th = Math.random() * Math.PI * 2;
+        var ph = Math.acos(2 * Math.random() - 1);
+        pos[i * 3] = rr * Math.sin(ph) * Math.cos(th);
+        pos[i * 3 + 1] = rr * Math.cos(ph) * 0.8;
+        pos[i * 3 + 2] = rr * Math.sin(ph) * Math.sin(th);
+    }
+    var dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    var dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+        map: dotTexture(), color: 0x7f95ff, size: R * 0.07, sizeAttenuation: true,
+        transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending
+    }));
+    stage.add(dust);
 
     function fitCamera() {
         var vf = THREE.MathUtils.degToRad(camera.fov / 2);
         var hf = Math.atan(Math.tan(vf) * camera.aspect);
-        var dist = modelSphere.radius / Math.sin(Math.min(vf, hf)) * 0.92;
-        camera.position.copy(camDir).multiplyScalar(dist).add(modelSphere.center);
-        camera.lookAt(modelSphere.center);
+        /* portrait phones are width-limited: let the case fill the width */
+        var dist = R / Math.sin(Math.min(vf, hf)) * (camera.aspect < 1 ? 0.78 : 0.95);
+        camera.position.copy(camDir).multiplyScalar(dist);
+        camera.lookAt(0, 0, 0);
     }
 
     function handleResize() {
-        var w = canvas.parentElement.clientWidth, h = canvas.parentElement.clientHeight;
-        if (!w || !h) return;
+        var w = window.innerWidth, h = window.innerHeight;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         fitCamera();
     }
-    new ResizeObserver(handleResize).observe(canvas.parentElement);
+    window.addEventListener('resize', handleResize);
     handleResize();
+
+    /* --- input: drag to spin (horizontal), pointer parallax, scroll choreography --- */
+    var spinVel = 0, dragging = false, lastX = 0;
+    var tiltX = 0, tiltY = 0, tx = 0, ty = 0;
+    var scrollP = 0, scrollSm = 0, lastScrollY = window.scrollY, scrollKick = 0;
+
+    hero.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('a,button')) return;
+        dragging = true; lastX = e.clientX;
+        hero.classList.add('is-dragging');
+        try { hero.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    function endDrag() { dragging = false; hero.classList.remove('is-dragging'); }
+    hero.addEventListener('pointerup', endDrag);
+    hero.addEventListener('pointercancel', endDrag);
+    window.addEventListener('pointermove', function (e) {
+        tx = (e.clientX / window.innerWidth - 0.5) * 2;
+        ty = (e.clientY / window.innerHeight - 0.5) * 2;
+        if (dragging) {
+            spinVel += (e.clientX - lastX) * 0.012;
+            lastX = e.clientX;
+            hero.classList.add('has-dragged');
+        }
+    });
+    window.addEventListener('scroll', function () {
+        var y = window.scrollY;
+        scrollKick += (y - lastScrollY) * 0.0022;
+        lastScrollY = y;
+        scrollP = y / window.innerHeight;
+    }, { passive: true });
 
     var isVisible = true;
     if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-            isVisible = entries[0].isIntersecting;
-        }, { threshold: 0.01 }).observe(canvas);
+        /* the canvas is fixed, so pause only when the tab is hidden */
+        document.addEventListener('visibilitychange', function () { isVisible = !document.hidden; });
     }
 
     var clock = new THREE.Clock();
     var ready = false;
+    var baseY = -0.4;
+    var heroHeight = function () { return Math.max(1, hero.offsetHeight / window.innerHeight); };
 
     function animate() {
         requestAnimationFrame(animate);
         if (!isVisible) return;
         var dt = Math.min(clock.getDelta(), 0.05);
-        if (!reduceMotion) rig.rotation.y += dt * 0.22;
+        var t = clock.elapsedTime;
+
+        scrollSm += (scrollP - scrollSm) * Math.min(1, dt * 6);
+        var p = Math.min(scrollSm / heroHeight(), 1.6);
+
+        spinVel += scrollKick; scrollKick = 0;
+        spinVel *= Math.pow(0.04, dt);
+        baseY += (reduceMotion ? 0 : dt * 0.28) + spinVel * dt * 4;
+        rig.rotation.y = baseY;
+
+        tiltX += (ty * 0.14 - tiltX) * Math.min(1, dt * 3);
+        tiltY += (tx * 0.22 - tiltY) * Math.min(1, dt * 3);
+        rig.rotation.x = 0.1 + tiltX;
+        stage.rotation.y = tiltY * 0.6;
+
+        /* scroll: the case recedes down and shrinks, then sits as a ghost behind content */
+        var s = THREE.MathUtils.lerp(1, 0.55, Math.min(p, 1));
+        stage.scale.setScalar(s);
+        stage.position.y = (reduceMotion ? 0 : Math.sin(t * 0.9) * R * 0.04) - Math.min(p, 1) * R * 0.9;
+        stage.rotation.z = Math.min(p, 1) * 0.35;
+
+        rings[0].rotation.z += dt * 0.35;
+        rings[1].rotation.z -= dt * 0.22;
+        rings[2].rotation.z += dt * 0.12;
+        dust.rotation.y += dt * 0.03;
+        rim.intensity = 40 + Math.sin(t * 2.2) * 14;
+
+        canvas.style.opacity = ready ? String(THREE.MathUtils.lerp(1, 0.28, Math.min(p, 1))) : '0';
+
         renderer.render(scene, camera);
         if (!ready) {
             ready = true;
             canvas.classList.add('is-ready');
+            document.documentElement.classList.add('gl-ready');
         }
     }
     animate();
 }
 
 if (canvas && window.WebGLRenderingContext) {
-    init();
-} else if (canvas) {
-    canvas.parentElement.classList.add('is-unsupported');
+    try { init(); } catch (e) { document.documentElement.classList.add('no-gl'); }
+} else {
+    document.documentElement.classList.add('no-gl');
 }
