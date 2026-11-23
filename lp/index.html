@@ -25,6 +25,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Zen Kaku Gothic New, weight 900 only, for Japanese mix titles (e.g. 神と和解せよ) that fall outside Unbounded.
+         Google serves this family as per-script unicode-range slices, so new titles' glyphs are fetched automatically. -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #050505;
@@ -33,8 +36,8 @@
             --blue-soft: #5577ff;
             --blue-glow: rgba(0, 34, 255, 0.45);
             --line: #1f1f24;
-            --dim: #6a6a74;
-            --font: 'Unbounded', sans-serif;
+            --dim: #8a8a93;
+            --font: 'Unbounded', 'Zen Kaku Gothic New', sans-serif;
             --pad: clamp(18px, 5vw, 56px);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,6 +86,9 @@
         }
         .topbar { position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
         .brand img { width: 108px; height: auto; display: block; }
+        .quick-sub { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: rgba(10,10,13,.6); backdrop-filter: blur(6px); transition: border-color .2s, background .2s, transform .2s; }
+        .quick-sub svg { width: 17px; height: 17px; fill: var(--text); }
+        .quick-sub:hover { border-color: var(--blue-soft); background: rgba(0,34,255,.25); transform: translateY(-1px); }
 
         .logo-stage {
             position: absolute; z-index: 0; left: 50%; top: 50%; width: min(90vw, 1000px);
@@ -118,10 +124,10 @@
         .eyebrow { font-size: 9px; letter-spacing: .3em; color: var(--blue-soft); margin-bottom: 28px; }
         .statement { font-size: clamp(24px, 7.4vw, 56px); font-weight: 900; line-height: 1.12; letter-spacing: -.01em; }
         .statement span { display: block; margin-top: .5em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.6); }
-        .statement u { text-decoration: none; color: var(--blue); -webkit-text-stroke: 0; text-shadow: 0 0 40px var(--blue-glow); }
+        .statement u { text-decoration: none; color: var(--blue-soft); -webkit-text-stroke: 0; text-shadow: 0 0 40px var(--blue-glow); }
 
         .section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; }
-        .section-label span { font-size: 9px; font-weight: 700; letter-spacing: .3em; color: var(--blue-soft); white-space: nowrap; }
+        .section-label h2 { font-size: 9px; font-weight: 700; letter-spacing: .3em; color: var(--blue-soft); white-space: nowrap; }
         .section-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 
         /* MIXES */
@@ -176,7 +182,7 @@
         .footer-link { display: inline-block; margin-top: 44px; font-size: 10px; letter-spacing: .25em; color: #888; transition: color .2s; }
         .footer-link:hover { color: #fff; }
         .footer-link span { margin-right: 6px; color: var(--blue-soft); }
-        .copy { margin-top: 18px; font-size: 8px; letter-spacing: .25em; color: #444; }
+        .copy { margin-top: 18px; font-size: 8px; letter-spacing: .25em; color: #7d7d87; }
 
         /* reveal */
         .will { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1); }
@@ -207,6 +213,9 @@
 <header id="hero" class="hero">
     <div class="topbar">
         <a href="https://rave2d.com/" class="brand"><img src="/image/RAVE2D-WORD.png" alt="RAVE 2D"></a>
+        <a class="quick-sub" href="https://www.youtube.com/@RAVE2D?sub_confirmation=1" target="_blank" rel="noopener" aria-label="YouTubeを登録する">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
     </div>
 
     <h1 class="logo-stage"><img src="/image/RAVE2D-WORD-TRIM.png" alt="RAVE 2D" width="1674" height="192" fetchpriority="high"></h1>
@@ -228,7 +237,7 @@
 
     <!-- MIXES -->
     <section class="sec mixes">
-        <div class="section-label reveal"><span>( 01 — RECOMMENDED MIX )</span></div>
+        <div class="section-label reveal"><h2>( 01 — RECOMMENDED MIX )</h2></div>
         <div class="mix-list">
         <article class="mix" data-n="01">
             <div class="mix-head">
@@ -236,7 +245,7 @@
                 <h3 class="mix-title">SIGRIA</h3>
             </div>
             <div class="video-card">
-                <div class="video-thumb-wrap" data-video-id="kGBW0bLSxM8" role="button" tabindex="0" aria-label="SIGRIA を再生">
+                <div class="video-thumb-wrap" data-video-id="kGBW0bLSxM8" data-video-title="SIGRIA" role="button" tabindex="0" aria-label="SIGRIA を再生">
                     <img src="https://img.youtube.com/vi/kGBW0bLSxM8/maxresdefault.jpg" alt="SIGRIA" loading="lazy">
                     <div class="play-btn"><span class="play-ring"><i class="play-icon"></i></span></div>
                     <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
@@ -251,7 +260,7 @@
                 <h3 class="mix-title">神と和解せよ</h3>
             </div>
             <div class="video-card">
-                <div class="video-thumb-wrap" data-video-id="YNJcDYcDas8" role="button" tabindex="0" aria-label="KAMI-TO-WAKAI-SEYO を再生">
+                <div class="video-thumb-wrap" data-video-id="YNJcDYcDas8" data-video-title="神と和解せよ" role="button" tabindex="0" aria-label="KAMI-TO-WAKAI-SEYO を再生">
                     <img src="https://img.youtube.com/vi/YNJcDYcDas8/maxresdefault.jpg" alt="KAMI-TO-WAKAI-SEYO" loading="lazy">
                     <div class="play-btn"><span class="play-ring"><i class="play-icon"></i></span></div>
                     <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
@@ -266,7 +275,7 @@
                 <h3 class="mix-title">MAEZAWA</h3>
             </div>
             <div class="video-card">
-                <div class="video-thumb-wrap" data-video-id="Zucuy7bJBHI" role="button" tabindex="0" aria-label="MAEZAWA を再生">
+                <div class="video-thumb-wrap" data-video-id="Zucuy7bJBHI" data-video-title="MAEZAWA" role="button" tabindex="0" aria-label="MAEZAWA を再生">
                     <img src="https://img.youtube.com/vi/Zucuy7bJBHI/maxresdefault.jpg" alt="MAEZAWA" loading="lazy">
                     <div class="play-btn"><span class="play-ring"><i class="play-icon"></i></span></div>
                     <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
@@ -280,7 +289,7 @@
 
     <!-- CONNECT -->
     <section class="sec connect">
-        <div class="section-label reveal"><span>( 02 — CONNECT )</span></div>
+        <div class="section-label reveal"><h2>( 02 — CONNECT )</h2></div>
         <a class="yt-subscribe reveal" href="https://www.youtube.com/@RAVE2D?sub_confirmation=1" target="_blank" rel="noopener">
             <span class="sub-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg> SUBSCRIBE</span>
             <span class="sub-main">TO YOUTUBE <b>→</b></span>
@@ -303,12 +312,13 @@
     document.querySelectorAll('.video-thumb-wrap').forEach(function(thumb) {
         function activate() {
             var videoId = thumb.getAttribute('data-video-id');
+            var videoTitle = thumb.getAttribute('data-video-title') || videoId;
             var embedWrap = thumb.parentElement.querySelector('.video-embed');
             var iframe = document.createElement('iframe');
             iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0';
             iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
             iframe.allowFullscreen = true;
-            iframe.title = videoId;
+            iframe.title = videoTitle;
             embedWrap.appendChild(iframe);
             embedWrap.classList.add('is-active');
             thumb.classList.add('is-hidden');
